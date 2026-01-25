@@ -1,6 +1,5 @@
 import './index.css'
-
-function App() {
+function Index() {
   return (
     <>
       <h1>Vite + React</h1>
@@ -8,4 +7,4 @@ function App() {
   )
 }
 
-export default App
+export default Index
