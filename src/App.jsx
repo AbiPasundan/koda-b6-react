@@ -1,5 +1,6 @@
 import './index.css'
 import ForgotPassword from '@/pages/authpages/ForgotPassword'
+import LoginPage from '@/pages/authpages/LoginPage'
 function Index() {
   return (
     <>
@@ -11,7 +12,7 @@ function Index() {
 function Login() {
   return (
     <>
-      <h1>Vite + React</h1>
+      <LoginPage />
     </>
   )
 }
@@ -32,4 +33,4 @@ function ForgotPasswordPage() {
   )
 }
 
-export {Index, Login, Register, ForgotPassword}
+export {Index, LoginPage, Register, ForgotPassword}
