@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { Index, LoginPage as Login, Register, ForgotPassword } from './App.jsx'
+import { AdminDashboardPage } from './Admin.jsx'
 import './index.css'
 
 
@@ -17,43 +18,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/Register",
-    element: <Index/>,
+    element: <Register/>,
   },
   {
     path: "/Forgotpassword",
     element: <ForgotPassword/>,
   },
   {
-    path: "/Product",
-    element: <Index/>,
-  },
-  {
-    path: "/Detailproduct",
-    element: <Index/>,
-  },
-  {
-    path: "/Detailproduct",
-    element: <Index/>,
-  },
-  {
-    path: "/Checkout",
-    element: <Index/>,
-  },
-  {
-    path: "/Order",
-    element: <Index/>,
-  },
-  {
-    path: "/Historiorder",
-    element: <Index/>,
-  },
-  {
-    path: "/Detailorder",
-    element: <Index/>,
-  },
-  {
-    path: "/Profile",
-    element: <Index/>,
+    path: "/Admin",
+    element: <AdminDashboardPage/>,
+    children: [{
+      // AdminDashboardPage
+      index: true,
+      element: <Index/>,
+    }]
   },
   {
     path: "*",
