@@ -1,8 +1,11 @@
+// component
 import SidebarAdmin from "./components/admincomp/SidebarAdmin";
 import AdminNav from "./components/admincomp/AdminNav";
+// pages 
+import Dashboard from "./pages/adminpages/Dashboard";
 import { Outlet } from "react-router";
 
-function AdminDashboardPage() {
+function AdminLayout() {
     return (
         <>
             <AdminNav />
@@ -14,4 +17,12 @@ function AdminDashboardPage() {
     )
 }
 
-export {AdminDashboardPage}
+function AdminDashboard() {
+    return (
+        <>
+            <Dashboard />
+        </>
+    )
+}
+
+export { AdminLayout, AdminDashboard }

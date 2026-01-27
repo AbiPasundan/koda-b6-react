@@ -12,22 +12,23 @@ export default function SidebarAdmin() {
             <ul
                 class="list-none [&>li]:px-5 [&>li]:mb-2 [&>li>a]:flex [&>li>a]:items-center [&>li>a]:gap-4 [&>li>a]:p-3 [&>li>a]:rounded-xl [&>li>a]:font-medium [&>li>a>img]:w-5">
                 <li>
-                <Link href="./dashboard.html" class="bg-[#FF8906]" >
+                    {/* class="bg-[#FF8906]" */}
+                <Link to="/admin" href="./dashboard.html" >
                     <MdDashboard /> Dashboard
                 </Link>
                 </li>
                 <li>
-                <Link href="./product.html">
+                <Link to="/admin/product" href="./product.html">
                     <CiCoffeeCup />Product
                 </Link>
                 </li>
                 <li>
-                <Link href="./product.html">
+                <Link to="/admin/order" href="./product.html">
                     <IoBagOutline />Order
                 </Link>
                 </li>
                 <li>
-                <Link href="./product.html">
+                <Link to="/admin/user" href="./product.html">
                     <BsPersonFill />User
                 </Link>
                 </li>
