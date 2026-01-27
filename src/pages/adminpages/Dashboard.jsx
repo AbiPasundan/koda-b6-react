@@ -1,9 +1,5 @@
-
+import DashboardCard from "@/components/admincomp/DashboardComp";
 
 export default function Dashboard() {
-    return (
-        <>
-            <h1>Dashboard</h1>
-        </>
-    )
+  return <DashboardCard />
 }
