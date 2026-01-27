@@ -3,6 +3,7 @@ import SidebarAdmin from "./components/admincomp/SidebarAdmin";
 import AdminNav from "./components/admincomp/AdminNav";
 // pages 
 import Dashboard from "./pages/adminpages/Dashboard";
+import AdminProduct from "./pages/adminpages/AdminProduct";
 import { Outlet } from "react-router";
 
 function AdminLayout() {
@@ -25,4 +26,12 @@ function AdminDashboard() {
     )
 }
 
-export { AdminLayout, AdminDashboard }
+function AdminProductPage() {
+    return (
+        <>
+            <AdminProduct />
+        </>
+    )
+}
+
+export { AdminLayout, AdminProductPage, AdminDashboard }
