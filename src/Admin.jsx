@@ -5,6 +5,7 @@ import AdminNav from "./components/admincomp/AdminNav";
 import Dashboard from "./pages/adminpages/Dashboard";
 import AdminProduct from "./pages/adminpages/AdminProduct";
 import AdminOrder from "./pages/adminpages/AdminOrder";
+import AdminUser from "./pages/adminpages/AdminUser";
 import { Outlet } from "react-router";
 
 function AdminLayout() {
@@ -41,5 +42,12 @@ function AdminOrderPage() {
         </>
     )
 }
+function AdminUserPage() {
+    return (
+        <>
+            <AdminUser />
+        </>
+    )
+}
 
-export { AdminLayout, AdminProductPage, AdminDashboard, AdminOrderPage }
+export { AdminLayout, AdminProductPage, AdminDashboard, AdminOrderPage, AdminUserPage }
