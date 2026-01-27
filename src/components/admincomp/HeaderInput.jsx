@@ -1,11 +1,10 @@
 import { LuPlus } from "react-icons/lu";
 import { GrSearch } from "react-icons/gr";
 import { HiFilter } from "react-icons/hi";
-import { Children } from "react";
 
 function Left(props) {
     return (
-        <section className="flex flex-col  justify-between gap-3">
+        <section className="flex flex-col  justify-between gap-3 my-7">
             <h2 className="font-normal text-2xl">{props.title}</h2>
             <button className="flex flex-row p-1 rounded-xl bg-[#ff8906] items-center gap-1">
                 <LuPlus/> <span className="text-sm font-normal">{props.text}</span>
@@ -31,10 +30,9 @@ function InputSearch(props) {
     )
 }
 
-
 function Right({children}) {
     return (
-        <form className="flex items-start items-center flex-row gap-5 md:items-end">
+        <form className="flex items-start items-center flex-col md:flex-row md:gap-5 gap-10 md:items-end">
             {children}
             <label htmlFor="filter" className="border-none flex flex-row p-2 rounded-xl bg-[#ff8906] items-center gap-1 ">
                 <HiFilter />
@@ -43,8 +41,6 @@ function Right({children}) {
         </form>
     )
 }
-
-
 
 function HeaderInputProduct() {
     return (
@@ -61,7 +57,7 @@ function HeaderInputProduct() {
 function HeaderInputOrder() {
     return (
         <main className="flex justify-between items-start flex-col md:flex-row md:items-end">
-            <Left title="Product List" text="Add Product"/>
+            <Left title="Order List" text="Order List"/>
             <section>
                 <Right> 
                     <InputSearch text="Status" />
@@ -74,7 +70,7 @@ function HeaderInputOrder() {
 function HeaderInputUser() {
     return (
         <main className="flex justify-between items-start flex-col md:flex-row md:items-end">
-            <Left title="Product List" text="Add Product"/>
+            <Left title="User List" text="Add User"/>
             <section>
                 <Right> 
                     <InputSearch text="Search User" />
