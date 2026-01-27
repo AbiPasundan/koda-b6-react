@@ -2,8 +2,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import { Index, LoginPage as Login, Register, ForgotPassword } from './App.jsx'
+import { Index, LoginPage as Login, RegisterPage, ForgotPassword } from './App.jsx'
 import { AdminLayout, AdminDashboard, AdminProductPage, AdminUserPage, AdminOrderPage,  } from './Admin.jsx'
+import Profile from './pages/userspages/Profile.jsx'
 import './index.css'
 
 
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/Register",
-    element: <Register/>,
+    element: <RegisterPage/>,
   },
   {
     path: "/Forgotpassword",
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       element: <AdminUserPage />
     },
   ]
+  },
+  {
+    path: "/Profile",
+    element: <Profile />,
   },
   {
     path: "*",

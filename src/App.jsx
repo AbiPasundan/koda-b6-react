@@ -10,28 +10,6 @@ function Index() {
   )
 }
 
-function Login() {
-  return (
-    <>
-      <LoginPage />
-    </>
-  )
-}
 
-function Register() {
-  return (
-    <>
-      <RegisterPage />
-    </>
-  )
-}
 
-function ForgotPasswordPage() {
-  return (
-    <>
-      <ForgotPassword/>
-    </>
-  )
-}
-
-export {Index, LoginPage, Register, ForgotPassword}
+export {Index, LoginPage, RegisterPage, ForgotPassword}
