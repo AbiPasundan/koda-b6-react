@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { Index, LoginPage as Login, Register, ForgotPassword } from './App.jsx'
-import { AdminLayout, AdminDashboard, AdminProductPage, AdminOrderPage, AdminUserPage } from './Admin.jsx'
+import { AdminLayout, AdminDashboard, AdminProductPage, AdminUserPage, AdminOrderPage,  } from './Admin.jsx'
 import './index.css'
 
 

@@ -6,6 +6,7 @@ import Dashboard from "./pages/adminpages/Dashboard";
 import AdminProduct from "./pages/adminpages/AdminProduct";
 import AdminOrder from "./pages/adminpages/AdminOrder";
 import AdminUser from "./pages/adminpages/AdminUser";
+import HeaderInput from "./components/admincomp/HeaderInput";
 import { Outlet } from "react-router";
 
 function AdminLayout() {
@@ -13,7 +14,7 @@ function AdminLayout() {
         <>
             <AdminNav />
             <SidebarAdmin />
-            <main class="mt-[70px] md:ml-[250px] p-8 transition-all duration-300">
+            <main className="mt-[70px] md:ml-[250px] p-8 transition-all duration-300">
                 <Outlet />
             </main>
         </>
@@ -31,7 +32,7 @@ function AdminDashboard() {
 function AdminProductPage() {
     return (
         <>
-            <AdminProduct />
+            <HeaderInput />
         </>
     )
 }
