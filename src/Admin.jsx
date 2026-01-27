@@ -6,7 +6,7 @@ import Dashboard from "./pages/adminpages/Dashboard";
 import AdminProduct from "./pages/adminpages/AdminProduct";
 import AdminOrder from "./pages/adminpages/AdminOrder";
 import AdminUser from "./pages/adminpages/AdminUser";
-import { HeaderInputProduct, } from "./components/admincomp/HeaderInput";
+import { HeaderInputProduct, HeaderInputOrder, HeaderInputUser } from "./components/admincomp/HeaderInput";
 import { Outlet } from "react-router";
 
 function AdminLayout() {
@@ -39,14 +39,14 @@ function AdminProductPage() {
 function AdminOrderPage() {
     return (
         <>
-            <AdminOrder />
+            <HeaderInputOrder />
         </>
     )
 }
 function AdminUserPage() {
     return (
         <>
-            <AdminUser />
+            <HeaderInputUser />
         </>
     )
 }

@@ -52,7 +52,7 @@ function HeaderInputProduct() {
             <Left title="Product List" text="Add Product"/>
             <section>
                 <Right> 
-                    <InputSearch text="Input Order" />
+                    <InputSearch text="Search Product" />
                 </Right>
             </section>
         </main>
@@ -64,7 +64,8 @@ function HeaderInputOrder() {
             <Left title="Product List" text="Add Product"/>
             <section>
                 <Right> 
-                    <InputSearch text="Input Order" />
+                    <InputSearch text="Status" />
+                    <InputSearch text="Search Order" />
                 </Right>
             </section>
         </main>
@@ -76,7 +77,7 @@ function HeaderInputUser() {
             <Left title="Product List" text="Add Product"/>
             <section>
                 <Right> 
-                    <InputSearch text="Input Order" />
+                    <InputSearch text="Search User" />
                 </Right>
             </section>
         </main>
