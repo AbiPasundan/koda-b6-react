@@ -1,3 +1,4 @@
+import Card from "@/components/usercomp/Card"
 import Nav from "@/components/usercomp/Nav"
 import { Link } from "react-router"
 
@@ -61,6 +62,7 @@ export default function Home(){
         <Nav bg="bg-red-100"/> 
         <Hero/> 
         <About/> 
+        <Card/> 
         </>
     )
 }
