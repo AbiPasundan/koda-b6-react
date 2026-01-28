@@ -1,15 +1,65 @@
+function InputForProfile(props) {
+  return (
+    <div className="input-user flex flex-col gap-[15px]">
+        <label
+          for={props.value}
+          className="font-[Plus_Jakarta_Sans] font-semibold text-[16px] leading-[100%] align-middle"
+        >
+          {props.title}
+        </label>
+        <input
+          type={props.type}
+          name={props.value}
+          id={props.value}
+          className="sm:w-[780px] h-[52px] border rounded-[8px] pt-[14px] pr-[13px] pb-[14px] pl-[53px] gap-[10px] bg-[url('./../img/icons/Profile.png')] bg-no-repeat bg-[left_10px_bottom_15px]"
+          placeholder={props.placeholder}
+        />
+      </div>
+  )
+}
+
+function PropfileComp(props) {
+  return (
+    <div className="header-title h-[62px] my-10">
+      <h2 className="font-[Plus Jakarta Sans] font-medium text-xl">
+        {props.name}
+      </h2>
+      <span className="font-[Plus Jakarta Sans]">{props.email}</span>
+      <div className="pics w-[100%] h-[113px] flex justify-center my-5">
+        <img
+          src={props.image}
+          alt="profile"
+          className="rounded-full " />
+      </div>
+      <div className="btn text-center w-[200px] h-[38px] rounded-[30px] bg-[#FF8906] flex justify-center justify-self-center" >
+        <button className="text-center">Upload New Photo</button>
+      </div>
+      <span className="font-semibold text-base tracking-normal text-center text-[#4F5665]">
+        {props.date}
+      </span>
+    </div>
+  )
+}
+
+function ProfileHeader(props) {
+  return (
+    <div className="top ">
+      <h1 className="w-[148px] h-[60px] text-[#0B0909] text-base font-[Plus_Jakarta_Sans] font-mediumtext-[48px] w-[148] h-[60] opacity-100top-[154px] left-[130px] text-[45px] leading-none sm:ml-[0px] ml-[50px]">
+        {props.titile}
+      </h1>
+    </div>
+  )
+}
+
+
 export default function Profile() {
   return (
     <main className="flex justify-center mt-[50px]">
       <div className="main-content">
-        <div className="top ">
-          <h1 className="w-[148px] h-[60px] text-[#0B0909] text-base font-[Plus_Jakarta_Sans] font-mediumtext-[48px] w-[148] h-[60] opacity-100top-[154px] left-[130px] text-[45px] leading-none sm:ml-[0px] ml-[50px]">
-            Profile
-          </h1>
-        </div>
+          <ProfileHeader titile="Profile" />
         <div className="wrapper text-left flex sm:flex-row flex-col justify-center gap-[20px] ">
           <div className="text-center w-[280px] sm:h-[343px] font-[Plus Jakarta Sans] border border-solid border-red-200 flex flex-col h-[343px] sm:h-[143px] sm:ml-[0px] ml-[50px]">
-            <div className="header-title h-[62px] mb-10">
+            {/* <div className="header-title h-[62px] mb-10">
               <h2 className="font-[Plus Jakarta Sans] font-medium text-xl">
                 Ghaluh Wizard
               </h2>
@@ -31,10 +81,16 @@ export default function Profile() {
               <span className="font-semibold text-base tracking-normal text-center text-[#4F5665]">
                 Since 20 January 2022
               </span>
-            </div>
+            </div> */}
+            <PropfileComp name="Ghaluh Wizard" email="ghaluhwizz@gmail.com" image="https://placehold.co/400" date="Since 20 January 2022" />
           </div>
           <form className="flex flex-col gap-10 sm:w-[780px] w-[380px] h-[566px] [&>div]:mx-10 my-10">
-            <div className="input-user flex flex-col gap-[15px]">
+            <InputForProfile type="text" title="Full Name" value="name" placeholder="Ghaluh Wizar" />
+            <InputForProfile type="email" title="Email" value="email" placeholder="ghaluhwilzarr@gmail.com" />
+            <InputForProfile type="number" title="Phone" value="phone" placeholder="087753518801" />
+            <InputForProfile type="password" title="Password" value="password" placeholder="********" />
+            <InputForProfile type="text" title="address" value="address" placeholder="griyua Bandung Indah" />
+            {/* <div className="input-user flex flex-col gap-[15px]">
               <label
                 for="name"
                 className="font-[Plus_Jakarta_Sans] font-semibold text-[16px] leading-[100%] align-middle"
@@ -113,7 +169,7 @@ export default function Profile() {
                 className="md:w-[780px] h-[52px] border rounded-[8px] pt-[14px] pr-[13px] pb-[14px] pl-[53px] gap-[10px] bg-[url('./../img/icons/Profile.png')] bg-no-repeat bg-[left_10px_bottom_15px]"
                 placeholder="Griya Bandung Indah"
               />
-            </div>
+            </div> */}
             <div className="input-user flex flex-col gap-[15px]">
               <button className="bg-[#FF8906] h-10 rounded">Submit</button>
             </div>
