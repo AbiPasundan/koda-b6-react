@@ -8,12 +8,13 @@ import Profile from './pages/userspages/Profile.jsx'
 import Checkout from './pages/userspages/Checkout.jsx'
 import DetailProduct from './pages/userspages/DetailProduct.jsx'
 import './index.css'
+import Home from './pages/userspages/Home.jsx';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Index/>,
+    element: <Home/>,
   },
   {
     path: "/Login",
