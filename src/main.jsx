@@ -5,6 +5,8 @@ import { RouterProvider } from "react-router/dom";
 import { Index, LoginPage as Login, RegisterPage, ForgotPassword } from './App.jsx'
 import { AdminLayout, AdminDashboard, AdminProductPage, AdminUserPage, AdminOrderPage,  } from './Admin.jsx'
 import Profile from './pages/userspages/Profile.jsx'
+import Checkout from './pages/userspages/Checkout.jsx'
+import DetailProduct from './pages/userspages/DetailProduct.jsx'
 import './index.css'
 
 
@@ -48,8 +50,16 @@ const router = createBrowserRouter([
   ]
   },
   {
+    path: "/Detailproduct",
+    element: <DetailProduct />,
+  },
+  {
     path: "/Profile",
     element: <Profile />,
+  },
+  {
+    path: "/Checkout",
+    element: <Checkout />,
   },
   {
     path: "*",
