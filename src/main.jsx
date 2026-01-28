@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import { Index, LoginPage as Login, RegisterPage, ForgotPassword } from './App.jsx'
+import { Index, LoginPage as Login, RegisterPage, ForgotPassword, DetailProductPage } from './App.jsx'
 import { AdminLayout, AdminDashboard, AdminProductPage, AdminUserPage, AdminOrderPage,  } from './Admin.jsx'
 import Profile from './pages/userspages/Profile.jsx'
 import Checkout from './pages/userspages/Checkout.jsx'
