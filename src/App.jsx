@@ -5,14 +5,6 @@ import RegisterPage from '@/pages/authpages/RegisterPage'
 import DetailProduct from "@/pages/userspages/DetailProduct"
 import Nav from "@/components/usercomp/Nav"
 
-function Index() {
-  return (
-    <>
-
-      <h1>Testing</h1>
-    </>
-  )
-}
 
 function DetailProductPage() {
   return (
@@ -25,4 +17,4 @@ function DetailProductPage() {
 
 
 
-export {Index, LoginPage, RegisterPage, ForgotPassword, DetailProductPage}
+export { LoginPage, RegisterPage, ForgotPassword, DetailProductPage}
