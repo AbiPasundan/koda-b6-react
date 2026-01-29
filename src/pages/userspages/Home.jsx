@@ -25,7 +25,6 @@ function Hero() {
                 <section className="order-1 flex max-h-[130vh] ">
                     <img src="/src/assets/img/userimg/home.png"  className="w-full overflow-hidden" alt="main image" />
                 </section>
-                
             </main>
         </>
     )
@@ -124,7 +123,7 @@ function Testimoni() {
     )
 }
 
-export default function Home(){
+function Home(){
     return(
         <>
         <Nav bg="bg-[#777C82] bg-[linear-gradient(90deg,rgba(119,_124,_130,_1)_50%,_rgba(11,_9,_9,_1)_100%)]"/> 
@@ -137,3 +136,5 @@ export default function Home(){
         </>
     )
 }
+
+export {Hero, Home}
