@@ -96,4 +96,4 @@ function HomeCard() {
     )
 }
 
-export {Card, HomeCard}
+export {Card, HomeCard, Rattings}
