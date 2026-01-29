@@ -1,8 +1,11 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router";
+// import { sendEmail } from "@/lib/script";
 
-function Input({type, name, id, placeholder}) {
+function Input({type, register, id, placeholder}) {
 	return (
-		<input type={type} name={name} id={id} placeholder={placeholder} className="outline-none bg-transparent" />		
+		<input required type={type} {...register} id={id} placeholder={placeholder} className="outline-none bg-transparent" />		
 	)
 }
 
@@ -38,7 +41,7 @@ function SocialMediaLogin() {
 }
 
 // forgot password start
-function ForgotPasswordComp() {
+function ForgotPasswordComp({children}) {
 	return (
 		<label className="text-[#0B132A] text-[16px] mb-5">
 			Email
@@ -46,19 +49,41 @@ function ForgotPasswordComp() {
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
 				  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
 				</svg>
-				<Input type="email" name="email" id="email" placeholder="Enter Your Email" />
+				{children}
 			</div>
 		</label>
 	)
 }
 
 function FormForgotPassword() {
+ 	const { 
+		register,
+		handleSubmit,
+		formState: { errors }
+		} = useForm();
+	const onSubmit = data => {
+		console.log(data)
+		window.open(`mailto:test@example.com?subject=${data.email}&body=Please%20Reset%20MyPassword`);
+	};
 	return (
-		<form action="POST" className="flex flex-col">
-			<ForgotPasswordComp/>
-			<button type="reset" className="bg-[#FF8906] h-[60px] rounded-xl  text-[#0B132A] ">Submit</button>
+		<form onSubmit={handleSubmit(onSubmit)} method="POST" className="flex flex-col">
+			<ForgotPasswordComp>
+				<Input register={register("email")} type="email" id="email" placeholder="Enter Your Email" />
+			</ForgotPasswordComp>
+			{/* <input  {...register("email")} className="outline-none bg-transparent" />		 */}
+			<button type="submit" className="bg-[#FF8906] h-[60px] rounded-xl  text-[#0B132A] ">Submit</button>
 		</form>
 	)
+
+	//     <form onSubmit={handleSubmit(onSubmit)}>
+    //   <input {...register("firstName")} />
+    //   <select {...register("gender")}>
+    //     <option value="female">female</option>
+    //     <option value="male">male</option>
+    //     <option value="other">other</option>
+    //   </select>
+    //   <input type="submit" />
+    // </form>
 }
 function AuthComp({ title, children, type, name, id, placeholder}) {
 	return (
