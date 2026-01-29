@@ -10,6 +10,7 @@ import DetailProduct from './pages/userspages/DetailProduct.jsx'
 import './index.css'
 import { Home } from '@/pages/userspages/Home.jsx';
 import Product from '@/pages/userspages/Product.jsx';
+import NotFound from '@/pages/404.jsx';
 
 
 const router = createBrowserRouter([
@@ -69,7 +70,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <h1>Salah Ajig</h1>,
+    element: <NotFound />,
   },
 ]);
 
