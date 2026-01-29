@@ -73,6 +73,23 @@ function ProductCard() {
     )
 }
 
+function VisitOurStore() {
+    return (
+        <>
+        <section className="max-w-[80vw] flex flex-col items-center mx-auto gap-5">
+            <div className="text-center my-5">
+                <h2 className="text-[48px] text-[#0B132A]  "><span className="text-[#8E6447]">Visit Our Store</span> in the Spot on the Map Below</h2>
+                <hr className="border-b-3 border-[#FF8906] w-[100px] my-10 mx-auto"  />
+                <span className="text-[#4F5665] " >You can explore the menu that we provide with fun and have their own taste and make your day better.</span>
+            </div>
+            <div>
+                <img src="/src/assets/img/userimg/map.png" alt="map" />
+            </div>
+        </section>
+        </>
+    )
+}
+
 export default function Home(){
     return(
         <>
@@ -80,6 +97,7 @@ export default function Home(){
         <Hero/>
         <About/>
         <ProductCard />
+        <VisitOurStore />
         </>
     )
 }
