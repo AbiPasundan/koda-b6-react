@@ -1,13 +1,14 @@
 import { FiShoppingCart } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
+import { Link } from "react-router";
 
 function ImageCard({children}) {
     return (
-    <section>
+    <Link to="/detailproduct">
         <img src="/src/assets/img/userimg/home.png" width='300px' alt="product" />
         {children}
         {/* <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span> */}
-    </section>)
+    </Link >)
 }
 
 function CardHeader(){
@@ -47,7 +48,7 @@ function Price({children, currentPrice}){
 function ButtonCard(){
     return(
         <div className="flex items-center text-center justify-center gap-5">
-            <button className="w-[70%] bg-[#FF8906] p-1 rounded">Buy</button>
+            <Link to="/detailproduct" className="w-[70%] bg-[#FF8906] p-1 rounded">Buy</Link>
             <button className="w-[15%] p-1 border flex text-center justify-center rounded-md">
                 <FiShoppingCart size={22} color='#FF8906' />
             </button>

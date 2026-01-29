@@ -8,8 +8,8 @@ import Profile from './pages/userspages/Profile.jsx'
 import Checkout from './pages/userspages/Checkout.jsx'
 import DetailProduct from './pages/userspages/DetailProduct.jsx'
 import './index.css'
-import { Home } from './pages/userspages/Home.jsx';
-import Product from './pages/userspages/Product.jsx';
+import { Home } from '@/pages/userspages/Home.jsx';
+import Product from '@/pages/userspages/Product.jsx';
 
 
 const router = createBrowserRouter([

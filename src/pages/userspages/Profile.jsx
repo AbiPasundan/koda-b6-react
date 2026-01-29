@@ -1,17 +1,19 @@
+import Nav from "@/components/usercomp/Nav";
+import Footer from "@/components/usercomp/Footer";
+
+
+
 function InputForProfile(props) {
   return (
     <div className="input-user flex flex-col gap-[15px]">
-        <label
-          for={props.value}
-          className="font-[Plus_Jakarta_Sans] font-semibold text-[16px] leading-[100%] align-middle"
-        >
+        <label for={props.value} className="font-[Plus_Jakarta_Sans] font-semibold text-[16px] leading-[100%] align-middle" >
           {props.title}
         </label>
         <input
           type={props.type}
           name={props.value}
           id={props.value}
-          className="sm:w-[780px] h-[52px] border rounded-[8px] pt-[14px] pr-[13px] pb-[14px] pl-[53px] gap-[10px] bg-[url('./../img/icons/Profile.png')] bg-no-repeat bg-[left_10px_bottom_15px]"
+          className=" h-[52px] border rounded-[8px] pt-[14px]  pb-[14px] pl-[53px] bg-[url('./../img/icons/Profile.png')] "
           placeholder={props.placeholder}
         />
       </div>
@@ -54,34 +56,13 @@ function ProfileHeader(props) {
 
 export default function Profile() {
   return (
-    <main className="flex justify-center mt-[50px]">
-      <div className="main-content">
+    <>
+    <Nav bg="bg-black"/>
+    <main className="flex justify-center my-[10vh]">
+      <div className="main-content mx-auto flex flex-col juistify-center overflow-hidden">
           <ProfileHeader titile="Profile" />
-        <div className="wrapper text-left flex sm:flex-row flex-col justify-center gap-[20px] ">
-          <div className="text-center w-[280px] sm:h-[343px] font-[Plus Jakarta Sans] border border-solid border-red-200 flex flex-col h-[343px] sm:h-[143px] sm:ml-[0px] ml-[50px]">
-            {/* <div className="header-title h-[62px] mb-10">
-              <h2 className="font-[Plus Jakarta Sans] font-medium text-xl">
-                Ghaluh Wizard
-              </h2>
-              <span className="font-[Plus Jakarta Sans]">ghaluhwizz@gmail.com</span>
-              <div
-                className="pics w-[100%] h-[113px] flex justify-center"
-              >
-                <img
-                  src="./../img/hero.png"
-                  alt="profile"
-                  className="rounded-full w-[113px]"
-                />
-              </div>
-              <div
-                className="btn text-center w-[200px] h-[38px] rounded-[30px] bg-[#FF8906] flex justify-center justify-self-center"
-              >
-                <button className="text-center">Upload New Photo</button>
-              </div>
-              <span className="font-semibold text-base tracking-normal text-center text-[#4F5665]">
-                Since 20 January 2022
-              </span>
-            </div> */}
+        <div className="wrapper mx-auto text-left flex sm:flex-row flex-col justify-center gap-[20px] ">
+          <div className="text-center w-[280px] font-[Plus Jakarta Sans] border border-solid border-red-200 flex flex-col h-[343px] mx-auto">
             <PropfileComp name="Ghaluh Wizard" email="ghaluhwizz@gmail.com" image="https://placehold.co/400" date="Since 20 January 2022" />
           </div>
           <form className="flex flex-col gap-10 sm:w-[780px] w-[380px] h-[566px] [&>div]:mx-10 my-10">
@@ -177,5 +158,7 @@ export default function Profile() {
         </div>
       </div>
     </main>
+    <Footer/>
+    </>
   );
 }
