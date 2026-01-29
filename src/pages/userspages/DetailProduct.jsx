@@ -1,5 +1,7 @@
 import Nav from "@/components/usercomp/Nav";
 import Footer from "@/components/usercomp/Footer";
+import { ProductCard } from "@/components/usercomp/Card";
+
 
 function PoductImageComp(props) {
   return <img src={props.image} className="w-full h-24 object-cover cursor-pointer hover:opacity-80 border border-gray-200" />
@@ -72,36 +74,6 @@ function Desc() {
   )
 }
 
-function Recommendation() {
-  return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden flex flex-col">
-        <div className="relative">
-            <span className="absolute top-2 left-2 bg-[#D00000] text-white text-[10px] font-bold px-2 py-1 rounded">FLASH SALE!</span>
-            <img src="https://placehold.co/600x400" alt="Latte" className="w-full h-48 object-cover" />
-        </div>
-        <div className="p-4 flex-1 flex flex-col">
-            <h3 className="font-[Plus_Jakarta_Sans] font-medium text-[22px] leading-[100%] tracking-[0%] text-[#0B132A] mb-1">Hazelnut Latte</h3>
-            <p className="font-[Plus_Jakarta_Sans] font-normal text-[14px] leading-[100%] tracking-[0%] text-[#4F5665] mb-2">You can explore the menu that we provide with fun and have their own taste and make your day better.</p>
-            <div className="flex text-yellow-400 text-xs mb-2">★★★★★ <span className="font-[Plus_Jakarta_Sans] font-normal text-[14px] leading-[100%] tracking-[0%] text-[#4F5665] ml-1">5.0</span></div>
-            <div className="mt-auto">
-                <div className="flex items-center space-x-2 mb-3">
-                    <span className="font-[Plus_Jakarta_Sans] font-medium text-[12px] leading-[100%] tracking-[0%] line-through text-[#D00000]">IDR 20.000</span>
-                    <span className="font-[Plus_Jakarta_Sans] font-medium text-[22px] leading-[100%] tracking-[0%] text-[#FF8906]">IDR 10.000</span>
-                </div>
-                <div className="flex gap-2">
-                    <button className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-[20px] tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-2 rounded hover:bg-orange-600">Buy</button>
-                    <button className="w-10 border border-orange-300 rounded flex items-center justify-center text-orange-500 hover:bg-orange-50">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-  )
-}
-
 function Prev() {
   return (
     <div className="flex justify-center mt-10 space-x-3">
@@ -151,9 +123,9 @@ export default function DetailProduct() {
     <div className="mt-16">
         <h2 className="md:text-3xl text-xl overflow-hidden font-bold mb-8 font-[Plus_Jakarta_Sans] font-medium text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Recommendation />
-          <Recommendation />
-          <Recommendation />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
         </div>
         <Prev />
     </div>

@@ -2,15 +2,22 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import { LoginPage as Login, RegisterPage, ForgotPassword, DetailProductPage } from './App.jsx'
+// auth
+import { LoginPage as Login, RegisterPage, ForgotPassword} from './App.jsx'
+// admin
 import { AdminLayout, AdminDashboard, AdminProductPage, AdminUserPage, AdminOrderPage,  } from './Admin.jsx'
-import Profile from './pages/userspages/Profile.jsx'
-import Checkout from './pages/userspages/Checkout.jsx'
-import DetailProduct from './pages/userspages/DetailProduct.jsx'
-import './index.css'
+// user
 import { Home } from '@/pages/userspages/Home.jsx';
+import Profile from '@/pages/userspages/Profile.jsx'
+import Checkout from '@/pages/userspages/Checkout.jsx'
+import HistoryOrder from '@/pages/userspages/HistoryOrder.jsx';
+import DetailProduct from '@/pages/userspages/DetailProduct.jsx'
 import Product from '@/pages/userspages/Product.jsx';
 import NotFound from '@/pages/404.jsx';
+
+
+import './index.css'
+import DetailOrder from './pages/userspages/DetailOrder.jsx';
 
 
 const router = createBrowserRouter([
@@ -67,6 +74,14 @@ const router = createBrowserRouter([
   {
     path: "/Checkout",
     element: <Checkout />,
+  },
+  {
+    path: "/DetailOrder",
+    element: <DetailOrder />,
+  },
+  {
+    path: "/HistoryOrder",
+    element: <HistoryOrder />,
   },
   {
     path: "*",
