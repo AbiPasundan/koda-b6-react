@@ -36,17 +36,17 @@ function Rattings(){
     )
 }
 
-function Price({children, normalPrice}){
+function Price({children, currentPrice}){
     return(
         <div className="flex flex-wrap items-center gap-5">
             {children}
-            <span className="text-[#FF8906] font-medium text-[22px]">IDR {normalPrice}</span>
+            <span className="text-[#FF8906] font-medium text-[22px]">IDR {currentPrice}</span>
         </div>
     )
 }
 function ButtonCard(){
     return(
-        <div className="flex items-center text-center justify-center gap-5 my-2">
+        <div className="flex items-center text-center justify-center gap-5">
             <button className="w-[70%] bg-[#FF8906] p-1 rounded">Buy</button>
             <button className="w-[15%] p-1 border flex text-center justify-center rounded-md">
                 <FiShoppingCart size={22} color='#FF8906' />
@@ -88,7 +88,7 @@ function HomeCard() {
                 </ImageCard>
                 <CardWrapper>
                     <CardHeader />
-                    <Price normalPrice="20.000"></Price>
+                    <Price currentPrice="20.000"></Price>
                     <ButtonCard />
                 </CardWrapper>
             </main>
@@ -96,4 +96,22 @@ function HomeCard() {
     )
 }
 
-export {Card, HomeCard, Rattings}
+function ProductCard() {
+    return (
+     <main className="relative flex flex-col max-w-[300px]">
+         <ImageCard>
+             <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>
+         </ImageCard>
+         <CardWrapper>
+             <CardHeader />
+             <Rattings />
+             <Price currentPrice="20.000">
+                <span className="text-[#D00000] line-through font-medium text-[12px]">IDR 20.000</span>
+             </Price>
+             <ButtonCard />
+         </CardWrapper>
+     </main>
+    )
+}
+
+export {Card, HomeCard, Rattings, ProductCard}
