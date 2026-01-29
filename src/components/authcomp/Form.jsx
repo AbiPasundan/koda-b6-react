@@ -60,11 +60,6 @@ function FormForgotPassword() {
 		</form>
 	)
 }
-// forgot password end
-// login start
-// function titleForm(props) {
-// 	return (<span>{props.title}</span>)
-// }
 function AuthComp({ title, children, type, name, id, placeholder}) {
 	return (
 		<label className="text-[#0B132A] text-[16px] mb-5">
@@ -78,7 +73,8 @@ function AuthComp({ title, children, type, name, id, placeholder}) {
 		</label>
 	)
 }
-function FormLogin() {
+
+function FormLogin({children}) {
 	return (
 		<form method="POST" className="flex flex-col">
 			<AuthComp title="Email" type="text" name="email" id="email" placeholder="Enter Email" >
@@ -94,17 +90,17 @@ function FormLogin() {
 			</AuthComp>	
 			<button type="reset" className="bg-[#FF8906] h-[60px] rounded-xl  text-[#0B132A] ">Submit</button>
 			<div class="flex items-center justify-center mb-3" >
-					{/*<span class="font-normal text-[16px] text-[#4F5665]">Not Have an Account? <a href="#" class="text-[#FF8906]">Login</a></span>*/}
 					<LinkNavigation text="Not Have an Account?" linkText="" />
 					<span class="text-[#AAAAAA]">or</span>
+					<div className="flex justify-end items-end w-full my-5">
+						{children}
+					</div>
 				</div>
 				<SocialMediaLogin/>
 		</form>
 	)
 }
-// login end
 
-// register start
 function FormRegister() {
 	return (
 		<form method="POST" className="flex flex-col">
