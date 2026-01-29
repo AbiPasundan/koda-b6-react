@@ -9,12 +9,12 @@ import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
 function Hero() {
     return (
         <>
-            <main className="grid md:grid-cols-2 md:grid-cols-2-reverse  h-full " >
+            <main className="grid md:grid-cols-2 md:grid-cols-2-reverse overflow-hidden h-full " >
                 <section className="order-2 py-10 bg-[#777C82] bg-[linear-gradient(180deg,_rgba(119,_124,_130,_1)_0%,_rgba(11,_9,_9,_1)_66%)] flex w-full max-h-[130vh] ">
                     <div className="flex flex-col justify-center items-start mx-10 gap-5">
                         <h1 className="text-5xl text-white">Start Your Daily With Coffee and Good Meals</h1>
                         <p className="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, reprehenderit repudiandae sequi animi dicta vitae dolorum nam a. Porro, quia.</p>
-                        <Link className="px-5 py-3 bg-[#FF8906] rounded">Get Started</Link>
+                        <Link to="/product" className="px-5 py-3 bg-[#FF8906] rounded">Get Started</Link>
                         <div className="flex gap-5 items-center justify-between text-[#FF8906]">
                             <span className="border-r-1 px-5"> <p className="text-3xl">90+</p><br /> Staff</span>
                             <span className="border-r-1 px-5"> <p className="text-3xl">30+</p><br /> Store</span>
@@ -96,7 +96,7 @@ function VisitOurStore() {
 function Testimoni() {
     return (
         <>
-            <section className=" overflow-hidden md:h-[30vh] h-[100vh] flex flex-col md:flex-row gap-10  px-10 bg-[#777C82] bg-[linear-gradient(180deg,_rgba(119,_124,_130,_1)_0%,_rgba(11,_9,_9,_1)_66%)]">
+            <section className=" overflow-hidden md:h-[80vh] h-[80vh] flex flex-col md:flex-row gap-10  px-10 bg-[#777C82] bg-[linear-gradient(180deg,_rgba(119,_124,_130,_1)_0%,_rgba(11,_9,_9,_1)_66%)]">
                 <div className="md:w-[30%] w-[80%] my-auto">
                     <img src="/src/assets/img/userimg/testimoni.png"  className="w-full overflow-hidden" alt="main image" />
                 </div>

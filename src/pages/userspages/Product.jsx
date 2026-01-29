@@ -34,27 +34,49 @@ function MobileFilter() {
 
 function ProductCarousel() {
     return (
-        <main className="flex flex-col items-center justify-center gap-5 bg-blue-100 ">
-            <div className="flex justify-around mt-10 w-full">
+        <>
+            <div className="flex justify-around mt-10 stikcy w-full">
                 <h2>Today's Promo</h2>
                 <span className="flex gap-5">
                     <FaCircleArrowLeft />
                     <FaCircleArrowRight />
                 </span>
             </div>
-            <div className="flex items-center justify-center gap-5 overflow-auto bg-blue-100 py-5"> 
-                <section className='flex p-3 gap-5 bg-[#88B788] rounded-xl '>
-                    <div className='w-[106px] '>
-                        <img src="https://placehold.co/600x400" alt="avatar" />
-                    </div>
-                    <div className='flex flex-col [&>p]:my-2 '>
-                        <h2 className='font-bold'>Happy Mother Days</h2>
-                        <p className='font-normal'>Get one of our menu for free</p>
-                        <span className=''>klaim kupon</span>
-                    </div>
-                </section>
-            </div>
-        </main>
+            <main className="flex flex-col items-center justify-center overflow-x-scroll gap-5 bg-blue-100 ">
+                <div className="flex flex-row items-center justify-center gap-5 bg-green-100 py-5"> 
+                    <section className='flex p-3 gap-5 bg-[#88B788] rounded-xl '>
+                        <div className='w-[106px] '>
+                            <img src="https://placehold.co/600x400" alt="avatar" />
+                        </div>
+                        <div className='flex flex-col [&>p]:my-2 '>
+                            <h2 className='font-bold'>Happy Mother Days</h2>
+                            <p className='font-normal'>Get one of our menu for free</p>
+                            <span className=''>klaim kupon</span>
+                        </div>
+                    </section>
+                    <section className='flex p-3 gap-5 bg-[#88B788] rounded-xl '>
+                        <div className='w-[106px] '>
+                            <img src="https://placehold.co/600x400" alt="avatar" />
+                        </div>
+                        <div className='flex flex-col [&>p]:my-2 '>
+                            <h2 className='font-bold'>Happy Mother Days</h2>
+                            <p className='font-normal'>Get one of our menu for free</p>
+                            <span className=''>klaim kupon</span>
+                        </div>
+                    </section>
+                    <section className='flex p-3 gap-5 bg-[#88B788] rounded-xl '>
+                        <div className='w-[106px] '>
+                            <img src="https://placehold.co/600x400" alt="avatar" />
+                        </div>
+                        <div className='flex flex-col [&>p]:my-2 '>
+                            <h2 className='font-bold'>Happy Mother Days</h2>
+                            <p className='font-normal'>Get one of our menu for free</p>
+                            <span className=''>klaim kupon</span>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </>
     )
 }
 
