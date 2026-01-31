@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 function Input({ type, registerInput, id, placeholder }) {
   return (
@@ -47,6 +47,22 @@ function SocialMediaLogin() {
 	)
 }
 
+// 
+function AuthComp({ registerInput, title, children, type, name, id, placeholder, error}) {
+	return (
+		<label className="text-[#0B132A] text-[16px] mb-5">
+			<span>{title}</span>
+			<div className="flex items-center gap-5 p-3 border border-xl w-full">
+				<div>
+					{children}
+				</div>
+				<Input registerInput={registerInput} type={type} name={name} id={id} placeholder={placeholder} />
+			</div>
+			{error && <p className="text-red-500 text-sm">{error}</p>}
+		</label>
+	)
+}
+
 // forgot password start
 function FormForgotPassword() {
  	const { 
@@ -69,36 +85,38 @@ function FormForgotPassword() {
 		</form>
 	)
 }
-function AuthComp({ registerInput, title, children, type, name, id, placeholder, error}) {
-	return (
-		<label className="text-[#0B132A] text-[16px] mb-5">
-			<span>{title}</span>
-			<div className="flex items-center gap-5 p-3 border border-xl w-full">
-				<div>
-					{children}
-				</div>
-				<Input registerInput={registerInput} type={type} name={name} id={id} placeholder={placeholder} />
-			</div>
-			{error && <p className="text-red-500 text-sm">{error}</p>}
-		</label>
-	)
-}
 
 function FormLogin({children}) {
-	const [data, setData] = useState([]);
+	const [dataApi, setData] = useState([]);
 	const [error, setError] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 
-  const {
+	const navigate = useNavigate();
+
+ 	const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-	  } = useForm()	
+	} = useForm()	
 
 	const onSubmit = data => {
-		console.log(data)
-	};
+		console.log(data.email)
+		console.log(dataApi)
+		{dataApi.length > 0 && {}}
+		dataApi.forEach(e => {
+			console.log(e.name)
+			// const email = dataApi.find(em => em === data.email)
+			dataApi.forEach(e => {
+				if (data.email === e.email && data.password === e.password) {
+					console.log("bener euy")
+					navigate("/admin", { replace: true });
+				} else {
+					console.log("salah euy")
+				}
+			});
+			});
+		};
 
 	useEffect(() => {
 		async function getData() {
@@ -137,20 +155,8 @@ function FormLogin({children}) {
 					<div className="flex justify-end items-end w-full my-5">
 						{children}
 					</div>
-				</div>
-				<SocialMediaLogin/>
-				{isLoading && <p>Loading...</p>}
-				{error && <p>Error: {error}</p>}
-				{data.length > 0 && (
-					<div>
-						<h3>Test Data:</h3>
-						<ul>
-							{data.map((user, index) => (
-								<li key={index}>{user.name} - {user.email}</li>
-							))}
-						</ul>
-					</div>
-				)}
+			</div>
+			<SocialMediaLogin/>
 		</form>
 	)
 }
