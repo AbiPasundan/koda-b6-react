@@ -2,7 +2,7 @@
 
 export default function HistoryOrder(){
     return (
-        <div class="main">
+        <div className="main">
             <h1>History Order</h1>
         </div>
     )

@@ -8,11 +8,10 @@ import { Link } from "react-router";
 export default function SidebarAdmin() {
     return (
         <>
-            <aside id="aside" class="fixed top-[70px] md:translate-x-0 -translate-x-full bg-[#ffffff]" >
+            <aside id="aside" className="fixed top-[70px] md:translate-x-0 -translate-x-full bg-[#ffffff]" >
             <ul
-                class="list-none [&>li]:px-5 [&>li]:mb-2 [&>li>a]:flex [&>li>a]:items-center [&>li>a]:gap-4 [&>li>a]:p-3 [&>li>a]:rounded-xl [&>li>a]:font-medium [&>li>a>img]:w-5">
+                className="list-none [&>li]:px-5 [&>li]:mb-2 [&>li>a]:flex [&>li>a]:items-center [&>li>a]:gap-4 [&>li>a]:p-3 [&>li>a]:rounded-xl [&>li>a]:font-medium [&>li>a>img]:w-5">
                 <li>
-                    {/* class="bg-[#FF8906]" */}
                 <Link to="/admin" href="./dashboard.html" >
                     <MdDashboard /> Dashboard
                 </Link>

@@ -1,0 +1,48 @@
+{
+  "data": [
+    {
+      "name": "Wildan Nursyamsi",
+      "email": "muhamad11wildan4n@gmail.com",
+      "password": "1234"
+    },
+    {
+      "name": "Koda",
+      "email": "koda@mail.com",
+      "password": "1234"
+    }
+  ],
+  "menu": [
+    {
+      "id": 1,
+      "image": "./../img/coffee/1.png",
+      "name": "Kapal Api Late",
+      "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      "oldPrice": 30000,
+      "newPrice": 25000
+    },
+    {
+      "id": 2,
+      "image": "./../img/coffee/2.png",
+      "name": "Hazelnut Jahe",
+      "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      "oldPrice": 50000,
+      "newPrice": 20000
+    },
+    {
+      "id": 3,
+      "image": "./../img/coffee/3.png",
+      "name": "Hazelnut Late",
+      "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      "oldPrice": 20000,
+      "newPrice": 10000
+    },
+    {
+      "id": 4,
+      "image": "./../img/coffee/4.png",
+      "name": "Mocha Late",
+      "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      "oldPrice": 35000,
+      "newPrice": 10000
+    }
+  ]
+}
