@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 
 function Input({ type, registerInput, id, placeholder }) {
   return (
@@ -92,30 +92,71 @@ function FormLogin({children}) {
 	const [isLoading, setIsLoading] = useState(true);
 
 	const navigate = useNavigate();
+	// const users = localStorage.getItem("user_coffee_shop")
+
+	// const location = useLocation();
+	// const dataUser = location.state;
+	// console.log(data)
 
  	const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-	} = useForm()	
+	} = useForm()
+	const users = JSON.parse(localStorage.getItem("user_coffee_shop")) || []
+	// console.log(JSON.parse(users))
+	// users.forEach(e => {
+	// 	console.log(e.email)
+	// });
 
 	const onSubmit = data => {
-		console.log(data.email)
-		console.log(dataApi)
-		{dataApi.length > 0 && {}}
-		dataApi.forEach(e => {
-			console.log(e.name)
-			// const email = dataApi.find(em => em === data.email)
-			dataApi.forEach(e => {
-				if (data.email === e.email && data.password === e.password) {
-					console.log("bener euy")
-					navigate("/admin", { replace: true });
-				} else {
-					console.log("salah euy")
-				}
-			});
-			});
+			if (!dataApi || !users) {
+				console.log("error")
+			} else {
+				dataApi.forEach(e => {
+					if (data.email === e.email && data.password === e.password) {
+						console.log("bener euy")
+						navigate("/admin", { replace: true });
+					} else if (users) {
+						users.forEach(e => {
+							// console.log(e.email)
+							users.forEach(e => {
+								if (data.email === e.email && data.password === e.password) {
+									console.log("bener euy")
+									navigate("/", { replace: true });
+								}
+							});
+						})
+					}
+				});
+			}
+
+			// if (!users) {
+			// 	console.log(123)
+			// }else {
+			// 	users.forEach(e => {
+			// 		console.log(e.email)
+			// 	});
+
+			// }
+			// dataUser.forEach(e => {
+			// 	console.log(e);
+			// 	console.log(e.name);
+			// 	console.log(e.email);
+			// });
+			// });
+			// const users = localStorage.getItem("user_coffee_shop")
+			// console.log(users)
+			// try {
+			// 	const rawUser = localStorage.getItem("user_coffee_shop")
+			// 	// user = rawUser ? JSON.parse(rawUser) : []
+			// 	console.log(rawUser)
+			// } catch (err) {
+			// 	console.error("Invalid localStorage data, reset:", err)
+			// 	user = []
+			// 	localStorage.removeItem("user_coffee_shop")
+			// }			
 		};
 
 	useEffect(() => {
@@ -150,11 +191,11 @@ function FormLogin({children}) {
 			</AuthComp>	
 			<button type="submit" className="bg-[#FF8906] h-[60px] rounded-xl  text-[#0B132A] ">Submit</button>
 			<div className="flex items-center justify-center mb-3" >
-					<LinkNavigation text="Not Have an Account?" linkText="Register" link="register" />
-					<span className="text-[#AAAAAA]">or</span>
-					<div className="flex justify-end items-end w-full my-5">
-						{children}
-					</div>
+				<LinkNavigation text="Not Have an Account?" linkText="Register" link="register" />
+				<span className="text-[#AAAAAA]">or</span>
+				<div className="flex justify-end items-end w-full my-5">
+					{children}
+				</div>
 			</div>
 			<SocialMediaLogin/>
 		</form>
@@ -162,15 +203,37 @@ function FormLogin({children}) {
 }
 
 function FormRegister() {
+	const navigate = useNavigate();
   	const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-	} = useForm()	
+	} = useForm()
+	
+	let user = []
+
+	try {
+		const rawUser = localStorage.getItem("user_coffee_shop")
+		user = rawUser ? JSON.parse(rawUser) : []
+	} catch (err) {
+		console.error("Invalid localStorage data, reset:", err)
+		user = []
+		localStorage.removeItem("user_coffee_shop")
+	}
+
+	console.log(user)
 
 	const onSubmit = data => {
+		const register = {
+			name: data.name,
+			email: data.email,
+			password: data.password,
+		}
+		user.push(register)
 		console.log(data)
+		localStorage.setItem("user_coffee_shop", JSON.stringify(user))
+		navigate("/login", { replace: true , state: { name: data.name, email: data.email, }});
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
