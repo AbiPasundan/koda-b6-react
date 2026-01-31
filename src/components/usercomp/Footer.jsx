@@ -4,7 +4,7 @@ import { ImInstagram } from "react-icons/im";
 export default function Footer() {
     return (
         <>
-            <footer className="flex flex-col flex-wrap md:flex-row pt-10 gap-10 bg-red-100 [&>section]:mx-10">
+            <footer className="flex flex-col flex-wrap py-10 md:flex-row pt-10 gap-10 bg-[#F9F9FA] [&>section]:mx-10">
                 <section className="flex flex-col flex-wrap">
                     <img src="/src/assets/img/userimg/image.png" alt="logo" className="w-[80px] "/>
                     <p className="md:w-[500px] ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis ut quos doloremque, tempore nisi quod sed et! Dolores, impedit vel. Dolore cumque officia dolor voluptate consequatur vel porro unde aliquam.</p>

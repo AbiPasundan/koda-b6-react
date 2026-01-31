@@ -15,7 +15,7 @@ export default function Nav(props){
     }
     return (
         <header>
-            <nav className={`flex flex-row justify-around items-center ${props.bg} p-5 relative`}>
+            <nav className={`flex flex-row absolute justify-around items-center ${props.bg} p-5 left-0 right-0 `}>
                 <section className='flex flex-row justify-between gap-10 items-center'>
                     <Link to="/">
                         <img src="/src/assets/img/userimg/image.png" alt="Logo" />

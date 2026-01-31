@@ -112,7 +112,7 @@ function Prev() {
 export default function DetailProduct() {
   return (
     <>
-    <Nav bg="bg-[#0B0909]" />
+    <Nav bg="bg-black" />
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="grid grid-cols-1 my-10 md:grid-cols-2 gap-10">
       <ProductImage />

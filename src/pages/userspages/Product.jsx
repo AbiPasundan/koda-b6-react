@@ -139,7 +139,7 @@ function MainProductFilter() {
 export default function Product(){
     return (
         <>
-            <Nav bg="bg-red-900" />
+            <Nav bg="bg-black" />
             <ProductHero />
             <MobileFilter />
             <ProductCarousel />
