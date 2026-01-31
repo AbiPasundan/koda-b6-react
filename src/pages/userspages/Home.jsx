@@ -1,9 +1,8 @@
-import {Card, HomeCard} from "@/components/usercomp/Card"
+import {HomeCard} from "@/components/usercomp/Card"
 import Nav from "@/components/usercomp/Nav"
 import Footer from "@/components/usercomp/Footer"
 import { Rattings } from "@/components/usercomp/Card"
 import { Link } from "react-router"
-import { FaStar } from "react-icons/fa";
 import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
 
 function Hero() {
@@ -53,7 +52,6 @@ function About() {
                 <section className="flex max-h-[130vh] ">
                     <img src="/src/assets/img/userimg/barista.png"  className="w-full overflow-hidden" alt="main image" />
                 </section>
-                {/* <section className="bg-[#09f090] flex w-full max-h-[130vh]"></section> */}
             </main>
         </>
     )
@@ -67,9 +65,6 @@ function ProductCard() {
                 <p className="text-[#4F5665]">Let’s choose and have a bit taste of poeple’s favorite. It might be yours too!</p>
             </section>
             <section className="flex flex-row flex-wrap my-10 justify-center items-center gap-3 ">
-                <HomeCard />
-                <HomeCard />
-                <HomeCard />
                 <HomeCard />
             </section>
         </>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 function Input({ type, registerInput, id, placeholder }) {
   return (
@@ -92,12 +92,6 @@ function FormLogin({children}) {
 	const [isLoading, setIsLoading] = useState(true);
 
 	const navigate = useNavigate();
-	// const users = localStorage.getItem("user_coffee_shop")
-
-	// const location = useLocation();
-	// const dataUser = location.state;
-	// console.log(data)
-
  	const {
     register,
     handleSubmit,
@@ -105,11 +99,6 @@ function FormLogin({children}) {
     formState: { errors },
 	} = useForm()
 	const users = JSON.parse(localStorage.getItem("user_coffee_shop")) || []
-	// console.log(JSON.parse(users))
-	// users.forEach(e => {
-	// 	console.log(e.email)
-	// });
-
 	const onSubmit = data => {
 			if (!dataApi || !users) {
 				console.log("error")
@@ -120,7 +109,6 @@ function FormLogin({children}) {
 						navigate("/admin", { replace: true });
 					} else if (users) {
 						users.forEach(e => {
-							// console.log(e.email)
 							users.forEach(e => {
 								if (data.email === e.email && data.password === e.password) {
 									console.log("bener euy")
@@ -131,43 +119,14 @@ function FormLogin({children}) {
 					}
 				});
 			}
-
-			// if (!users) {
-			// 	console.log(123)
-			// }else {
-			// 	users.forEach(e => {
-			// 		console.log(e.email)
-			// 	});
-
-			// }
-			// dataUser.forEach(e => {
-			// 	console.log(e);
-			// 	console.log(e.name);
-			// 	console.log(e.email);
-			// });
-			// });
-			// const users = localStorage.getItem("user_coffee_shop")
-			// console.log(users)
-			// try {
-			// 	const rawUser = localStorage.getItem("user_coffee_shop")
-			// 	// user = rawUser ? JSON.parse(rawUser) : []
-			// 	console.log(rawUser)
-			// } catch (err) {
-			// 	console.error("Invalid localStorage data, reset:", err)
-			// 	user = []
-			// 	localStorage.removeItem("user_coffee_shop")
-			// }			
 		};
 
 	useEffect(() => {
 		async function getData() {
 			try {
-				console.log(123)
-				const api = await fetch("/data.json")
-				console.log(api)
+				const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
 				const response = await api.json()
 				setData(response.data)
-				console.log(response.data[0].name)
 				setIsLoading(false);
 			} catch (error) {
 				setError(error.message);

@@ -121,11 +121,6 @@ function MainProductFilter() {
             <ProductFilter />
             <div className='flex flex-row flex-wrap gap-3 flex-1 justify-center'>
                 <ProductLists />
-                <ProductLists />
-                <ProductLists />
-                <ProductLists />
-                <ProductLists />
-                <ProductLists />
             </div>
         </div>
         <section className='flex flex-row justify-center items-center gap-5 my-10 [&>span]:py-[3px] [&>span]:px-[10px] [&>span]:bg-[#FF8906] [&>span]:rounded-full '>

@@ -124,8 +124,6 @@ export default function DetailProduct() {
         <h2 className="md:text-3xl text-xl overflow-hidden font-bold mb-8 font-[Plus_Jakarta_Sans] font-medium text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <ProductCard />
-          <ProductCard />
-          <ProductCard />
         </div>
         <Prev />
     </div>
