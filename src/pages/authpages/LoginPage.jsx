@@ -4,7 +4,15 @@ import AuthHeader from '@/components/authcomp/AuthHeader'
 import { FormLogin } from '@/components/authcomp/Form'
 import { Link } from 'react-router'
 
-export default function LoginPage(argument) {
+export default function LoginPage() {
+	async function getData() {
+		console.log(123)
+		const api = await fetch("@/../public/data.json")
+		console.log(api)
+		const { data } = await api.json()
+		console.log(data.name)
+	}
+	getData()
 	return (
 		<main className="flex grid-cols-[30%_auto] gap-10 ">
 			<AuthImage image={'https://placehold.co/400x960'} />
