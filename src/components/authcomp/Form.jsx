@@ -1,11 +1,20 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 
-function Input({type, register, id, placeholder}) {
-	return (
-		<input required type={type} {...register} id={id} placeholder={placeholder} className="outline-none bg-transparent" />		
-	)
+function Input({ type, registerInput, id, placeholder }) {
+  return (
+    <input
+      
+      type={type}
+      {...registerInput}
+      id={id}
+      placeholder={placeholder}
+      className="outline-none bg-transparent"
+    />
+  )
 }
+
 
 function LinkNavigation({text, linkText, link}) {
 	return (
@@ -39,20 +48,6 @@ function SocialMediaLogin() {
 }
 
 // forgot password start
-function ForgotPasswordComp({children}) {
-	return (
-		<label className="text-[#0B132A] text-[16px] mb-5">
-			Email
-			<div className="flex items-center gap-5 p-3 border border-xl w-full">
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
-				  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
-				</svg>
-				{children}
-			</div>
-		</label>
-	)
-}
-
 function FormForgotPassword() {
  	const { 
 		register,
@@ -65,14 +60,16 @@ function FormForgotPassword() {
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} method="POST" className="flex flex-col">
-			<ForgotPasswordComp>
-				<Input register={register("email")} type="email" id="email" placeholder="Enter Your Email" />
-			</ForgotPasswordComp>
+			<AuthComp registerInput={register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email address" } })} error={errors.email?.message} title="Email" type="text" name="email" id="email" placeholder="Enter Email" >
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
+				  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+				</svg>
+			</AuthComp>	
 			<button type="submit" className="bg-[#FF8906] h-[60px] rounded-xl  text-[#0B132A] ">Submit</button>
 		</form>
 	)
 }
-function AuthComp({ title, children, type, name, id, placeholder}) {
+function AuthComp({ registerInput, title, children, type, name, id, placeholder, error}) {
 	return (
 		<label className="text-[#0B132A] text-[16px] mb-5">
 			<span>{title}</span>
@@ -80,27 +77,60 @@ function AuthComp({ title, children, type, name, id, placeholder}) {
 				<div>
 					{children}
 				</div>
-				<Input type={type} name={name} id={id} placeholder={placeholder} />
+				<Input registerInput={registerInput} type={type} name={name} id={id} placeholder={placeholder} />
 			</div>
+			{error && <p className="text-red-500 text-sm">{error}</p>}
 		</label>
 	)
 }
 
 function FormLogin({children}) {
+	const [data, setData] = useState([]);
+	const [error, setError] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+	  } = useForm()	
+
+	const onSubmit = data => {
+		console.log(data)
+	};
+
+	useEffect(() => {
+		async function getData() {
+			try {
+				console.log(123)
+				const api = await fetch("/data.json")
+				console.log(api)
+				const response = await api.json()
+				setData(response.data)
+				console.log(response.data[0].name)
+				setIsLoading(false);
+			} catch (error) {
+				setError(error.message);
+      	      	setIsLoading(false);
+			}
+		}
+		getData()
+	}, [])
 	return (
-		<form method="POST" className="flex flex-col">
-			<AuthComp title="Email" type="text" name="email" id="email" placeholder="Enter Email" >
+		<form onSubmit={handleSubmit(onSubmit)} method="POST" className="flex flex-col">
+			<AuthComp registerInput={register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email address" } })} error={errors.email?.message} title="Email" type="text" name="email" id="email" placeholder="Enter Email" >
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
 				  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
 				</svg>
 			</AuthComp>	
-			<AuthComp title="Password" type="password" name="password" id="password" placeholder="Enter Password ">
+			<AuthComp registerInput={register("password", { required: "Password is required"})} error={errors.password?.message} title="Password" type="password" name="password" id="password" placeholder="Enter Password ">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-key" viewBox="0 0 16 16">
 				  <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
 				  <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
 				</svg>
 			</AuthComp>	
-			<button type="reset" className="bg-[#FF8906] h-[60px] rounded-xl  text-[#0B132A] ">Submit</button>
+			<button type="submit" className="bg-[#FF8906] h-[60px] rounded-xl  text-[#0B132A] ">Submit</button>
 			<div className="flex items-center justify-center mb-3" >
 					<LinkNavigation text="Not Have an Account?" linkText="Register" link="register" />
 					<span className="text-[#AAAAAA]">or</span>
@@ -109,37 +139,58 @@ function FormLogin({children}) {
 					</div>
 				</div>
 				<SocialMediaLogin/>
+				{isLoading && <p>Loading...</p>}
+				{error && <p>Error: {error}</p>}
+				{data.length > 0 && (
+					<div>
+						<h3>Test Data:</h3>
+						<ul>
+							{data.map((user, index) => (
+								<li key={index}>{user.name} - {user.email}</li>
+							))}
+						</ul>
+					</div>
+				)}
 		</form>
 	)
 }
 
 function FormRegister() {
+  	const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+	} = useForm()	
+
+	const onSubmit = data => {
+		console.log(data)
+	};
 	return (
-		<form method="POST" className="flex flex-col">
-			<AuthComp type="text" name="name" id="name" placeholder="Enter Name">
-				<titleForm title="Email"/>
+		<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+			<AuthComp  registerInput={register("name", {required: "Username is required", minLength: {value: 2, message: "username min 2 character"}} )} error={errors.name?.message} type="text" id="name" placeholder="Enter Name">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-person" viewBox="0 0 16 16">
 				    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-			  </svg>
+			  	</svg>
 			</AuthComp>	
-			<AuthComp type="email" name="email" id="email" placeholder="Enter Email ">
+			<AuthComp registerInput={register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email address" } })} error={errors.email?.message} type="email" id="email" placeholder="Enter Email ">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
   					<path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
 				</svg>
 			</AuthComp>
-			<AuthComp type="password" name="password" id="password" placeholder="Enter Your Password ">
+			<AuthComp registerInput={register("password", {required: "Password is required",minLength: {value: 8,message: "Password minimal 8 character",}})} error={errors.password?.message} type="password" id="password" placeholder="Enter Your Password ">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-key" viewBox="0 0 16 16">
 				  <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
 				  <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
 				</svg>
 			</AuthComp>	
-			<AuthComp type="password" name="confirmPassword" id="confirmPassword" placeholder="Enter Your Password Again ">
+			<AuthComp registerInput={register("confirmPassword", {validate: value => value === watch("password") || "Password is not macth"})} error={errors.confirmPassword?.message} type="password" id="confirmPassword" placeholder="Enter Your Password Again ">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-key" viewBox="0 0 16 16">
 				  <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
 				  <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
 				</svg>
 			</AuthComp>	
-			<button type="reset" className="bg-[#FF8906] h-[60px] rounded-xl  text-[#0B132A] ">Submit</button>
+			<button type="submit" className="bg-[#FF8906] h-[60px] rounded-xl  text-[#0B132A] ">Submit</button>
 			<div className="flex items-center justify-center mb-3" >
 					<LinkNavigation text="Have an Account?" linkText="login" link="login" />
 					<span className="text-[#AAAAAA]">or</span>
