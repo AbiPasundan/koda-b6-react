@@ -1,17 +1,19 @@
 import Nav from "@/components/usercomp/Nav";
 import Footer from "@/components/usercomp/Footer";
 import { DetailProductCard } from "@/components/usercomp/Card";
+import { useNavigate, useParams } from "react-router";
+import { useEffect, useState } from "react";
 
 
 function PoductImageComp(props) {
   return <img src={props.image} className="w-full h-24 object-cover cursor-pointer hover:opacity-80 border border-gray-200" />
 }
 
-function ProductImage() {
+function ProductImage(props) {
   return (
     <div className="space-y-4">
         <div className="relative overflow-hidden shadow-sm">
-            <img src="https://placehold.co/600x400" alt="Hazelnut Latte" className="w-full h-[400px] object-cover" />
+            <img src={props.mainImage} alt="Hazelnut Latte" className="w-full h-[400px] object-cover" />
         </div>
         <div className="grid grid-cols-3 gap-4">
           <PoductImageComp image="https://placehold.co/600x400"/>
@@ -22,14 +24,14 @@ function ProductImage() {
   )
 }
 
-function Desc() {
+function Desc(props) {
   return (
     <>
       <span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>
-        <h1 className="text-4xl font-bold font-[Plus_Jakarta_Sans] font-medium text-[48px] leading-[100%] tracking-[0%] ">Hazelnut Latte</h1>
-        <div className="flex items-center space-x-3 mb-4">
-            <span className=" line-throug font-[Plus_Jakarta_Sans] font-medium text-[12px] leading-[100%] tracking-[0%] line-through text-[#D00000]">IDR 20.000</span>
-            <span className="text-2xl font-bold w-600 font-[Plus_Jakarta_Sans] font-medium text-[22px] leading-[100%] tracking-[0%] text-[#FF8906]">IDR 10.000</span>
+        <h1 className="text-4xl font-bold font-[Plus_Jakarta_Sans] font-medium text-[48px] leading-[100%] tracking-[0%] ">{props.name}</h1>
+        <div className="flex items-center space-x-3 my-5">
+            <span className=" line-throug font-[Plus_Jakarta_Sans] font-medium text-[12px] leading-[100%] tracking-[0%] line-through text-[#D00000]">{props.oldprice}</span>
+            <span className="text-2xl font-bold w-600 font-[Plus_Jakarta_Sans] font-medium text-[22px] leading-[100%] tracking-[0%] text-[#FF8906]">{props.newprice}</span>
         </div>
         <div className="flex items-center mb-4 text-sm text-gray-500">
             <div className="flex text-yellow-400 mr-2">
@@ -39,7 +41,7 @@ function Desc() {
             <span className="border-l pl-2 font-[Plus_Jakarta_Sans] font-normal text-[18px] leading-[100%] tracking-[0%] text-[#4F5665]">200+ Review | Recommendation 👍</span>
         </div>
         <p className=" text-sm mb-6 leading-relaxed font-[Plus_Jakarta_Sans] font-medium text-[16px] leading-[100%] tracking-[0%] text-[#4F5665]">
-            Cold brewing is a method of brewing that combines ground coffee and cool water and uses time instead of heat to extract the flavor. It is brewed in small batches and steeped for as long as 48 hours.
+            {props.desc}
         </p>
         <div className="flex items-center mb-6">
             <button className="w-8 h-8 border border-[#FF8906] rounded flex items-center justify-center text-gray-600 hover:bg-gray-100">-</button>
@@ -110,23 +112,60 @@ function Prev() {
 }
 
 export default function DetailProduct() {
+  const [dataApi, setData] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  useEffect(() => {
+    async function getData() {
+      try {
+          const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
+          // console.log(api)
+          const { menu } = await api.json()
+          setData(menu)
+          setIsLoading(false);
+      } catch (error) {
+          setError(error.message);
+          setIsLoading(false);
+      }
+    }
+    getData()
+  }, [])
+
+  console.log(id)
+  console.log(dataApi)
+  const product = dataApi.find(item => item.id === Number(id));
+  console.log(product)
+
+  if (!product) {
+    return (
+      <>
+      <Nav bg="bg-black" padding="pb-[100px]" />
+      <h1> Kela keur loding </h1>
+      </>
+  )
+  }
+
+  // const { id } = useParams()
+  // console.log(id)
   return (
     <>
     <Nav bg="bg-black" padding="pb-[100px]" />
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="grid grid-cols-1 my-10 md:grid-cols-2 gap-10">
-      <ProductImage />
+      <ProductImage mainImage={product.image} />
         <div>
-          <Desc />
+          <Desc name={product.name} desc={product.description} oldprice={product.oldPrice} newprice={product.newPrice} />
         </div>
-    </div>
-    <div className="mt-16">
-        <h2 className="md:text-3xl text-xl overflow-hidden font-bold mb-8 font-[Plus_Jakarta_Sans] font-medium text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <DetailProductCard />
-        </div>
-        <Prev />
-    </div>
+      </div>
+      <div className="mt-16">
+          <h2 className="md:text-3xl text-xl overflow-hidden font-bold mb-8 font-[Plus_Jakarta_Sans] font-medium text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <DetailProductCard />
+          </div>
+          <Prev />
+      </div>
     </div>
     <Footer />
     </>

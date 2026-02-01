@@ -1,11 +1,11 @@
 import { FiShoppingCart } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
-import { Link } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import React, { useEffect, useState } from "react";
 
-function ImageCard({children, img}) {
+function ImageCard({children, img, link}) {
     return (
-    <Link to="/detailproduct" className="w-[300px]" >
+    <Link to={`/detailproduct/${link}`} className="w-[300px]" >
         <img src={img} alt="product" className="w-full" />
         {children}
     </Link >)
@@ -124,7 +124,7 @@ function HomeCard() {
         <>
         {dataApi.slice(0, limit).map((item, index) => (
         <main key={item.id ? item.id :index} className="relative flex justify-items-start justify-center justify-self-start self-start flex-col max-w-[300px]">
-            <ImageCard img={item.image} />
+            <ImageCard img={item.image} link={item.id} />
             <CardWrapper>
                 <CardHeader productName={item.name} desc={item.description} />
                 <Rattings />
@@ -159,14 +159,16 @@ function ProductCard() {
         }
         getData()
     }, [])
+    const navigate = useNavigate()
     return (
+    // onClick={() => navigate(`/product/${item.id}`)}
      <>
         {!isLoading && !error && (
         <>
         {dataApi.map((item, index) => (
         <main key={item.id ? item.id :index} className="relative flex flex-col max-w-[300px]">
-            <ImageCard img={item.image} >
-            <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale </span>
+            <ImageCard img={item.image} link={item.id} >
+                <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale { item.id } </span>
             </ImageCard>
             <CardWrapper>
                 <CardHeader productName={item.name} desc={item.description} />
@@ -221,7 +223,7 @@ function DetailProductCard() {
         <>
         {dataApi.map((item, index) => (
         <main key={item.id ? item.id :index} className="relative flex flex-col max-w-[300px]">
-            <ImageCard img={item.image} >
+            <ImageCard img={item.image} link={item.id} >
             <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale </span>
             </ImageCard>
             <CardWrapper>
