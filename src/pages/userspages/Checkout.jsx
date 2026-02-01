@@ -49,7 +49,7 @@ function CheckoutInput({children, value, text, placeholder}) {
 export default function Checkout(){
     return (
         <>
-            <Nav bg="bg-black" />
+            <Nav bg="bg-black" padding="pb-[100px]" />
             <header className="m-10 text-[#0B0909] text-5xl">
                 <h1>Payment Detail</h1>
             </header>
