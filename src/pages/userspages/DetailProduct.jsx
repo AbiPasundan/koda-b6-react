@@ -25,6 +25,11 @@ function ProductImage(props) {
 }
 
 function Desc(props) {
+  const [selectSize, setSelectSize] = useState()
+  const [selectTemp, setSelectTemp] = useState()
+  const [count, setCount] = useState(0)
+  const sizes = ["regular", "medium", "large"]
+  const temps = ["hot", "cold"]
   return (
     <>
       <span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>
@@ -44,23 +49,25 @@ function Desc(props) {
             {props.desc}
         </p>
         <div className="flex items-center mb-6">
-            <button className="w-8 h-8 border border-[#FF8906] rounded flex items-center justify-center text-gray-600 hover:bg-gray-100">-</button>
-            <span className="w-10 text-center font-medium">1</span>
-            <button className="w-8 h-8 bg-[#FF8906] text-white rounded flex items-center justify-center hover:bg-orange-600">+</button>
+            <button onClick={() => (count ? setCount(count-1) : setCount(0) )} className="w-8 h-8 border border-[#FF8906] rounded flex items-center justify-center text-gray-600 hover:bg-gray-100">-</button>
+            <span className="w-10 text-center font-medium">{count}</span>
+            <button onClick={() => (count != 10 ? setCount(count+1) : setCount(10)) } className="w-8 h-8 bg-[#FF8906] text-white rounded flex items-center justify-center hover:bg-orange-600">+</button>
         </div>
         <div className="mb-4">
             <label className="block font-[Plus_Jakarta_Sans] font-bold text-[18px] leading-[100%] tracking-[0%] text-[#0B0909] mb-2">Choose Size</label>
             <div className="grid grid-cols-3 gap-3">
-                <button className="border font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909] border-orange-300  py-2 rounded text-sm font-medium">Regular</button>
-                <button className="border border-gray-200 font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909] text-gray-500 py-2 rounded text-sm hover:border-gray-300">Medium</button>
-                <button className="border font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909] border-gray-200 text-gray-500 py-2 rounded text-sm hover:border-gray-300">Large</button>
+            {sizes.map((size, i) => (
+                <button key={i} onClick={() => setSelectSize(size)} className={`border font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909] ${selectSize === size ? 'border-orange-300' : 'border-black'}  py-2 rounded text-sm font-medium`}>{size}</button>
+            ))}
             </div>
         </div>
         <div className="mb-8">
             <label className="block font-[Plus_Jakarta_Sans] font-bold text-[18px] leading-[100%] tracking-[0%] text-[#0B0909] mb-2 ">Hot/Ice?</label>
             <div className="grid grid-cols-2 gap-3">
-                <button className="border border-orange-300  py-2 rounded text-sm font-medium font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909]">Ice</button>
-                <button className="border border-gray-200 py-2 rounded text-sm font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909] hover:border-gray-300 ">Hot</button>
+              {temps.map((temp, i) => (
+                <button key={i} onClick={() => {setSelectTemp(temp)}} className={`border ${selectTemp === temp ? 'border-orange-300' : 'border-black' }  py-2 rounded text-sm font-medium font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909]`}>{temp}</button>
+              ) )}
+              {/* border-orange-300 */}
             </div>
         </div>
         <div className="flex gap-4">
@@ -147,8 +154,6 @@ export default function DetailProduct() {
   )
   }
 
-  // const { id } = useParams()
-  // console.log(id)
   return (
     <>
     <Nav bg="bg-black" padding="pb-[100px]" />
