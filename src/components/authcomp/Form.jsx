@@ -106,18 +106,34 @@ function FormLogin({children}) {
 				dataApi.forEach(e => {
 					if (data.email === e.email && data.password === e.password) {
 						console.log("bener euy")
-						navigate("/admin", { replace: true });
-					} else if (users) {
-						users.forEach(e => {
-							users.forEach(e => {
-								if (data.email === e.email && data.password === e.password) {
-									console.log("bener euy")
-									navigate("/", { replace: true });
+						const tokenAuthAdmin = {
+							email: e.email,
+							password: e.password,
+						}
+						localStorage.setItem("token_auth_admin", JSON.stringify(tokenAuthAdmin))
+						navigate("/admin", { replace: true, state: {
+							email: e.email,
+							password: e.password,
+							isAdminLogin: true
+						}}) ;
+					}}) 
+					users.forEach(e => {
+							if (users) {
+							if (data.email === e.email && data.password === e.password) {
+								console.log("bener euy")
+								const tokenAuthUser = {
+									email: data.email,
+									password: data.password,
 								}
-							});
-						})
-					}
-				});
+								localStorage.setItem("token_auth_user", JSON.stringify(tokenAuthUser))
+								navigate("/", { replace: true, state: {
+									email: e.email,
+									password: e.password,
+									isUserLogin: true
+								}});
+							}
+						}
+					});
 			}
 		};
 

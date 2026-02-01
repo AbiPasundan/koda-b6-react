@@ -33,8 +33,8 @@ function PropfileComp(props) {
           alt="profile"
           className="rounded-full " />
       </div>
-      <div className="btn text-center w-[200px] h-[38px] rounded-[30px] bg-[#FF8906] flex justify-center justify-self-center" >
-        <button className="text-center">Upload New Photo</button>
+      <div className="btn my-3 mx-auto text-center w-[200px] h-[38px] rounded-[30px] bg-[#FF8906] flex justify-center justify-self-center" >
+        <button className="">Upload New Photo</button>
       </div>
       <span className="font-semibold text-base tracking-normal text-center text-[#4F5665]">
         {props.date}
@@ -57,7 +57,7 @@ function ProfileHeader(props) {
 export default function Profile() {
   return (
     <>
-    <Nav bg="bg-black"/>
+    <Nav padding="pb-[80px]" bg="bg-black"/>
     <main className="flex justify-center my-[10vh]">
       <div className="main-content mx-auto flex flex-col juistify-center overflow-hidden">
           <ProfileHeader titile="Profile" />

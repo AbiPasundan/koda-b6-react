@@ -3,9 +3,24 @@ import { CiCoffeeCup } from "react-icons/ci";
 import { BsPersonFill } from "react-icons/bs";
 import { IoBagOutline } from "react-icons/io5";
 import { CiLogout } from "react-icons/ci";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import { useEffect } from "react";
 
 export default function SidebarAdmin() {
+    const navigate = useNavigate()
+    useEffect(() => {
+        const tokenAuth = localStorage.getItem("token_auth_admin");
+        if (!tokenAuth) {
+          navigate("/login");
+        }
+      }, [navigate]);
+    
+    const onClick = () => {
+        console.log(123)
+        localStorage.removeItem("token_auth_admin");
+        navigate("/")
+    }
+
     return (
         <>
             <aside id="aside" className="fixed top-[70px] md:translate-x-0 -translate-x-full bg-[#ffffff]" >
@@ -31,9 +46,10 @@ export default function SidebarAdmin() {
                     <BsPersonFill />User
                 </Link>
                 </li>
-                <li>
-                <a href="#" >
-                    <CiLogout />Logout</a>
+                <li onClick={onClick}>
+                    <Link href="#" >
+                        <CiLogout />Logout
+                    </Link>
                 </li>
             </ul>
             </aside>

@@ -45,12 +45,12 @@ function Price({children, currentPrice}){
         </div>
     )
 }
-function ButtonCard(){
+function ButtonCard({children, link}){
     return(
         <div className="flex items-center text-center justify-center gap-5">
-            <Link to="/detailproduct" className="w-[70%] bg-[#FF8906] p-1 rounded">Buy</Link>
+            <Link to={`/detailproduct/${link}`} className="w-[70%] bg-[#FF8906] p-1 rounded">Buy</Link>
             <button className="w-[15%] p-1 border flex text-center justify-center rounded-md">
-                <FiShoppingCart size={22} color='#FF8906' />
+                {children}
             </button>
         </div>
     )
@@ -118,6 +118,21 @@ function HomeCard() {
     useEffect(() => {
         getData()
     }, [])
+
+    const takeData = e => {}
+
+    const onClick = e => {
+        const cart = JSON.parse(localStorage.getItem("cart")) || []
+        // console.log(e)
+        cart.push(e)
+        console.log(cart)
+        localStorage.setItem("cart", JSON.stringify(cart));
+        // dataApi.map((item, index) => {
+        //     // console.log(item)
+        //     localStorage.setItem("cart", JSON.stringify(item));
+        // })
+    }
+
     return (
      <>
         {!isLoading && !error && (
@@ -129,7 +144,9 @@ function HomeCard() {
                 <CardHeader productName={item.name} desc={item.description} />
                 <Rattings />
                 <Price currentPrice={item.newPrice} />
-                <ButtonCard />
+                <ButtonCard link={item.id}>
+                    <FiShoppingCart onClick={() => onClick(item) } className="z-10" size={22} color='#FF8906' />
+                </ButtonCard>
             </CardWrapper>
         </main>
         ))}
@@ -161,14 +178,13 @@ function ProductCard() {
     }, [])
     const navigate = useNavigate()
     return (
-    // onClick={() => navigate(`/product/${item.id}`)}
      <>
         {!isLoading && !error && (
         <>
         {dataApi.map((item, index) => (
         <main key={item.id ? item.id :index} className="relative flex flex-col max-w-[300px]">
             <ImageCard img={item.image} link={item.id} >
-                <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale { item.id } </span>
+                <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>
             </ImageCard>
             <CardWrapper>
                 <CardHeader productName={item.name} desc={item.description} />
@@ -176,7 +192,7 @@ function ProductCard() {
                 <Price currentPrice={item.newPrice}>
                     <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
                 </Price>
-                <ButtonCard />
+                <ButtonCard link={item.id} />
             </CardWrapper>
         </main>
         ))}
@@ -232,7 +248,7 @@ function DetailProductCard() {
                 <Price currentPrice={item.newPrice}>
                     <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
                 </Price>
-                <ButtonCard />
+                <ButtonCard link={item.id} />
             </CardWrapper>
         </main>
         ))}
