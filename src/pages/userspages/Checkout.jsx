@@ -2,6 +2,7 @@ import { Nav, Footer } from "@/App"
 import { MdOutlineEmail } from "react-icons/md";
 import { IoPersonOutline } from "react-icons/io5";
 import { HiOutlineLocationMarker } from "react-icons/hi";
+import { useState } from "react";
 function CheckoutProduct({name, newPrice, oldPrice, image}) {
     return (
         <main className="my-5">
@@ -46,6 +47,8 @@ function CheckoutInput({children, value, text, placeholder}) {
 }
 
 export default function Checkout(){
+    const [selectDelivery, setSelectDelivery ] = useState()
+    const options = ['Dine In', 'Door Delivery', 'Pick Up'];
     const cart = JSON.parse(localStorage.getItem("cart")) || []
     // console.log(new Intl.NumberFormat(["ban", "id"]).format(number));
     let totalPrice = 0
@@ -143,11 +146,11 @@ export default function Checkout(){
                     <CheckoutInput value="address" text="Address" placeholder="Enter Your Address">
                         <HiOutlineLocationMarker size="30" />
                     </CheckoutInput>
-                    <label htmlFor="delivery" className="flex flex-col md:flex-row gap-5 justify-between items-center [&>span]:text-center [&>span]:px-10 [&>span]:py-1 [&>span]:border [&>span]:rounded ">
-                        <span className="border-[#FF8906]">Dine In</span>
-                        <span className="border-[#f0f0f0f]">Door Delivery</span>
-                        <span className="border-[#f0f0f0f]">Pick Up</span>
-                    </label>
+                        {options.map(option => (
+                            <div onClick={() => setSelectDelivery(option)} className="flex flex-col md:flex-row gap-5 justify-between items-center [&>span]:text-center [&>span]:px-10 [&>span]:py-1 [&>span]:border [&>span]:rounded ">
+                                <span key={option} className={` cursor-pointer ${selectDelivery === option ? "border-[#FF8906]" : "border-black" }`}>{option}</span>
+                            </div>
+                        ))}
                 </form>
             </section>
             <Footer />
