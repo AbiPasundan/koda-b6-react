@@ -103,13 +103,12 @@ function HomeCard() {
     const [dataApi, setData] = useState([]);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const limit = 4
     async function getData() {
         try {
             const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
-            // console.log(api)
             const { menu } = await api.json()
             setData(menu)
-            // console.log(api)
             setIsLoading(false);
         } catch (error) {
             setError(error.message);
@@ -123,15 +122,13 @@ function HomeCard() {
      <>
         {!isLoading && !error && (
         <>
-        {dataApi.map((item, index) => (
-        <main key={item.id ? item.id :index} className="relative flex items-center justify-center justify-self-center flex-col max-w-[300px]">
+        {dataApi.slice(0, limit).map((item, index) => (
+        <main key={item.id ? item.id :index} className="relative flex justify-items-start justify-center justify-self-start self-start flex-col max-w-[300px]">
             <ImageCard img={item.image} />
             <CardWrapper>
                 <CardHeader productName={item.name} desc={item.description} />
                 <Rattings />
-                <Price currentPrice={item.newPrice}>
-                    <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
-                </Price>
+                <Price currentPrice={item.newPrice} />
                 <ButtonCard />
             </CardWrapper>
         </main>
