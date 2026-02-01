@@ -118,19 +118,12 @@ function HomeCard() {
     useEffect(() => {
         getData()
     }, [])
-
-    const takeData = e => {}
-
+    
     const onClick = e => {
         const cart = JSON.parse(localStorage.getItem("cart")) || []
-        // console.log(e)
         cart.push(e)
         console.log(cart)
         localStorage.setItem("cart", JSON.stringify(cart));
-        // dataApi.map((item, index) => {
-        //     // console.log(item)
-        //     localStorage.setItem("cart", JSON.stringify(item));
-        // })
     }
 
     return (

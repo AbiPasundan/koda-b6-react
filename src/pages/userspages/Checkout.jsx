@@ -2,19 +2,19 @@ import { Nav, Footer } from "@/App"
 import { MdOutlineEmail } from "react-icons/md";
 import { IoPersonOutline } from "react-icons/io5";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-function CheckoutProduct() {
+function CheckoutProduct({name, newPrice, oldPrice, image}) {
     return (
         <main className="my-5">
             <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
                 <div>
-                    <img src="/src/assets/img/userimg/home.png" alt="kopik" width="150" />
+                    <img src={`${image}`} alt="kopik" width="150" />
                 </div>
                 <div className="flex flex-col gap-3 w-[70%]">
                     <div>
                         <span className="bg-[#D00000] rounded-full text-[#FFFFFF] p-1">Flash Sale</span>
                     </div>
                     <div>
-                        <h2 className="text-[#0B0909] font-bold">Hazelnut Latte</h2>
+                        <h2 className="text-[#0B0909] font-bold">{name}</h2>
                     </div>
                     <div className="text-[#4F5665]">
                         <span>2pcs | </span>
@@ -22,12 +22,12 @@ function CheckoutProduct() {
                         <span>Ice | </span>
                         <span>Dine in </span>
                     </div>
-                    <div className="flex items-center gap-1">
-                        <span className="text-[#D00000] line-through text-[12px]">Idr 10.000</span>
-                        <span className="text-[#FF8906] text-[22px]">Idr 20.000</span>
+                    <div className="flex items-center flex-wrap gap-1">
+                        <span className="text-[#D00000] line-through text-[8px]">{oldPrice}</span>
+                        <span className="text-[#FF8906] text-[18px]">{newPrice}</span>
                     </div>
                 </div>
-                <div className="my-auto">X</div>
+                <div className="my-auto -mx-5 md:mx-10">X</div>
             </div>
         </main>
     )
@@ -38,7 +38,6 @@ function CheckoutInput({children, value, text, placeholder}) {
         <label htmlFor={value} className="w-full [&>span]:w-full [&>div]:w-full [&>div>input]:w-full">
             <span>{text}</span>
             <div className="flex items-center p-3 border">
-                {/* <MdOutlineEmail size="30" /> */}
                 {children}
                 <input className="mx-5 outline-none" type={value} name={value} id={value} placeholder={placeholder} />
             </div>
@@ -47,6 +46,14 @@ function CheckoutInput({children, value, text, placeholder}) {
 }
 
 export default function Checkout(){
+    const cart = JSON.parse(localStorage.getItem("cart")) || []
+    console.log(cart)
+    // console.log(new Intl.NumberFormat(["ban", "id"]).format(number));
+    let totalPrice = 0
+    cart.forEach(item => {
+        totalPrice += item.newPrice;
+    });
+    console.log(totalPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',}))
     return (
         <>
             <Nav bg="bg-black" padding="pb-[100px]" />
@@ -56,24 +63,26 @@ export default function Checkout(){
             <main className="flex flex-col">
                 <section className="flex flex-col">
                     <div className="flex flex-col md:flex-row justify-center gap-10">
-                        <section className="md:w-[50%] w-[80%] mx-auto ">
-                            <header className="flex items-center justify-between">
-                                <h4 className="text-xl">Your Order</h4>
-                                <h4 className="bg-[#FF8906] p-2 rounded-xl"> + Add Menu</h4>
-                            </header>
-                            <CheckoutProduct />
-                            <CheckoutProduct />
-                            <CheckoutProduct />
-                        </section>
+                        
+                            <section className="md:w-[50%] w-[80%] mx-auto ">
+                                <header className="flex items-center justify-between">
+                                    <h4 className="text-xl">Your Order</h4>
+                                    <h4 className="bg-[#FF8906] p-2 rounded-xl"> + Add Menu</h4>
+                                </header>
+                                {cart.map((data, i) => (
+                                    <div key={data.id ?? i} >
+                                        <CheckoutProduct name={data.name} image={data.image} oldPrice={data.oldPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} newPrice={data.newPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} />
+                                    </div>
+                                ))}
+                            </section>
                         <table className="my-5 md:w-[40%] w-[80%] mx-auto">
-                            {/* <h1 className="my-auto">Total</h1> */}
                             <thead>
                                 <tr><td>Total</td></tr>
                             </thead>
                             <tbody className="[&>tr]:bg-[#F5F5F5] [&>tr]:flex [&>tr]:justify-between [&>tr]:w-full [&>tr]:py-5 [&>tr>td]:mx-5 [&>tr>span]:mx-5">
                                 <tr>
                                     <td>Order</td>
-                                    <td>Idr 40.000</td>
+                                    <td>{totalPrice}</td>
                                 </tr>
                                 <tr>
                                     <td>Delivery</td>
