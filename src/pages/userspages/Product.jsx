@@ -1,11 +1,12 @@
 import Nav from '/src/components/usercomp/Nav'
 import Footer from '/src/components/usercomp/Footer'
-import { ProductCard, Rattings } from '@/components/usercomp/Card';
+import { ProductCard } from '@/components/usercomp/Card';
 
 import { PiSlidersHorizontalBold } from "react-icons/pi";
 import { IoMdSearch } from "react-icons/io";
 
 import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
+import MenuList from '@/test/TestCard';
 
 
 function ProductHero() {
@@ -34,6 +35,7 @@ function MobileFilter() {
 
 function ProductCarouselComp({img, title, text, bg = "bg-[#88B788]" }){
     return (
+        <>
         <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-[400px]`}>
             <div className='w-[30%]'>
                 <img src={img} alt="avatar" />
@@ -44,6 +46,28 @@ function ProductCarouselComp({img, title, text, bg = "bg-[#88B788]" }){
                 <span>klaim kupon</span>
             </div>
         </section>
+        <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-[400px]`}>
+            <div className='w-[30%]'>
+                <img src={img} alt="avatar" />
+            </div>
+            <div className='flex flex-col [&>p]:my-2 w-[70%] nowrap '>
+                <h2 className='font-bold'>{title}</h2>
+                <p className='font-normal'> {text} </p>
+                <span>klaim kupon</span>
+            </div>
+        </section>
+        <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-[400px]`}>
+            <div className='w-[30%]'>
+                <img src={img} alt="avatar" />
+            </div>
+            <div className='flex flex-col [&>p]:my-2 w-[70%] nowrap '>
+                <h2 className='font-bold'>{title}</h2>
+                <p className='font-normal'> {text} </p>
+                <span>klaim kupon</span>
+            </div>
+        </section>
+        </>
+
     )
 }
 
@@ -65,14 +89,6 @@ function ProductCarousel() {
                     <ProductCarouselComp bg="bg-[#F5C361]" img="/src/assets/img/userimg/man.png" title="Get a cup of coffee for free on sunday morning" text="Only at 7 to 9 AM" />
                 </div>
             </main>
-        </>
-    )
-}
-
-function ProductLists() {
-    return (
-        <>
-            <ProductCard />
         </>
     )
 }
@@ -120,7 +136,7 @@ function MainProductFilter() {
         <div className='flex flex-wrap gap-3'>
             <ProductFilter />
             <div className='flex flex-row flex-wrap gap-3 flex-1 justify-center'>
-                <ProductLists />
+                <ProductCard />
             </div>
         </div>
         <section className='flex flex-row justify-center items-center gap-5 my-10 [&>span]:py-[3px] [&>span]:px-[10px] [&>span]:bg-[#FF8906] [&>span]:rounded-full '>

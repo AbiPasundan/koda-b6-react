@@ -5,11 +5,10 @@ import React, { useEffect, useState } from "react";
 
 function ImageCard({children, img}) {
     return (
-    <Link to="/detailproduct">
-        <img src={img} width='300px' alt="product" />
+    <Link to="/detailproduct" className="w-[300px]" >
+        <img src={img} alt="product" className="w-full" />
         {children}
     </Link >)
-    // "/src/assets/img/userimg/home.png"
 }
 
 function CardHeader({productName, desc}){
@@ -125,14 +124,13 @@ function HomeCard() {
         {!isLoading && !error && (
         <main className="relative flex flex-col max-w-[300px]">
         {dataApi.map((item, index) => (
-            <React.Fragment key={item.id ?? index}>
-                <ImageCard img={item.image} />
-                <CardWrapper>
-                    <CardHeader productName={item.name} desc={item.description} />
-                    <Price currentPrice={item.newPrice} />
-                    <ButtonCard />
-                </CardWrapper>
-            </React.Fragment>
+            <div key={item.id ?? index}>
+            <div class="card">
+                <div class="image">
+                    <img src="./../img/coffee/7.png" alt="kopi" />
+                </div>
+            </div>
+            </div>
         ))}
         </main>
         )}
@@ -161,27 +159,27 @@ function ProductCard() {
         getData()
     }, [])
     return (
-     <main className="relative flex flex-col max-w-[300px]">
+     <>
         {!isLoading && !error && (
         <>
         {dataApi.map((item, index) => (
-        <>
-        <ImageCard img={item.image} >
-        <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>
-        </ImageCard>
-        <CardWrapper>
-            <CardHeader productName={item.name} desc={item.description} />
-            <Rattings />
-            <Price currentPrice={item.newPrice}>
-                <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
-            </Price>
-            <ButtonCard />
-        </CardWrapper>
-        </>
+        <main key={item.id ? item.id :index} className="relative flex flex-col max-w-[300px]">
+            <ImageCard img={item.image} >
+            <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale </span>
+            </ImageCard>
+            <CardWrapper>
+                <CardHeader productName={item.name} desc={item.description} />
+                <Rattings />
+                <Price currentPrice={item.newPrice}>
+                    <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
+                </Price>
+                <ButtonCard />
+            </CardWrapper>
+        </main>
         ))}
         </>
         )}
-     </main>
+     </>
     )
 }
 
