@@ -6,7 +6,6 @@ import { PiSlidersHorizontalBold } from "react-icons/pi";
 import { IoMdSearch } from "react-icons/io";
 
 import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
-import MenuList from '@/test/TestCard';
 
 
 function ProductHero() {

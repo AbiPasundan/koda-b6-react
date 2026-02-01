@@ -122,17 +122,21 @@ function HomeCard() {
     return (
      <>
         {!isLoading && !error && (
-        <main className="relative flex flex-col max-w-[300px]">
+        <>
         {dataApi.map((item, index) => (
-            <div key={item.id ?? index}>
-            <div class="card">
-                <div class="image">
-                    <img src="./../img/coffee/7.png" alt="kopi" />
-                </div>
-            </div>
-            </div>
-        ))}
+        <main key={item.id ? item.id :index} className="relative flex items-center justify-center justify-self-center flex-col max-w-[300px]">
+            <ImageCard img={item.image} />
+            <CardWrapper>
+                <CardHeader productName={item.name} desc={item.description} />
+                <Rattings />
+                <Price currentPrice={item.newPrice}>
+                    <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
+                </Price>
+                <ButtonCard />
+            </CardWrapper>
         </main>
+        ))}
+        </>
         )}
      </>
     )
