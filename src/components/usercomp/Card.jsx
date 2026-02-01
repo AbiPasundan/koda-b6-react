@@ -169,7 +169,11 @@ function ProductCard() {
         }
         getData()
     }, [])
-    const navigate = useNavigate()
+    const onClick = e => {
+        const cart = JSON.parse(localStorage.getItem("cart")) || []
+        cart.push(e)
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
     return (
      <>
         {!isLoading && !error && (
@@ -185,7 +189,9 @@ function ProductCard() {
                 <Price currentPrice={item.newPrice}>
                     <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
                 </Price>
-                <ButtonCard link={item.id} />
+                <ButtonCard link={item.id}>
+                    <FiShoppingCart onClick={() => onClick(item) } className="z-10" size={22} color='#FF8906' />
+                </ButtonCard>
             </CardWrapper>
         </main>
         ))}
@@ -195,6 +201,12 @@ function ProductCard() {
     )
 }
 function DetailProductCard() {
+    const onClick = e => {
+        const cart = JSON.parse(localStorage.getItem("cart")) || []
+        cart.push(e)
+        console.log(cart)
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
     const [dataApi, setData] = useState([]);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -241,7 +253,9 @@ function DetailProductCard() {
                 <Price currentPrice={item.newPrice}>
                     <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
                 </Price>
-                <ButtonCard link={item.id} />
+                <ButtonCard link={item.id}>
+                    <FiShoppingCart onClick={() => onClick(item) } className="z-10" size={22} color='#FF8906' />
+                </ButtonCard>
             </CardWrapper>
         </main>
         ))}

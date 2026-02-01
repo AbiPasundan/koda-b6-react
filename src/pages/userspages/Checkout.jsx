@@ -47,13 +47,17 @@ function CheckoutInput({children, value, text, placeholder}) {
 
 export default function Checkout(){
     const cart = JSON.parse(localStorage.getItem("cart")) || []
-    console.log(cart)
     // console.log(new Intl.NumberFormat(["ban", "id"]).format(number));
     let totalPrice = 0
     cart.forEach(item => {
         totalPrice += item.newPrice;
     });
-    console.log(totalPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',}))
+    let totalTax = 0
+    cart.forEach(item => {
+        totalTax += item.tax;
+    });
+    const total = (totalTax + totalPrice).toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})
+    // console.log(totalTax.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',}))
     return (
         <>
             <Nav bg="bg-black" padding="pb-[100px]" />
@@ -70,7 +74,7 @@ export default function Checkout(){
                                     <h4 className="bg-[#FF8906] p-2 rounded-xl"> + Add Menu</h4>
                                 </header>
                                 {cart.map((data, i) => (
-                                    <div key={data.id ?? i} >
+                                    <div key={data.id} >
                                         <CheckoutProduct name={data.name} image={data.image} oldPrice={data.oldPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} newPrice={data.newPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} />
                                     </div>
                                 ))}
@@ -82,7 +86,7 @@ export default function Checkout(){
                             <tbody className="[&>tr]:bg-[#F5F5F5] [&>tr]:flex [&>tr]:justify-between [&>tr]:w-full [&>tr]:py-5 [&>tr>td]:mx-5 [&>tr>span]:mx-5">
                                 <tr>
                                     <td>Order</td>
-                                    <td>{totalPrice}</td>
+                                    <td>{totalPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})}</td>
                                 </tr>
                                 <tr>
                                     <td>Delivery</td>
@@ -90,11 +94,11 @@ export default function Checkout(){
                                 </tr>
                                 <tr>
                                     <td>Tax</td>
-                                    <td>4000</td>
+                                    <td>{totalTax.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})}</td>
                                 </tr>
                                 <tr className="border-t-1 pt-2">
                                     <td>Sub Total</td>
-                                    <td>44.000</td>
+                                    <td>{total}</td>
                                 </tr>
                                 <tr className="text-center ">
                                     <td className="text-center bg-[#FF8906] w-full py-2 rounded">Submit</td>
