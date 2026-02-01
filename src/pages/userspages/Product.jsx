@@ -106,23 +106,49 @@ function ProductFilter() {
                     <input type="text" name="search" id="search" className='outline-none' placeholder='Search Your Product'/>
                 </label>
             </div>
-            <div className='flex flex-col gap-10 [&>ul>h4]:text-[18px] [&>ul>h4]:font-bold '>
-                <ul className='flex flex-col gap-2'>
+            <div className='flex flex-col gap-10 [&>ul>h4]:text-[18px] [&>form>h4]:font-bold [&>form>label>input]:mr-5 [&>form>label>input]:accent-[#FF8906] '>
+                <form className='flex flex-col gap-2'>
                     <h4>Category</h4>
-                    <li>Favorit Product</li>
-                    <li>Non Coffe</li>
-                    <li>Coffe</li>
-                    <li>Foods</li>
-                    <li>Add On</li>
-                </ul>
-                <ul className='flex flex-col gap-2'>
+                    <label htmlFor="favorit">
+                        <input type="checkbox" name="favorit" id="favorit" />
+                        <span>Favorit Product</span>
+                    </label>
+                    <label htmlFor="noncoffe">
+                        <input type="checkbox" name="noncoffe" id="noncoffe" />
+                        <span>Non Coffe</span>
+                    </label>
+                    <label htmlFor="coffee">
+                        <input type="checkbox" checked name="coffee" id="coffee" />
+                        <span>Coffe</span>
+                    </label>
+                    <label htmlFor="foods">
+                        <input type="checkbox" name="foods" id="foods" />
+                        <span>Foods</span>
+                    </label>
+                    <label htmlFor="addon">
+                        <input type="checkbox" name="addon" id="addon" />
+                        <span>Add On</span>
+                    </label>
+                </form>
+                <form className='flex flex-col gap-2'>
                     <h4>Sort By</h4>
-                    <li>Favorit Product</li>
-                    <li>Non Coffe</li>
-                    <li>Coffe</li>
-                    <li>Foods</li>
-                    <li>Add On</li>
-                </ul>
+                    <label htmlFor="freeone">
+                        <input type="checkbox" name="freeone" id="freeone" />
+                        <span>Buy1 get1</span>
+                    </label>
+                    <label htmlFor="flashsale">
+                        <input type="checkbox" checked name="flashsale" id="flashsale" />
+                        <span>Flash Sale</span>
+                    </label>
+                    <label htmlFor="birthday">
+                        <input type="checkbox" name="birthday" id="birthday" />
+                        <span>BirthDay Package</span>
+                    </label>
+                    <label htmlFor="cheap">
+                        <input type="checkbox" name="cheap" id="cheap" />
+                        <span>Cheap</span>
+                    </label>
+                </form>
             </div>
         </section>
     </>
