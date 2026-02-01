@@ -5,7 +5,7 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 function CheckoutProduct() {
     return (
         <main className="my-5">
-            <div className="flex justify-between justify-self-center gap-5 p-3 bg-sky-700">
+            <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
                 <div>
                     <img src="/src/assets/img/userimg/home.png" alt="kopik" width="150" />
                 </div>
@@ -53,49 +53,74 @@ export default function Checkout(){
             <header className="m-10 text-[#0B0909] text-5xl">
                 <h1>Payment Detail</h1>
             </header>
-            <main>
+            <main className="flex flex-col">
                 <section className="flex flex-col">
-                    <div className="flex justify-center gap-10">
-                        <section className="w-[50%] bg-sky-100">
+                    <div className="flex flex-col md:flex-row justify-center gap-10">
+                        <section className="md:w-[50%] w-[80%] mx-auto ">
                             <header className="flex items-center justify-between">
-                                <h4>Your Order</h4>
+                                <h4 className="text-xl">Your Order</h4>
                                 <h4 className="bg-[#FF8906] p-2 rounded-xl"> + Add Menu</h4>
                             </header>
                             <CheckoutProduct />
                             <CheckoutProduct />
                             <CheckoutProduct />
                         </section>
-                        <table className="my-5 bg-green-100 w-[40%]">
+                        <table className="my-5 md:w-[40%] w-[80%] mx-auto">
                             {/* <h1 className="my-auto">Total</h1> */}
-                            <tr><h1>hallow</h1></tr>
-                            <tbody className="[&>tr]:bg-red-100 [&>tr]:flex [&>tr]:justify-between [&>tr]:w-full [&>tr]:py-5 [&>tr>td]:mx-5 [&>tr>span]:mx-5">
+                            <thead>
+                                <tr><td>Total</td></tr>
+                            </thead>
+                            <tbody className="[&>tr]:bg-[#F5F5F5] [&>tr]:flex [&>tr]:justify-between [&>tr]:w-full [&>tr]:py-5 [&>tr>td]:mx-5 [&>tr>span]:mx-5">
                                 <tr>
-                                    <span>Order</span>
+                                    <td>Order</td>
                                     <td>Idr 40.000</td>
                                 </tr>
                                 <tr>
-                                    <span>Delivery</span>
+                                    <td>Delivery</td>
                                     <td>Idr 0</td>
                                 </tr>
                                 <tr>
-                                    <span>Tax</span>
+                                    <td>Tax</td>
                                     <td>4000</td>
                                 </tr>
                                 <tr className="border-t-1 pt-2">
-                                    <span>Sub Total</span>
+                                    <td>Sub Total</td>
                                     <td>44.000</td>
                                 </tr>
-                                <tr className="text-center bg-green-100">
-                                    <span className="text-center bg-green-100 w-full py-2 rounded">Submit</span>
+                                <tr className="text-center ">
+                                    <td className="text-center bg-[#FF8906] w-full py-2 rounded">Submit</td>
+                                </tr>
+                                <tr className="text-center ">
+                                    <td className="text-center vetical-center w-full py-2 rounded">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/BANK_BRI_logo_%28vertical%29.svg/120px-BANK_BRI_logo_%28vertical%29.svg.png" alt="bri" />
+                                    </td>
+                                    <td className="text-center vetical-center w-full py-2 rounded">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/960px-Logo_dana_blue.svg.png?20200124191307" alt="dana" />
+                                    </td>
+                                    <td className="text-center vetical-center w-full py-2 rounded">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/960px-Bank_Central_Asia.svg.png?20200318082802" alt="bca" />
+                                    </td>
+                                    <td className="text-center vetical-center w-full py-2 rounded">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/120px-Gopay_logo.svg.png?20251006142655" alt="gopay" />
+                                    </td>
+                                    <td className="text-center vetical-center w-full py-2 rounded">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/960px-Logo_ovo_purple.svg.png?20210603100330" alt="ovo" />
+                                    </td>
+                                    <td className="text-center vetical-center w-full py-2 rounded">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/250px-PayPal.svg.png?20241230110020" alt="paypal" />
+                                    </td>
+                                </tr>
+                                <tr className="text-center ">
+                                    <td className="text-center w-full py-2 rounded">Get discount if you pay with bank central asia</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </section>
             </main>
-            <section className="m-10 w-[50%]">
+            <section className="m-10 w-[50%] mx-auto md:mx-10">
                 <h1>Payment info & Delivery</h1>
-                <form className="w-full my-5 flex flex-col gap-5">
+                <form className="w-full my-5  flex flex-col gap-5">
                     <CheckoutInput value="email" text="Email" placeholder="Enter Your Email">
                         <MdOutlineEmail size="30" />
                     </CheckoutInput>
@@ -105,10 +130,10 @@ export default function Checkout(){
                     <CheckoutInput value="address" text="Address" placeholder="Enter Your Address">
                         <HiOutlineLocationMarker size="30" />
                     </CheckoutInput>
-                    <label htmlFor="delivery" className="flex gap-5 justify-between items-center [&>span]:text-center [&>span]:bg-red-100 [&>span]:px-10 [&>span]:py-1 [&>span]:border [&>span]:rounded ">
-                        <span>Dine In</span>
-                        <span>Door Delivery</span>
-                        <span>Pick Up</span>
+                    <label htmlFor="delivery" className="flex flex-col md:flex-row gap-5 justify-between items-center [&>span]:text-center [&>span]:px-10 [&>span]:py-1 [&>span]:border [&>span]:rounded ">
+                        <span className="border-[#FF8906]">Dine In</span>
+                        <span className="border-[#f0f0f0f]">Door Delivery</span>
+                        <span className="border-[#f0f0f0f]">Pick Up</span>
                     </label>
                 </form>
             </section>
