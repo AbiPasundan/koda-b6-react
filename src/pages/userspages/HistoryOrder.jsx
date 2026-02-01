@@ -98,9 +98,11 @@ export default function HistoryOrder(){
                             If you unable to find answer or find your product quickly, please describe your problem and tell us. We will give you solution.
                         </p>
 
+                            <a href="https://wa.me/6287753518802" target="_blank">
                         <button class="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg shadow-md hover:bg-orange-600 transition duration-200">
-                            Send Message
+                                Send Message
                         </button>
+                            </a>
                     </div>
                 </div>
             </div>
