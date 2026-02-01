@@ -183,5 +183,61 @@ function ProductCard() {
      </>
     )
 }
+function DetailProductCard() {
+    const [dataApi, setData] = useState([]);
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const limit = 3
+    useEffect(() => {
+        async function getData() {
+            try {
+                const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
+                console.log(api)
+                const { menu } = await api.json()
+                // setData(menu)
+                // console.log(menu.sort().reverse())
+                const menuName = []
+                menu.forEach(e => {
+                    // console.log(e.name)
+                    menuName.push(e.name)
+                });
+                // console.log(menuName.sort(() => 0.5 - Math.random()).slice(0, 4))
+                setIsLoading(false);
+                // const shuffled = menu.sort(() => 0.5 - Math.random());
+                // const limited = shuffled.slice(0, limit);
+                const result = menu.sort(() => 0.5 - Math.random()).slice(0, 3)
+                // console.log(result)
+                setData(result)
+            } catch (error) {
+                setError(error.message);
+                setIsLoading(false);
+            }
+        }
+        getData()
+    }, [])
+    return (
+     <>
+        {!isLoading && !error && (
+        <>
+        {dataApi.map((item, index) => (
+        <main key={item.id ? item.id :index} className="relative flex flex-col max-w-[300px]">
+            <ImageCard img={item.image} >
+            <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale </span>
+            </ImageCard>
+            <CardWrapper>
+                <CardHeader productName={item.name} desc={item.description} />
+                <Rattings />
+                <Price currentPrice={item.newPrice}>
+                    <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
+                </Price>
+                <ButtonCard />
+            </CardWrapper>
+        </main>
+        ))}
+        </>
+        )}
+     </>
+    )
+}
 
-export {Card, HomeCard, Rattings, ProductCard}
+export {Card, HomeCard, Rattings, ProductCard, DetailProductCard}
