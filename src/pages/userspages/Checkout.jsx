@@ -51,9 +51,16 @@ function CheckoutInput({children, value, text, placeholder, registerInput}) {
 export default function Checkout(){
     const navigate = useNavigate()
     const [selectDelivery, setSelectDelivery ] = useState()
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm()
+
     const options = ['Dine In', 'Door Delivery', 'Pick Up'];
     const cart = JSON.parse(localStorage.getItem("cart")) || []
-    // console.log(new Intl.NumberFormat(["ban", "id"]).format(number));
+
     let totalPrice = 0
     cart.forEach(item => {
         totalPrice += item.newPrice;
@@ -63,13 +70,21 @@ export default function Checkout(){
         totalTax += item.tax;
     });
     const total = (totalTax + totalPrice).toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})
-    // console.log(totalTax.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',}))
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-    } = useForm()
+    
+    function generateNoOrder(){
+        const date = Date.now()
+        const year = new Date(date).getFullYear();
+        const month = new Date(date).getMonth();
+        const hour = new Date(date).getHours()
+        const second = new Date(date).getSeconds()
+        const ml = new Date(date).getMilliseconds()
+        const monthyear = (String(month)+String(year))
+        const id = (String(hour)+String(second)+String(ml))
+
+        const uniqueId = String(`${monthyear}-${id}`)
+        return uniqueId
+    }
+    console.log(generateNoOrder())
 
 
     const onClick = e => {
@@ -80,13 +95,12 @@ export default function Checkout(){
         console.log(date)
         const localData = JSON.parse(localStorage.getItem("orders")) || []
         const tokenAuthUser = JSON.parse(localStorage.getItem("token_auth_user")) || null
-        console.log(localData)
         if (tokenAuthUser === null) {
             navigate("/login")
         } else {
             const dataOrder = {
-                no: 12345,
-                date: new Date,
+                no: generateNoOrder(),
+                date: date.toLocaleDateString(),
                 total: total,
                 status: "done",
                 detail:
@@ -99,8 +113,6 @@ export default function Checkout(){
                     delivery: data.delivery,
                 }
             }
-            // localStorage.setItem("orders", JSON.stringify(dataOrder))
-            // const localData = JSON.parse(localStorage.getItem("orders")) || []
             localData.push(dataOrder)
             localStorage.setItem("orders", JSON.stringify(localData))
             localStorage.removeItem("cart")
@@ -108,14 +120,6 @@ export default function Checkout(){
         }
         // navigate("/login")
     }
-    // if (cart.length === 0) {
-    // return (
-    //     <>
-    //     <Nav bg="bg-black" padding="pb-[100px]" />
-    //     <h1> Kela keur loding </h1>
-    //     </>
-    // )
-    // }
     return (
         <>
             <Nav bg="bg-black" padding="pb-[100px]" />

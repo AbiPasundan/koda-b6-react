@@ -128,23 +128,40 @@ function HomeCard() {
 
     return (
      <>
-        {!isLoading && !error && (
-        <>
-        {dataApi.slice(0, limit).map((item, index) => (
-        <main key={item.id ? item.id :index} className="relative flex justify-items-start justify-center justify-self-start self-start flex-col max-w-[300px]">
-            <ImageCard img={item.image} link={item.id} />
-            <CardWrapper>
-                <CardHeader productName={item.name} desc={item.description} />
-                <Rattings />
-                <Price currentPrice={item.newPrice} />
-                <ButtonCard link={item.id}>
-                    <FiShoppingCart onClick={() => onClick(item) } className="z-10" size={22} color='#FF8906' />
-                </ButtonCard>
-            </CardWrapper>
-        </main>
-        ))}
-        </>
+        {dataApi.length === 0 ?
+        (
+            <>
+            <main className="my-5">
+                <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
+                    <h1>Loading</h1>
+                </div>
+            </main>
+            </>
+        )
+        :
+        (
+            <>
+            {!isLoading && !error && (
+            <>
+            {dataApi.slice(0, limit).map((item, index) => (
+                <main key={item.id ? item.id :index} className="relative flex justify-items-start justify-center justify-self-start self-start flex-col max-w-[300px]">
+                    <ImageCard img={item.image} link={item.id} />
+                    <CardWrapper>
+                        <CardHeader productName={item.name} desc={item.description} />
+                        <Rattings />
+                        <Price currentPrice={item.newPrice} />
+                        <ButtonCard link={item.id}>
+                            <FiShoppingCart onClick={() => onClick(item) } className="z-10" size={22} color='#FF8906' />
+                        </ButtonCard>
+                    </CardWrapper>
+                </main>
+            ))}
+            </>
         )}
+            </>
+        )
+        }
+        
      </>
     )
 }
@@ -176,27 +193,42 @@ function ProductCard() {
     }
     return (
      <>
-        {!isLoading && !error && (
-        <>
-        {dataApi.map((item, index) => (
-        <main key={item.id ? item.id :index} className="relative flex flex-col max-w-[300px]">
-            <ImageCard img={item.image} link={item.id} >
-                <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>
-            </ImageCard>
-            <CardWrapper>
-                <CardHeader productName={item.name} desc={item.description} />
-                <Rattings />
-                <Price currentPrice={item.newPrice}>
-                    <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
-                </Price>
-                <ButtonCard link={item.id}>
-                    <FiShoppingCart onClick={() => onClick(item) } className="z-10" size={22} color='#FF8906' />
-                </ButtonCard>
-            </CardWrapper>
-        </main>
-        ))}
-        </>
-        )}
+        {dataApi.length == 0 ? 
+        (
+            <main className="my-5">
+                <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
+                    <h1>Loading</h1>
+                </div>
+            </main>
+        )
+        :
+        (
+            <>
+            {!isLoading && !error && (
+            <>
+            {dataApi.map((item, index) => (
+            <main key={item.id ? item.id :index} className="relative flex flex-col max-w-[300px]">
+                <ImageCard img={item.image} link={item.id} >
+                    <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>
+                </ImageCard>
+                <CardWrapper>
+                    <CardHeader productName={item.name} desc={item.description} />
+                    <Rattings />
+                    <Price currentPrice={item.newPrice}>
+                        <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
+                    </Price>
+                    <ButtonCard link={item.id}>
+                        <FiShoppingCart onClick={() => onClick(item) } className="z-10" size={22} color='#FF8906' />
+                    </ButtonCard>
+                </CardWrapper>
+            </main>
+            ))}
+            </>
+            )}
+            </>
+        )
+        }
+            
      </>
     )
 }
