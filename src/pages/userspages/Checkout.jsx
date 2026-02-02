@@ -3,6 +3,8 @@ import { MdOutlineEmail } from "react-icons/md";
 import { IoPersonOutline } from "react-icons/io5";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
 function CheckoutProduct({name, newPrice, oldPrice, image}) {
     return (
         <main className="my-5">
@@ -34,19 +36,20 @@ function CheckoutProduct({name, newPrice, oldPrice, image}) {
     )
 }
 
-function CheckoutInput({children, value, text, placeholder}) {
+function CheckoutInput({children, value, text, placeholder, registerInput}) {
     return (
         <label htmlFor={value} className="w-full [&>span]:w-full [&>div]:w-full [&>div>input]:w-full">
             <span>{text}</span>
             <div className="flex items-center p-3 border">
                 {children}
-                <input className="mx-5 outline-none" type={value} name={value} id={value} placeholder={placeholder} />
+                <input {...registerInput} className="mx-5 outline-none" type={value} name={value} id={value} placeholder={placeholder} />
             </div>
         </label>
     )
 }
 
 export default function Checkout(){
+    const navigate = useNavigate()
     const [selectDelivery, setSelectDelivery ] = useState()
     const options = ['Dine In', 'Door Delivery', 'Pick Up'];
     const cart = JSON.parse(localStorage.getItem("cart")) || []
@@ -61,6 +64,47 @@ export default function Checkout(){
     });
     const total = (totalTax + totalPrice).toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})
     // console.log(totalTax.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',}))
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm()
+
+
+    const onClick = e => {
+        console.log(123)
+    }
+    const onSubmit = data => {
+        const date = new Date
+        console.log(date)
+        const localData = JSON.parse(localStorage.getItem("orders")) || []
+        const tokenAuthUser = JSON.parse(localStorage.getItem("token_auth_user")) || null
+        console.log(localData)
+        if (tokenAuthUser === null) {
+            navigate("/login")
+        } else {
+            const dataOrder = {
+                no: 12345,
+                date: new Date,
+                total: total,
+                status: "done",
+                detail:
+                {
+                    name: data.name,
+                    email: data.email,
+                    address: data.address,
+                    phone: 628123456789,
+                    payment: "Cash",
+                    delivery: data.delivery,
+                }
+            }
+            localStorage.setItem("orders", JSON.stringify(dataOrder))
+            localStorage.removeItem("cart")
+            navigate("/detailorder", dataOrder)
+        }
+        // navigate("/login")
+    }
     return (
         <>
             <Nav bg="bg-black" padding="pb-[100px]" />
@@ -70,18 +114,17 @@ export default function Checkout(){
             <main className="flex flex-col">
                 <section className="flex flex-col">
                     <div className="flex flex-col md:flex-row justify-center gap-10">
-                        
-                            <section className="md:w-[50%] w-[80%] mx-auto ">
-                                <header className="flex items-center justify-between">
-                                    <h4 className="text-xl">Your Order</h4>
-                                    <h4 className="bg-[#FF8906] p-2 rounded-xl"> + Add Menu</h4>
-                                </header>
-                                {cart.map((data, i) => (
-                                    <div key={data.id} >
-                                        <CheckoutProduct name={data.name} image={data.image} oldPrice={data.oldPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} newPrice={data.newPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} />
-                                    </div>
-                                ))}
-                            </section>
+                        <section className="md:w-[50%] w-[80%] mx-auto ">
+                            <header className="flex items-center justify-between">
+                                <h4 className="text-xl">Your Order</h4>
+                                <Link to="/product" className="bg-[#FF8906] p-2 rounded-xl"> + Add Menu</Link>
+                            </header>
+                            {cart.map((data, i) => (
+                                <div key={data.id} >
+                                    <CheckoutProduct name={data.name} image={data.image} oldPrice={data.oldPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} newPrice={data.newPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} />
+                                </div>
+                            ))}
+                        </section>
                         <table className="my-5 md:w-[40%] w-[80%] mx-auto">
                             <thead>
                                 <tr><td>Total</td></tr>
@@ -104,7 +147,7 @@ export default function Checkout(){
                                     <td>{total}</td>
                                 </tr>
                                 <tr className="text-center ">
-                                    <td className="text-center bg-[#FF8906] w-full py-2 rounded">Submit</td>
+                                    <td onClick={() => onClick()} className="text-center bg-[#FF8906] w-full py-2 rounded cursor-pointer">Submit</td>
                                 </tr>
                                 <tr className="text-center ">
                                     <td className="text-center vetical-center w-full py-2 rounded">
@@ -136,21 +179,24 @@ export default function Checkout(){
             </main>
             <section className="m-10 w-[50%] mx-auto md:mx-10">
                 <h1>Payment info & Delivery</h1>
-                <form className="w-full my-5  flex flex-col gap-5">
-                    <CheckoutInput value="email" text="Email" placeholder="Enter Your Email">
+                <form className="w-full my-5  flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
+                    <CheckoutInput value="email" text="Email" placeholder="Enter Your Email" registerInput={register("email")} >
                         <MdOutlineEmail size="30" />
                     </CheckoutInput>
-                    <CheckoutInput value="name" text="Full Name" placeholder="Enter Your Full Name">
+                    <CheckoutInput value="name" text="Full Name" placeholder="Enter Your Full Name" registerInput={register("name")}>
                         <IoPersonOutline size="30" />
                     </CheckoutInput>
-                    <CheckoutInput value="address" text="Address" placeholder="Enter Your Address">
+                    <CheckoutInput value="address" text="Address" placeholder="Enter Your Address" registerInput={register("address")}>
                         <HiOutlineLocationMarker size="30" />
                     </CheckoutInput>
+                    <div  className="flex flex-col md:flex-row gap-5 justify-between items-center [&>label]:text-center [&>label]:px-10 [&>label]:py-1 [&>label]:border [&>label]:rounded ">
                         {options.map(option => (
-                            <div onClick={() => setSelectDelivery(option)} className="flex flex-col md:flex-row gap-5 justify-between items-center [&>span]:text-center [&>span]:px-10 [&>span]:py-1 [&>span]:border [&>span]:rounded ">
-                                <span key={option} className={` cursor-pointer ${selectDelivery === option ? "border-[#FF8906]" : "border-black" }`}>{option}</span>
-                            </div>
+                            <label onClick={() => setSelectDelivery(option)} key={option} className={` cursor-pointer ${selectDelivery === option ? "border-[#FF8906]" : "border-black" }`}>
+                                <input type="radio" name="delivery" id="delivery" value={option} hidden {...register("delivery")} />{option}
+                            </label>
                         ))}
+                    </div>
+                    <button type="submit">Submit</button>
                 </form>
             </section>
             <Footer />
