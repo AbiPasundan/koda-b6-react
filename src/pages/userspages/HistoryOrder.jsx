@@ -38,12 +38,13 @@ export default function HistoryOrder(){
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <div className="lg:col-span-7 space-y-4">
-                    <div className="bg-white p-5 mx-3 rounded-xl flex flex-col md:flex-row gap-6 items-start md:items-center">
+                    {orders.map((order, i) => (
+                    <div key={i} className="bg-white p-5 mx-3 rounded-xl flex flex-col md:flex-row gap-6 items-start md:items-center">
                         <div className="w-full md:w-24 h-24 hidden md:block ">
                             <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=300&auto=format&fit=crop" alt="Coffee" className="w-full h-full object-cover" />
                         </div>
-                        {orders.map((order, i) => (
-                            <div key={i} className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+                        
+                            <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
                             <div>
                                 <div className="flex items-center text-gray-400 text-xs mb-1 gap-1">
                                     <PiNotepadBold />
@@ -76,9 +77,8 @@ export default function HistoryOrder(){
                                 <span className="inline-block bg-orange-100 text-orange-400 text-xs font-bold px-3 py-1 rounded-full">{order.status}</span>
                             </div>
                         </div>
-                        ))}
-                        
                     </div>
+                        ))}
 
                     <div className="flex justify-center items-center gap-2 mt-8">
                         <button className="w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">1</button>

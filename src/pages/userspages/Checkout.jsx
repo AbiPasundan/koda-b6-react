@@ -108,6 +108,14 @@ export default function Checkout(){
         }
         // navigate("/login")
     }
+    // if (cart.length === 0) {
+    // return (
+    //     <>
+    //     <Nav bg="bg-black" padding="pb-[100px]" />
+    //     <h1> Kela keur loding </h1>
+    //     </>
+    // )
+    // }
     return (
         <>
             <Nav bg="bg-black" padding="pb-[100px]" />
@@ -122,11 +130,23 @@ export default function Checkout(){
                                 <h4 className="text-xl">Your Order</h4>
                                 <Link to="/product" className="bg-[#FF8906] p-2 rounded-xl"> + Add Menu</Link>
                             </header>
-                            {cart.map((data, i) => (
-                                <div key={data.id} >
-                                    <CheckoutProduct name={data.name} image={data.image} oldPrice={data.oldPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} newPrice={data.newPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} />
-                                </div>
-                            ))}
+                            { cart.length == 0 ? (
+                                <>
+                                <main className="my-5">
+                                    <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
+                                        <h1>Belum ada apa-apa</h1>
+                                    </div>
+                                </main>
+                                </>
+                            ) : (
+                                <>
+                                {cart.map((data, i) => (
+                                    <div key={data.id} >
+                                        <CheckoutProduct name={data.name} image={data.image} oldPrice={data.oldPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} newPrice={data.newPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} />
+                                    </div>
+                                ))}
+                            </>
+                            ) }
                         </section>
                         <table className="my-5 md:w-[40%] w-[80%] mx-auto">
                             <thead>
