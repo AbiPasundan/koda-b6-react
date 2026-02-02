@@ -23,7 +23,7 @@ function InputSearch(props) {
         <label htmlFor="search" className="flex flex-col justify-center"> 
             <TextInputSearch text={props.text} />
             <div className="flex items-center p-1 mx-3 rounded border-2 border-[#787878] ">
-                <input type="text" className="w-[140px] md:w-[220px] px-3" name="search" id="search" placeholder="Enter Product Name" />
+                <input type="text" className="w-[140px] outline-none md:w-[220px] px-3" name="search" id="search" placeholder="Enter Product Name" />
                 <GrSearch />
             </div>
         </label>

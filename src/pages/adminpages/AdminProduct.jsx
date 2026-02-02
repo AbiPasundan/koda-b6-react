@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 
 export default function AdminProduct() {
-    // const product = localStorage.getItem("myCat");
     const [dataApi, setData] = useState([]);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -25,11 +24,6 @@ export default function AdminProduct() {
         }
         getData()
     }, [])
-    // const onClick = e => {
-    //     const cart = JSON.parse(localStorage.getItem("cart")) || []
-    //     cart.push(e)
-    //     localStorage.setItem("cart", JSON.stringify(cart));
-    // }
     return (
         <>
             <div className="flex flex-col my-10 border p-5">
