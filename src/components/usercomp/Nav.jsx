@@ -39,11 +39,12 @@ export default function Nav(props){
                         <RxHamburgerMenu size={28} color='white' className='md:hidden block' onClick={handleHamburg} />
                     </div>
                     <div>
-                        <div className='flex gap-10 text-white'>
+                        <div className='flex text-center items-center gap-10 text-white'>
                             { token ? (
                                 <>
                                     <div onClick={logout} className='md:block hidden p-3 bg-transparent rounded border'>Logout</div>
                                     <Link to="/profile" className='md:block hidden p-3 bg-[#ff8906] rounded'>Profile</Link>
+                                    <Link to="/historyorder" className='md:block hidden p-3 bg-[#ff8906] rounded'>History Order</Link>
                                 </>
                             )
                             :
@@ -80,6 +81,7 @@ export default function Nav(props){
                                     <>
                                     <div onClick={logout} className='bg-transparent text-center py-3 mx-5 rounded border border-black'> Logout </div>
                                     <Link to="/profile" className='bg-[#ff8906] text-center py-3 mx-5 rounded '> Profile </Link>
+                                    <Link to="/historyorder" className='bg-[#ff8906] text-center py-3 mx-5 rounded '> History Order </Link>
                                     </>
                                 )
                                 :
