@@ -42,22 +42,22 @@ export default function HistoryOrder(){
                         <div className="w-full md:w-24 h-24 hidden md:block ">
                             <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=300&auto=format&fit=crop" alt="Coffee" className="w-full h-full object-cover" />
                         </div>
-                        <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+                        {orders.map((order, i) => (
+                            <div key={i} className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
                             <div>
                                 <div className="flex items-center text-gray-400 text-xs mb-1 gap-1">
                                     <PiNotepadBold />
                                     No. Order
                                 </div>
-                                <div className="font-bold text-gray-900 text-sm">{orders.no}</div>
+                                <div className="font-bold text-gray-900 text-sm">{order.no}</div>
                                 <Link to="/detailorder" className="text-yellow-500 text-xs font-medium underline mt-1 block">Views Order Detail</Link>
                             </div>
-
                             <div>
                                 <div className="flex items-center text-gray-400 text-xs mb-1 gap-1">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     Date
                                 </div>
-                                <div className="font-bold text-gray-900 text-sm">{orders.date}</div>
+                                <div className="font-bold text-gray-900 text-sm">{order.date}</div>
                             </div>
 
                             <div>
@@ -65,7 +65,7 @@ export default function HistoryOrder(){
                                     <VscArrowSwap />
                                     Total
                                 </div>
-                                <div className="font-bold text-gray-900 text-sm">{orders.total}</div>
+                                <div className="font-bold text-gray-900 text-sm">{order.total}</div>
                             </div>
 
                             <div>
@@ -73,9 +73,11 @@ export default function HistoryOrder(){
                                     <FaExpandArrowsAlt />
                                     Status
                                 </div>
-                                <span className="inline-block bg-orange-100 text-orange-400 text-xs font-bold px-3 py-1 rounded-full">{orders.status}</span>
+                                <span className="inline-block bg-orange-100 text-orange-400 text-xs font-bold px-3 py-1 rounded-full">{order.status}</span>
                             </div>
                         </div>
+                        ))}
+                        
                     </div>
 
                     <div className="flex justify-center items-center gap-2 mt-8">

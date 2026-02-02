@@ -99,7 +99,10 @@ export default function Checkout(){
                     delivery: data.delivery,
                 }
             }
-            localStorage.setItem("orders", JSON.stringify(dataOrder))
+            // localStorage.setItem("orders", JSON.stringify(dataOrder))
+            // const localData = JSON.parse(localStorage.getItem("orders")) || []
+            localData.push(dataOrder)
+            localStorage.setItem("orders", JSON.stringify(localData))
             localStorage.removeItem("cart")
             navigate("/detailorder", dataOrder)
         }
