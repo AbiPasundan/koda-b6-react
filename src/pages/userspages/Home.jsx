@@ -4,6 +4,9 @@ import Footer from "@/components/usercomp/Footer"
 import { Rattings } from "@/components/usercomp/Card"
 import { Link } from "react-router"
 import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
+import { IoMdSend } from "react-icons/io"
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5"
+import { useState } from "react"
 
 function Hero() {
     return (
@@ -118,16 +121,66 @@ function Testimoni() {
     )
 }
 
+function ChatBox(){
+    const [ open, setOpen ] = useState(true)
+    const conClick = e => {
+        setOpen(open => !open)
+        console.log(open)
+    }
+    return (
+        <div className="fixed bottom-20 right-10 z-50 flex flex-col items-end space-y-4">
+            <div id="chat-container" className={`chat-hidden ${open ? 'hidden' : 'block'} w-full max-w-[350px] sm:w-[350px] bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200`}>
+                <div className="border-t-8 py-6 border-orange-500 p-4 flex items-center shadow-sm">
+                    <div className="relative">
+                        <img src="https://i.pravatar.cc/150?img=32" alt="Admin" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
+                        <span className="absolute bottom-0 right-0 w-3 h-3  border-2 border-white rounded-full"></span>
+                    </div>
+                    <div className="ml-3 text-white">
+                        <h3 className="font-bold text-sm text-black">Maria Angela</h3>
+                        <p className="text-xs text-orange-500">Admin Support</p>
+                    </div>
+                </div>
+                <hr className="bg-red-100 border-t border-neutral-700" />
+                <div className="h-80 bg-gray-50 p-4 overflow-y-auto space-y-4" id="chat-messages">
+                    <div className="flex items-start">
+                        <img src="https://i.pravatar.cc/150?img=32" className="w-8 h-8 rounded-full mr-2 mt-1" />
+                        <div className="bg-white text-gray-700 p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl shadow-sm text-sm border border-gray-100">
+                            Halo, Ada yang bisa kami bantu?
+                        </div>
+                    </div>
+                    <div className="flex items-end justify-end">
+                        <div className="bg-gray-200 text-gray-800 p-3 rounded-tl-xl rounded-tr-xl rounded-bl-xl shadow-sm text-sm max-w-[80%]">
+                            Saya kesulitan mencari kopi
+                        </div>
+                    </div>
+                </div>
+                <div className="bg-white p-3 border-t border-gray-100 flex items-center gap-2">
+                    <input type="text" placeholder="Masukan Pesan Anda" className="flex-1 bg-gray-50 text-sm border border-gray-200 rounded-lg px-4 py-2  transition" />
+                    
+                    <button  className="bg-orange-500 text-white p-2 rounded-lg shadow-md transition transform flex items-center justify-center">
+                        < IoMdSend size="18" />
+                    </button>
+                </div>
+            </div>
+            <button onClick={() => conClick(open)} className="bg-orange-500 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-transform transform">
+                <IoChatbubbleEllipsesOutline size="30" />
+            </button>
+        </div>
+    )
+}
+
 function Home(){
     return(
         <>
-        <Nav bg="bg-black/40" className="absolute" /> 
+        <Nav bg="bg-black/40"/> 
         <Hero/>
         <About/>
         <ProductCard />
         <VisitOurStore />
         <Testimoni />
         <Footer />
+        <ChatBox />
+        
         </>
     )
 }
