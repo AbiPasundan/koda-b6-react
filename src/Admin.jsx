@@ -33,6 +33,7 @@ function AdminProductPage() {
     return (
         <>
             <HeaderInputProduct />
+            <AdminProduct />
         </>
     )
 }
@@ -40,6 +41,7 @@ function AdminOrderPage() {
     return (
         <>
             <HeaderInputOrder />
+            <AdminOrder />
         </>
     )
 }
@@ -47,6 +49,7 @@ function AdminUserPage() {
     return (
         <>
             <HeaderInputUser />
+            <AdminUser />
         </>
     )
 }
