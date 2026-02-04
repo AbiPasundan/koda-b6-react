@@ -1,13 +1,8 @@
 {
   "data": [
     {
-      "name": "Wildan Nursyamsi",
-      "email": "muhamad11wildan4n@gmail.com",
-      "password": "1234"
-    },
-    {
-      "name": "Koda",
-      "email": "koda@mail.com",
+      "name": "Admin",
+      "email": "example@mail.com",
       "password": "1234"
     }
   ],
@@ -19,33 +14,9 @@
       "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
       "oldPrice": 30000,
       "newPrice": 25000,
-      "tax": 1000,
+      "tax": 0.1,
       "size": ["small","medium","big"],
-      "category": ["favorite","nonecoffe","coffe","foods","addons"],
-      "flashsale": true
-    },
-    {
-      "id": 2,
-      "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300",
-      "name": "Hazelnut Jahe",
-      "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-      "oldPrice": 50000,
-      "newPrice": 20000,
-      "tax": 2000,
-      "size": ["small","medium","big"],
-      "category": ["favorite","nonecoffe","coffe","foods","addons"],
-      "flashsale": true
-    },
-    {
-      "id": 3,
-      "image": "https://images.unsplash.com/photo-1506619216599-9d16d0903dfd?w=300",
-      "name": "Hazelnut Late",
-      "description": "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-      "oldPrice": 20000,
-      "newPrice": 10000,
-      "tax": 1001,
-      "size": ["small","medium","big"],
-      "category": ["favorite","nonecoffe","coffe","foods","addons"],
+      "category": ["favorite","coffe"],
       "flashsale": true
     },
     {
@@ -55,9 +26,9 @@
       "description": "Kopi adalah tanaman industri pertanian yang dijadikan minuman hasil seduhan biji kopi yang telah disangrai dan dihaluskan menjadi bubuk. Kopi merupakan salah satu komoditas di dunia yang dibudidayakan lebih dari 50 negara. ",
       "oldPrice": 35000,
       "newPrice": 10000,
-      "tax": 500,
+      "tax": 0.1,
       "size": ["small","medium","big"],
-      "category": ["favorite","nonecoffe","coffe","foods","addons"],
+      "category": ["favorite","coffe"],
       "flashsale": true
     },
     {
@@ -67,9 +38,9 @@
       "description": "Mocha Latte (atau café mocha) adalah minuman kopi yang memadukan espresso, susu panas, dan cokelat ",
       "oldPrice": 35000,
       "newPrice": 10000,
-      "tax": 700,
-      "size": ["small","medium","big"],
-      "category": ["favorite","nonecoffe","coffe","foods","addons"],
+      "tax": 0.1,
+      "size": ["small","medium"],
+      "category": ["favorite","coffe"],
       "flashsale": true
     },
     {
@@ -79,9 +50,9 @@
       "description": "Espresso adalah konsentrat kopi kental yang dihasilkan dengan menyemburkan air panas bertekanan tinggi (sekitar 9 atmosfer) melalui kopi bubuk halus dalam waktu singkat, menghasilkan lapisan busa keemasan atau crema di atasnya.",
       "oldPrice": 10000,
       "newPrice": 5000,
-      "tax": 1111,
-      "size": ["small","medium","big"],
-      "category": ["favorite","nonecoffe","coffe","foods","addons"],
+      "tax": 0.1,
+      "size": ["small"],
+      "category": ["favorite","coffe"],
       "flashsale": true
     },
     {
@@ -91,9 +62,9 @@
       "description": "Coffee macchiato adalah minuman kopi yang dibuat dengan mencampurkan espresso dengan susu. Ada dua jenis macchiato yang biasanya disajikan, yaitu espresso macchiato dan latte macchiato. ",
       "oldPrice": 55000,
       "newPrice": 30000,
-      "tax": 1500,
-      "size": ["small","medium","big"],
-      "category": ["favorite","nonecoffe","coffe","foods","addons"],
+      "tax": 0.1,
+      "size": ["big"],
+      "category": ["favorite","coffe"],
       "flashsale": true
     },
     {
@@ -103,10 +74,10 @@
       "description": "Café au lait (Bahasa Prancis yang artinya kopi susu) adalah campuran kopi hitam yang tajam dengan susu panas.",
       "oldPrice": 45000,
       "newPrice": 15000,
-      "tax": 1200,
-      "size": ["small","medium","big"],
-      "category": ["favorite","nonecoffe","coffe","foods","addons"],
-      "flashsale": true
+      "tax": 0.1,
+      "size": ["medium","big"],
+      "category": ["favorite","coffe"],
+      "flashsale": false
     },
     {
       "id": 9,
@@ -115,9 +86,9 @@
       "description": "Kopi tubruk adalah minuman kopi khas Indonesia yang dibuat dengan menuangkan air panas ke dalam gelas atau teko yang sudah diisi bubuk kopi. Bisa dengan ditambahkan gula, bisa juga tanpa gula.",
       "oldPrice": 10000,
       "newPrice": 1000,
-      "tax": 200,
-      "size": ["small","medium","big"],
-      "category": ["favorite","nonecoffe","coffe","foods","addons"],
+      "tax": 0.1,
+      "size": ["big"],
+      "category": ["favorite","coffe"],
       "flashsale": true
     },
     {
@@ -127,22 +98,70 @@
       "description": "Melya adalah minuman kopi berbahan dasar espresso yang dicampur dengan kakao bubuk dan madu. ",
       "oldPrice": 25000,
       "newPrice": 12000,
-      "tax": 200,
-      "size": ["small","medium","big"],
-      "category": ["favorite","nonecoffe","coffe","foods","addons"],
-      "flashsale": true
+      "tax": 0.1,
+      "size": ["small","medium"],
+      "category": ["favorite","coffe"],
+      "flashsale": false
     },
     {
       "id": 11,
-      "image": "https://images.unsplash.com/photo-1496582490020-60c1344c64aa?w=300",
-      "name": "Kopi moka",
-      "description": "Kopi moka (dari bahasa Belanda, mokka) adalah salah satu varietas kopi arabika dengan cita rasa khas.",
-      "oldPrice": 19000,
-      "newPrice": 10000,
-      "tax": 300,
+      "image": "https://images.unsplash.com/photo-1618667060775-1fe102237f94?w=300",
+      "name": "Kroisan",
+      "description": "Kroisan atau roti sabit (bahasa Prancis: croissant, pengucapan bahasa Prancis: [kʁwa'sɑ̃] dengarⓘ) adalah sejenis kue kering (pastry) yang berasal dari Prancis. Dinamakan demikian karena bentuknya menyerupai bulan sabit. Dikutip dari Le dictionnaire Larousse, salah satu makna kata croissant adalah bulan sabit. Bahan dasar kue kering ini adalah mentega, air, tepung, ragi, gula, garam.",
+      "oldPrice": 75000,
+      "newPrice": 12000,
+      "tax": 0.1,
       "size": ["small","medium","big"],
-      "category": ["favorite","nonecoffe","coffe","foods","addons"],
+      "category": ["favorite","non coffe","add on","foods"],
+      "flashsale": false
+    },
+    {
+      "id": 12,
+      "image": "https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=300",
+      "name": "Avocado Toast",
+      "description": "Avocado toast adalah hidangan populer yang terdiri dari roti panggang (biasanya sourdough atau gandum utuh) yang diberi olesan alpukat tumbuk, sering kali dibumbui dengan garam, lada, dan perasan lemon",
+      "oldPrice": 15000,
+      "newPrice": 12000,
+      "tax": 0.1,
+      "size": ["small","medium","big"],
+      "category": ["favorite","cheap","non coffe","foods"],
+      "flashsale": false
+    },
+    {
+      "id": 13,
+      "image": "https://images.unsplash.com/photo-1590759668557-48e829b5529e?w=300",
+      "name": "MMuffin",
+      "description": "Muffin adalah jenis kue individu (sekali makan) yang dipanggang dalam cetakan berbentuk cangkir atau muffin tin.",
+      "oldPrice": 19000,
+      "newPrice": 12000,
+      "tax": 0.1,
+      "size": ["small","medium"],
+      "category": ["favorite","non coffe","foods"],
+      "flashsale": false
+    },
+    {
+      "id": 14,
+      "image": "https://images.unsplash.com/photo-1629856428041-6f9721807b05?w=300",
+      "name": "Brownis",
+      "description": "Brownies atau Bronis merupakan sebuah makanan yang dipanggang yang berbentuk persegi, datar atau bar dikembangkan di Amerika Serikat pada akhir abad ke-19 dan dipopulerkan di Amerika Serikat dan Kanada pada paruh pertama abad ke-20.",
+      "oldPrice": 17000,
+      "newPrice": 12000,
+      "tax": 0.1,
+      "size": ["small","medium"],
+      "category": ["foods","non coffe"],
       "flashsale": true
+    },
+    {
+      "id": 15,
+      "image": "https://images.unsplash.com/photo-1617305855058-336d24456869?fw=300",
+      "name": "Lava cake",
+      "description": "Lava cake, atau yang juga dikenal sebagai chocolate molten cake atau chocolate fondant, adalah hidangan penutup (dessert) populer yang terdiri dari kue cokelat lembut di bagian luar dengan bagian tengah yang meleleh dan cair, menyerupai lava yang keluar dari gunung berapi saat dipotong",
+      "oldPrice": 55000,
+      "newPrice": 12000,
+      "tax": 0.1,
+      "size": ["small","medium"],
+      "category": ["favorite","coffe"],
+      "flashsale": false
     }
   ]
 }
