@@ -64,7 +64,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <UserLayout/>,
+    element: <UserLayout />,
     children: [
       {
         path: "/Product",
@@ -90,41 +90,12 @@ const router = createBrowserRouter([
         path: "/HistoryOrder",
         element: <HistoryOrder />,
       },
-      {
-        path: "*",
-        element: <NotFound />,
-      },
     ]
-  }
-
-  // {
-  //   path: "/Product",
-  //   element: <Product />,
-  // },
-  // {
-  //   path: "/Detailproduct/:id",
-  //   element: <DetailProduct />,
-  // },
-  // {
-  //   path: "/Profile",
-  //   element: <Profile />,
-  // },
-  // {
-  //   path: "/Checkout",
-  //   element: <Checkout />,
-  // },
-  // {
-  //   path: "/DetailOrder",
-  //   element: <DetailOrder />,
-  // },
-  // {
-  //   path: "/HistoryOrder",
-  //   element: <HistoryOrder />,
-  // },
-  // {
-  //   path: "*",
-  //   element: <NotFound />,
-  // },
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
 
