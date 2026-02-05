@@ -1,13 +1,17 @@
-import { useEffect } from "react";
+import { useContext, useEffect} from "react";
 import { FaCoffee } from "react-icons/fa";
 import { useNavigate } from "react-router";
+import { HamburgerContext, HamburgerMenu } from "../hook/HamburgerContext";
 
 function Right() {
+  const { toggleMenu } = useContext(HamburgerContext)
+  // console.log(test)
+  // const { open, toggleMenu } = useContext(HamburgerContext);
+  // console.log(open)
   return (
     <div className="flex items-center">
-      <div className="text-2xl cursor-pointer mr-4 lg:hidden">
+      <button className="text-2xl cursor-pointer mr-4 lg:hidden" onClick={() => toggleMenu()} >
         <svg
-          id="btn"
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
@@ -20,7 +24,7 @@ function Right() {
             d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
           />
         </svg>
-      </div>
+      </button>
       <div className="flex items-center gap-2.5 font-semibold text-xl text-[#5d4037]">
         <FaCoffee />
       </div>
@@ -51,7 +55,7 @@ function Left() {
       >
         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
       </svg>
-      <div className="w-[35px] h-[35px] rounded-full overflow-hidden cursor-pointer">
+      <div className="w-8.75 h-8.75 rounded-full overflow-hidden cursor-pointer">
         <img
           src="https://ui-avatars.com/api/?name=User+Admin&background=random"
           alt="User"
@@ -83,7 +87,7 @@ export default function AdminNav() {
       }, [navigate]);
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full h-[70px] bg-white flex justify-between items-center px-6 shadow-sm z-[1000]">
+      <nav className="fixed top-0 left-0 w-full h-17.5 bg-white flex justify-between items-center px-6 shadow-sm z-1000">
         <Right />
         <Left />
       </nav>

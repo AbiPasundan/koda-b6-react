@@ -169,7 +169,7 @@ export default function Checkout(){
                                     <td>Tax</td>
                                     <td>{totalTax.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})}</td>
                                 </tr>
-                                <tr className="border-t-1 pt-2">
+                                <tr className="border-t pt-2">
                                     <td>Sub Total</td>
                                     <td>{total}</td>
                                 </tr>

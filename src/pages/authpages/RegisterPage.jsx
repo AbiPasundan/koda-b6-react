@@ -16,7 +16,7 @@ export default function RegisterPage() {
 	return (
 		<main className="flex grid-cols-[30%_auto] gap-10 ">
 			<AuthImage image={'https://placehold.co/400x960'} />
-			<section className="flex flex-col justify-self-center my-auto h-auto mx-10 md:mx-0 [&>form>label]:flex [&>form>label]:flex-col [&>form>div]:flex [&>form>div]:flex-col py-10 w-[780px] ">
+			<section className="flex flex-col justify-self-center my-auto h-auto mx-10 md:mx-0 [&>form>label]:flex [&>form>label]:flex-col [&>form>div]:flex [&>form>div]:flex-col py-10 w-195 ">
 				<ImageAuthLogo image='https://placehold.co/200x50'/>
 				<AuthHeader title="Register" text="Fill out the form correctly" />
 				<FormRegister/>

@@ -9,13 +9,13 @@ export default function AdminProduct() {
         async function getData() {
             try {
                 const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
-                console.log(api)
+                // console.log(api)
                 const { menu } = await api.json()
                 setData(menu)
                 dataApi(menu)
-                console.log(menu)
-                console.log(menu[0].name)
-                console.log(menu[0].image)
+                // console.log(menu)
+                // console.log(menu[0].name)
+                // console.log(menu[0].image)
                 setIsLoading(false);
             } catch (error) {
                 setError(error.message);
@@ -60,41 +60,41 @@ export default function AdminProduct() {
                         </tr>
                     </thead>
                     <tbody className=" [&>tr>td]:py-5 [&>tr>td]:px-2 ">
-                        {dataApi.map(data => (
-                            <tr className="border-t-1 odd:bg-white even:bg-gray-100">
+                        {dataApi.map((data, i) => (
+                            <tr key={i} className="border-t odd:bg-white [&>td>span]:max-w-50 even:bg-gray-100">
                                 <td>
                                     <input type="checkbox" name="check" id="check" />
                                 </td>
-                                <td className="max-w-[200px]">
+                                <td>
                                     <span><img src={data.image} width="100" alt="Image" /></span>
                                 </td>
-                                <td className="max-w-[200px]">
+                                <td>
                                     <span>{data.name}</span>
                                 </td>
-                                <td className="max-w-[200px]">
+                                <td>
                                     <span>{data.newPrice}</span>
                                 </td>
-                                <td className="max-w-[200px]">
+                                <td>
                                     <span>{data.description}</span>
                                 </td>
-                                <td className="max-w-[200px]">
+                                <td>
                                     <span>R,L,M</span>
                                 </td>
-                                <td className="max-w-[200px]">
+                                <td>
                                     <span>Delivery, Dine In </span>
                                 </td>
-                                <td className="max-w-[200px]">
+                                <td>
                                     <span>300</span>
                                 </td>
-                                <td className="max-w-[200px]">
+                                <td>
                                     <span>Edit</span>
                                     <span>Hapus</span>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
-                    <tfoot className=" [&>tr>td]:py-5 [&>tr>td]:px-2 ">
-                        <tr className="">
+                    <tfoot className="[&>tr>td]:py-5 [&>tr>td]:px-2 ">
+                        <tr>
                             <td>
                                 <input type="checkbox" name="check" id="check" />
                             </td>

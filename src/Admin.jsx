@@ -8,16 +8,17 @@ import AdminOrder from "./pages/adminpages/AdminOrder";
 import AdminUser from "./pages/adminpages/AdminUser";
 import { HeaderInputProduct, HeaderInputOrder, HeaderInputUser } from "./components/admincomp/HeaderInput";
 import { Outlet } from "react-router";
+import {  HamburgerMenu } from "./components/hook/HamburgerContext";
 
 function AdminLayout() {
     return (
-        <>
+        <HamburgerMenu>
             <AdminNav />
             <SidebarAdmin />
-            <main className="mt-[70px] md:ml-[250px] p-8 transition-all duration-300">
+            <main className="mt-17.5 md:ml-62.5 p-8 transition-all duration-300">
                 <Outlet />
             </main>
-        </>
+        </HamburgerMenu>
     )
 }
 

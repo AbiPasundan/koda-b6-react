@@ -3,8 +3,12 @@ import { CiCoffeeCup } from "react-icons/ci";
 import { BsPersonFill } from "react-icons/bs";
 import { IoBagOutline } from "react-icons/io5";
 import { CiLogout } from "react-icons/ci";
-import { Link, useLocation, useNavigate } from "react-router";
-import { useEffect } from "react";
+import { Link, useNavigate } from "react-router";
+import { useEffect, useContext } from "react";
+import { HamburgerContext } from "../hook/HamburgerContext";
+
+
+// import { HamburgerContext} from "../hook/HamburgerContext";
 
 export default function SidebarAdmin() {
     const navigate = useNavigate()
@@ -20,12 +24,17 @@ export default function SidebarAdmin() {
         localStorage.removeItem("token_auth_admin");
         navigate("/")
     }
+    // const { open, toggleMenu } = useContext(HamburgerContext);
+    //   console.log(open)
+
+    // jika true maka translate-x-0
+    // jika false maka -translate-x-full
+    const { open } = useContext(HamburgerContext)
 
     return (
         <>
-            <aside id="aside" className="fixed top-[70px] md:translate-x-0 -translate-x-full bg-[#ffffff]" >
-            <ul
-                className="list-none [&>li]:px-5 [&>li]:mb-2 [&>li>a]:flex [&>li>a]:items-center [&>li>a]:gap-4 [&>li>a]:p-3 [&>li>a]:rounded-xl [&>li>a]:font-medium [&>li>a>img]:w-5">
+            <aside id="aside" className={` ${open && '-translate-x-full'} fixed md:top-70 top-0 md:translate-x-0  bg-[#ffffff]`} >
+            <ul className="list-none [&>li]:px-5 [&>li]:mb-2 [&>li>a]:flex [&>li>a]:items-center [&>li>a]:gap-4 [&>li>a]:p-3 [&>li>a]:rounded-xl [&>li>a]:font-medium [&>li>a>img]:w-5">
                 <li>
                 <Link to="/admin" href="./dashboard.html" >
                     <MdDashboard /> Dashboard
