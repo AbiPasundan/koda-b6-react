@@ -3,10 +3,12 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 // auth
-import { LoginPage as Login, RegisterPage, ForgotPassword} from './App.jsx'
+import { LoginPage as Login, RegisterPage, ForgotPassword } from './App.jsx'
 // admin
-import { AdminLayout, AdminDashboard, AdminProductPage, AdminUserPage, AdminOrderPage,  } from './Admin.jsx'
+import { AdminLayout, AdminDashboard, AdminProductPage, AdminUserPage, AdminOrderPage, } from './Admin.jsx'
 // user
+// use layout
+import { UserLayout } from './User.jsx';
 import { Home } from '@/pages/userspages/Home.jsx';
 import Profile from '@/pages/userspages/Profile.jsx'
 import Checkout from '@/pages/userspages/Checkout.jsx'
@@ -20,76 +22,112 @@ import './index.css'
 import DetailOrder from './pages/userspages/DetailOrder.jsx';
 
 
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home/>,
+    element: <Home />,
   },
   {
     path: "/Login",
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: "/Register",
-    element: <RegisterPage/>,
+    element: <RegisterPage />,
   },
   {
     path: "/Forgotpassword",
-    element: <ForgotPassword/>,
+    element: <ForgotPassword />,
   },
   {
     path: "/Admin",
-    element: <AdminLayout/>,
+    element: <AdminLayout />,
     children: [
-    {
-      index: true,
-      element: <AdminDashboard/>,
-    },
-    {
-      path: "product",
-      element: <AdminProductPage />
-    },
-    {
-      path: "order",
-      element: <AdminOrderPage />
-    },
-    {
-      path: "user",
-      element: <AdminUserPage />
-    },
-  ]
+      {
+        index: true,
+        element: <AdminDashboard />,
+      },
+      {
+        path: "product",
+        element: <AdminProductPage />
+      },
+      {
+        path: "order",
+        element: <AdminOrderPage />
+      },
+      {
+        path: "user",
+        element: <AdminUserPage />
+      },
+    ]
   },
   {
-    path: "/Product",
-    element: <Product />,
-  },
-  {
-    path: "/Detailproduct/:id",
-    element: <DetailProduct />,
-  },
-  {
-    path: "/Profile",
-    element: <Profile />,
-  },
-  {
-    path: "/Checkout",
-    element: <Checkout />,
-  },
-  {
-    path: "/DetailOrder",
-    element: <DetailOrder />,
-  },
-  {
-    path: "/HistoryOrder",
-    element: <HistoryOrder />,
-  },
-  {
-    path: "*",
-    element: <NotFound />,
-  },
+    path: "/",
+    element: <UserLayout/>,
+    children: [
+      {
+        path: "/Product",
+        element: <Product />,
+      },
+      {
+        path: "/Detailproduct/:id",
+        element: <DetailProduct />,
+      },
+      {
+        path: "/Profile",
+        element: <Profile />,
+      },
+      {
+        path: "/Checkout",
+        element: <Checkout />,
+      },
+      {
+        path: "/DetailOrder",
+        element: <DetailOrder />,
+      },
+      {
+        path: "/HistoryOrder",
+        element: <HistoryOrder />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
+      },
+    ]
+  }
+
+  // {
+  //   path: "/Product",
+  //   element: <Product />,
+  // },
+  // {
+  //   path: "/Detailproduct/:id",
+  //   element: <DetailProduct />,
+  // },
+  // {
+  //   path: "/Profile",
+  //   element: <Profile />,
+  // },
+  // {
+  //   path: "/Checkout",
+  //   element: <Checkout />,
+  // },
+  // {
+  //   path: "/DetailOrder",
+  //   element: <DetailOrder />,
+  // },
+  // {
+  //   path: "/HistoryOrder",
+  //   element: <HistoryOrder />,
+  // },
+  // {
+  //   path: "*",
+  //   element: <NotFound />,
+  // },
 ]);
 
 
 createRoot(document.getElementById('root')).render(
-    <RouterProvider router={router} />
+  <RouterProvider router={router} />
 )

@@ -115,7 +115,6 @@ function HeaderTitle() {
 export default function DetailOrder(){
     return (
         <>
-        <Nav bg="bg-black" padding="pb-[100px]" />
         <div  className="bg-gray-50 text-gray-800 p-6 md:p-12">
             <div className="max-w-6xl mx-auto">
                 <HeaderTitle />
@@ -125,7 +124,6 @@ export default function DetailOrder(){
                 <Right image="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=300&auto=format&fit=crop" name="Hazelnut Latte" oldPrice="40.000" newPrice="20.000" />
             </LayoutContent>
         </div>
-        <Footer />
         </>
     )
 }

@@ -122,7 +122,6 @@ export default function Checkout(){
     }
     return (
         <>
-            <Nav bg="bg-black" padding="pb-[100px]" />
             <header className="m-10 text-[#0B0909] text-5xl">
                 <h1>Payment Detail</h1>
             </header>
@@ -226,7 +225,6 @@ export default function Checkout(){
                     <button type="submit">Submit</button>
                 </form>
             </section>
-            <Footer />
         </>
     )
 }

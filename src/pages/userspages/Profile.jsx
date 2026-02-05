@@ -1,8 +1,3 @@
-import Nav from "@/components/usercomp/Nav";
-import Footer from "@/components/usercomp/Footer";
-
-
-
 function InputForProfile(props) {
   return (
     <div className="input-user flex flex-col gap-[15px]">
@@ -57,108 +52,26 @@ function ProfileHeader(props) {
 export default function Profile() {
   return (
     <>
-    <Nav padding="pb-[80px]" bg="bg-black"/>
     <main className="flex justify-center my-[10vh]">
       <div className="main-content mx-auto flex flex-col juistify-center overflow-hidden">
           <ProfileHeader titile="Profile" />
-        <div className="wrapper mx-auto text-left flex sm:flex-row flex-col justify-center gap-[20px] ">
-          <div className="text-center w-[280px] font-[Plus Jakarta Sans] border border-solid border-red-200 flex flex-col h-[343px] mx-auto">
+        <div className="wrapper mx-auto text-left flex sm:flex-row flex-col justify-center gap-5 ">
+          <div className="text-center w-70 font-[Plus Jakarta Sans] border border-solid border-red-200 flex flex-col h-85.75 mx-auto">
             <PropfileComp name="Ghaluh Wizard" email="ghaluhwizz@gmail.com" image="https://placehold.co/400" date="Since 20 January 2022" />
           </div>
-          <form className="flex flex-col gap-10 sm:w-[780px] w-[380px] h-[566px] [&>div]:mx-10 my-10">
+          <form className="flex flex-col gap-10 sm:w-195 w-95 h-141.5 [&>div]:mx-10 my-10">
             <InputForProfile type="text" title="Full Name" value="name" placeholder="Ghaluh Wizar" />
             <InputForProfile type="email" title="Email" value="email" placeholder="ghaluhwilzarr@gmail.com" />
             <InputForProfile type="number" title="Phone" value="phone" placeholder="087753518801" />
             <InputForProfile type="password" title="Password" value="password" placeholder="********" />
             <InputForProfile type="text" title="address" value="address" placeholder="griyua Bandung Indah" />
-            {/* <div className="input-user flex flex-col gap-[15px]">
-              <label
-                for="name"
-                className="font-[Plus_Jakarta_Sans] font-semibold text-[16px] leading-[100%] align-middle"
-              >
-                Full Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                className="sm:w-[780px] h-[52px] border rounded-[8px] pt-[14px] pr-[13px] pb-[14px] pl-[53px] gap-[10px] bg-[url('./../img/icons/Profile.png')] bg-no-repeat bg-[left_10px_bottom_15px]"
-                placeholder="Ghaluh Wizard"
-              />
-            </div>
-            <div className="input-user flex flex-col gap-[15px]">
-              <label
-                for="email"
-                className="font-[Plus_Jakarta_Sans] font-semibold text-[16px] leading-[100%] align-middle"
-              >
-                Email
-              </label>
-              <input
-                type="text"
-                name="email"
-                id="email"
-                className="sm:w-[780px] h-[52px] border rounded-[8px] pt-[14px] pr-[13px] pb-[14px] pl-[53px] gap-[10px] bg-[url('./../img/icons/envelope.svg')] bg-no-repeat bg-[left_10px_bottom_15px]"
-                placeholder="ghaluhwizz@gmail.com"
-              />
-            </div>
-            <div className="input-user flex flex-col gap-[15px]">
-              <label
-                for="phone"
-                className="font-[Plus_Jakarta_Sans] font-semibold text-[16px] leading-[100%] align-middle"
-              >
-                Phone
-              </label>
-              <input
-                type="text"
-                name="phone"
-                id="phone"
-                className="sm:w-[780px] h-[52px] border rounded-[8px] pt-[14px] pr-[13px] pb-[14px] pl-[53px] gap-[10px] bg-[url('./../img/icons/phone.svg')] bg-no-repeat bg-[left_10px_bottom_15px]"
-                placeholder="082116304338"
-              />
-            </div>
-            <div className="input-user flex flex-col gap-[15px]">
-              <div className="flex justify-between">
-                <label
-                  for="password"
-                  className="font-[Plus_Jakarta_Sans] font-semibold text-[16px] leading-[100%] align-middle"
-                >
-                  Passoword
-                </label>
-                <a className="text-right font-[Plus_Jakarta_Sans] font-normaltext-[16px] leading-[100%] tracking-[0%] text-right text-[#FF8906]">
-                  Set new password
-                </a>
-              </div>
-              <input
-                type="password"
-                name="passowrd"
-                id="password"
-                className="sm:w-[780px] h-[52px] border rounded-[8px] pt-[14px] pr-[13px] pb-[14px] pl-[53px] gap-[10px] bg-[url('./../img/icons/Profile.png')] bg-no-repeat bg-[left_10px_bottom_15px]"
-                placeholder="*********"
-              />
-            </div>
-            <div className="input-user flex flex-col gap-[15px]">
-              <label
-                for="address"
-                className="font-[Plus_Jakarta_Sans] font-semibold text-[16px] leading-[100%] align-middle"
-              >
-                Address
-              </label>
-              <input
-                type="text"
-                name="address"
-                id="address"
-                className="md:w-[780px] h-[52px] border rounded-[8px] pt-[14px] pr-[13px] pb-[14px] pl-[53px] gap-[10px] bg-[url('./../img/icons/Profile.png')] bg-no-repeat bg-[left_10px_bottom_15px]"
-                placeholder="Griya Bandung Indah"
-              />
-            </div> */}
-            <div className="input-user flex flex-col gap-[15px]">
+            <div className="input-user flex flex-col gap-3.75">
               <button className="bg-[#FF8906] h-10 rounded">Submit</button>
             </div>
           </form>
         </div>
       </div>
     </main>
-    <Footer/>
     </>
   );
 }

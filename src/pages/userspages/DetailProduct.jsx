@@ -148,15 +148,13 @@ export default function DetailProduct() {
   if (!product) {
     return (
       <>
-      <Nav bg="bg-black" padding="pb-[100px]" />
-      <h1> Kela keur loding </h1>
+        <h1> Kela keur loding </h1>
       </>
   )
   }
 
   return (
     <>
-    <Nav bg="bg-black" padding="pb-[100px]" />
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="grid grid-cols-1 my-10 md:grid-cols-2 gap-10">
       <ProductImage mainImage={product.image} />
@@ -165,14 +163,13 @@ export default function DetailProduct() {
         </div>
       </div>
       <div className="mt-16">
-          <h2 className="md:text-3xl text-xl overflow-hidden font-bold mb-8 font-[Plus_Jakarta_Sans] font-medium text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
+          <h2 className="md:text-3xl text-xl overflow-hidden font-medium mb-8 font-[Plus_Jakarta_Sans] text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <DetailProductCard />
           </div>
           <Prev />
       </div>
     </div>
-    <Footer />
     </>
     
         

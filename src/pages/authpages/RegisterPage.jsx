@@ -6,13 +6,13 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 export default function RegisterPage() {
-	const navigate = useNavigate()
-	useEffect(() => {
-		const tokenAuth = localStorage.getItem("token_auth_admin");
-		if (!tokenAuth) {
-		  navigate("/");
-		}
-	  }, [navigate]);
+	// const navigate = useNavigate()
+	// useEffect(() => {
+	// 	const tokenAuth = localStorage.getItem("token_auth_admin");
+	// 	if (!tokenAuth) {
+	// 	  navigate("/");
+	// 	}
+	//   }, [navigate]);
 	return (
 		<main className="flex grid-cols-[30%_auto] gap-10 ">
 			<AuthImage image={'https://placehold.co/400x960'} />

@@ -14,7 +14,6 @@ export default function HistoryOrder(){
     const status = ["on progress", "done"]
     return (
         <>
-        <Nav bg="bg-black" padding="pb-[100px]" />
         <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-8 mx-3">
                 <h1 className="text-4xl font-bold text-black">History Order</h1>
@@ -112,7 +111,6 @@ export default function HistoryOrder(){
             </div>
             
         </div>
-        <Footer />
         </>
     )
 }

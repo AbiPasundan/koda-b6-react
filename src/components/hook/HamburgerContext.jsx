@@ -13,5 +13,3 @@ export const HamburgerMenu = ({ children }) => {
     </HamburgerContext.Provider>
   );
 }
-
-// 123muhamad123A#
