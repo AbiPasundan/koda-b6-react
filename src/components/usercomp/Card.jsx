@@ -1,8 +1,7 @@
 import { FiShoppingCart } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
-import { Link, useNavigate, useParams } from "react-router";
-import React, { useContext, useEffect, useState } from "react";
-import { DataFetchContext } from "../hook/DataFetchContext";
+import { Link } from "react-router";
+import React, { useContext } from "react";
 import { ProductFetchContext } from "../hook/ProductFetchContext";
 
 function ImageCard({children, img, link}) {
@@ -68,28 +67,6 @@ function CardWrapper({children}){
 }
 
 function Card() {
-    // const [dataApi, setData] = useState([]);
-    // const [error, setError] = useState(null);
-    // const [isLoading, setIsLoading] = useState(true);
-    // useEffect(() => {
-    //     async function getData() {
-    //         try {
-    //             const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
-    //             console.log(api)
-    //             const { menu } = await api.json()
-    //             setData(menu)
-    //             console.log(menu[0].name)
-    //             setIsLoading(false);
-    //         } catch (error) {
-    //             setError(error.message);
-    //             setIsLoading(false);
-    //         }
-    //     }
-    //     getData()
-    // }, [])
-
-    const { dataApi, isLoading, error } = useContext(ProductFetchContext);
-    
     return (
         <>
             <main className="relative flex flex-col max-w-75">
@@ -105,24 +82,7 @@ function Card() {
     )
 }
 function HomeCard() {
-    // const [dataApi, setData] = useState([]);
-    // const [error, setError] = useState(null);
-    // const [isLoading, setIsLoading] = useState(true);
     const limit = 4
-    // async function getData() {
-    //     try {
-    //         const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
-    //         const { menu } = await api.json()
-    //         setData(menu)
-    //         setIsLoading(false);
-    //     } catch (error) {
-    //         setError(error.message);
-    //         setIsLoading(false);
-    //     }
-    // }
-    // useEffect(() => {
-    //     getData()
-    // }, [])
     const { dataApi, isLoading, error } = useContext(ProductFetchContext);
     
     const onClick = e => {
@@ -150,7 +110,7 @@ function HomeCard() {
             {!isLoading && !error && (
             <>
             {dataApi.slice(0, limit).map((item, index) => (
-                <main key={item.id ? item.id :index} className="relative flex justify-items-start justify-center justify-self-start self-start flex-col max-w-[300px]">
+                <main key={item.id ? item.id :index} className="relative flex justify-items-start justify-center justify-self-start self-start flex-col max-w-75">
                     <ImageCard img={item.image} link={item.id} />
                     <CardWrapper>
                         <CardHeader productName={item.name} desc={item.description} />
@@ -173,25 +133,7 @@ function HomeCard() {
 }
 
 function ProductCard() {
-    const [dataApi, setData] = useState([]);
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    useEffect(() => {
-        async function getData() {
-            try {
-                const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
-                console.log(api)
-                const { menu } = await api.json()
-                setData(menu)
-                console.log(menu[0].name)
-                setIsLoading(false);
-            } catch (error) {
-                setError(error.message);
-                setIsLoading(false);
-            }
-        }
-        getData()
-    }, [])
+    const { dataApi, isLoading, error } = useContext(ProductFetchContext);
     const onClick = e => {
         const cart = JSON.parse(localStorage.getItem("cart")) || []
         cart.push(e)
@@ -213,7 +155,7 @@ function ProductCard() {
             {!isLoading && !error && (
             <>
             {dataApi.map((item, index) => (
-            <main key={item.id ? item.id :index} className="relative flex flex-col max-w-[300px]">
+            <main key={item.id ? item.id :index} className="relative flex flex-col max-w-75">
                 <ImageCard img={item.image} link={item.id} >
                     <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>
                 </ImageCard>
@@ -244,35 +186,13 @@ function DetailProductCard() {
         console.log(cart)
         localStorage.setItem("cart", JSON.stringify(cart));
     }
-    const [dataApi, setData] = useState([]);
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const limit = 3
-    useEffect(() => {
-        async function getData() {
-            try {
-                const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
-                console.log(api)
-                const { menu } = await api.json()
-                const menuName = []
-                menu.forEach(e => {
-                    menuName.push(e.name)
-                });
-                setIsLoading(false);
-                const result = menu.sort(() => 0.5 - Math.random()).slice(0, 3)
-                setData(result)
-            } catch (error) {
-                setError(error.message);
-                setIsLoading(false);
-            }
-        }
-        getData()
-    }, [])
+    const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+    const dataProduct = dataApi.sort(() => 0.5 - Math.random()).slice(0, 3)
     return (
      <>
         {!isLoading && !error && (
         <>
-        {dataApi.map((item, index) => (
+        {dataProduct.map((item, index) => (
         <main key={item.id ? item.id :index} className="relative flex flex-col max-w-75">
             <ImageCard img={item.image} link={item.id} >
             <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale </span>
