@@ -1,11 +1,13 @@
 import { FiShoppingCart } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
 import { Link, useNavigate, useParams } from "react-router";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { DataFetchContext } from "../hook/DataFetchContext";
+import { ProductFetchContext } from "../hook/ProductFetchContext";
 
 function ImageCard({children, img, link}) {
     return (
-    <Link to={`/detailproduct/${link}`} className="w-[300px]" >
+    <Link to={`/detailproduct/${link}`} className="w-75" >
         <img src={img} alt="product" className="w-full" />
         {children}
     </Link >)
@@ -66,28 +68,31 @@ function CardWrapper({children}){
 }
 
 function Card() {
-    const [dataApi, setData] = useState([]);
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    useEffect(() => {
-        async function getData() {
-            try {
-                const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
-                console.log(api)
-                const { menu } = await api.json()
-                setData(menu)
-                console.log(menu[0].name)
-                setIsLoading(false);
-            } catch (error) {
-                setError(error.message);
-                setIsLoading(false);
-            }
-        }
-        getData()
-    }, [])    
+    // const [dataApi, setData] = useState([]);
+    // const [error, setError] = useState(null);
+    // const [isLoading, setIsLoading] = useState(true);
+    // useEffect(() => {
+    //     async function getData() {
+    //         try {
+    //             const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
+    //             console.log(api)
+    //             const { menu } = await api.json()
+    //             setData(menu)
+    //             console.log(menu[0].name)
+    //             setIsLoading(false);
+    //         } catch (error) {
+    //             setError(error.message);
+    //             setIsLoading(false);
+    //         }
+    //     }
+    //     getData()
+    // }, [])
+
+    const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+    
     return (
         <>
-            <main className="relative flex flex-col max-w-[300px]">
+            <main className="relative flex flex-col max-w-75">
                 <ImageCard />
                 <CardWrapper>
                     <CardHeader />
@@ -100,24 +105,25 @@ function Card() {
     )
 }
 function HomeCard() {
-    const [dataApi, setData] = useState([]);
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    // const [dataApi, setData] = useState([]);
+    // const [error, setError] = useState(null);
+    // const [isLoading, setIsLoading] = useState(true);
     const limit = 4
-    async function getData() {
-        try {
-            const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
-            const { menu } = await api.json()
-            setData(menu)
-            setIsLoading(false);
-        } catch (error) {
-            setError(error.message);
-            setIsLoading(false);
-        }
-    }
-    useEffect(() => {
-        getData()
-    }, [])
+    // async function getData() {
+    //     try {
+    //         const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
+    //         const { menu } = await api.json()
+    //         setData(menu)
+    //         setIsLoading(false);
+    //     } catch (error) {
+    //         setError(error.message);
+    //         setIsLoading(false);
+    //     }
+    // }
+    // useEffect(() => {
+    //     getData()
+    // }, [])
+    const { dataApi, isLoading, error } = useContext(ProductFetchContext);
     
     const onClick = e => {
         const cart = JSON.parse(localStorage.getItem("cart")) || []
@@ -228,7 +234,6 @@ function ProductCard() {
             </>
         )
         }
-            
      </>
     )
 }
@@ -249,19 +254,12 @@ function DetailProductCard() {
                 const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
                 console.log(api)
                 const { menu } = await api.json()
-                // setData(menu)
-                // console.log(menu.sort().reverse())
                 const menuName = []
                 menu.forEach(e => {
-                    // console.log(e.name)
                     menuName.push(e.name)
                 });
-                // console.log(menuName.sort(() => 0.5 - Math.random()).slice(0, 4))
                 setIsLoading(false);
-                // const shuffled = menu.sort(() => 0.5 - Math.random());
-                // const limited = shuffled.slice(0, limit);
                 const result = menu.sort(() => 0.5 - Math.random()).slice(0, 3)
-                // console.log(result)
                 setData(result)
             } catch (error) {
                 setError(error.message);
@@ -275,7 +273,7 @@ function DetailProductCard() {
         {!isLoading && !error && (
         <>
         {dataApi.map((item, index) => (
-        <main key={item.id ? item.id :index} className="relative flex flex-col max-w-[300px]">
+        <main key={item.id ? item.id :index} className="relative flex flex-col max-w-75">
             <ImageCard img={item.image} link={item.id} >
             <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale </span>
             </ImageCard>

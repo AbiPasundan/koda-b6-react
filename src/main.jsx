@@ -1,4 +1,3 @@
-import { StrictMode, useContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -21,8 +20,13 @@ import DetailOrder from './pages/userspages/DetailOrder.jsx';
 
 import './index.css'
 import { DataFetch } from "./components/hook/DataFetchContext";
+import { ProductFetch } from "./components/hook/ProductFetchContext";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
   {
     path: "/Login",
     element: <Login />,
@@ -95,7 +99,9 @@ const router = createBrowserRouter([
 
 
 createRoot(document.getElementById('root')).render(
-  <DataFetch>
-    <RouterProvider router={router} />
-  </DataFetch>
+  <ProductFetch>
+    <DataFetch>
+      <RouterProvider router={router} />
+    </DataFetch>
+  </ProductFetch>
 )

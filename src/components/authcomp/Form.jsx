@@ -6,14 +6,6 @@ import { DataFetchContext } from "@/components/hook/DataFetchContext";
 
 
 function Input({ type, registerInput, id, placeholder }) {
-
-	// const { dataApi, isLoading, error } = useContext(DataFetchContext);
-	// function Home() {
-	// 	console.log(dataApi)
-	// 	console.log(isLoading)
-	// 	console.log(error)
-	// }
-
 	const { dataApi, isLoading, error } = useContext(DataFetchContext);
 
 	console.log(dataApi)
@@ -26,7 +18,6 @@ function Input({ type, registerInput, id, placeholder }) {
 
 	return (
 		<input
-
 			type={type}
 			{...registerInput}
 			id={id}
