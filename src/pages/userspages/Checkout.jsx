@@ -5,7 +5,7 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
-function CheckoutProduct({name, newPrice, oldPrice, image}) {
+function CheckoutProduct({ name, newPrice, oldPrice, image }) {
     return (
         <main className="my-5">
             <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
@@ -36,7 +36,7 @@ function CheckoutProduct({name, newPrice, oldPrice, image}) {
     )
 }
 
-function CheckoutInput({children, value, text, placeholder, registerInput}) {
+function CheckoutInput({ children, value, text, placeholder, registerInput }) {
     return (
         <label htmlFor={value} className="w-full [&>span]:w-full [&>div]:w-full [&>div>input]:w-full">
             <span>{text}</span>
@@ -48,9 +48,9 @@ function CheckoutInput({children, value, text, placeholder, registerInput}) {
     )
 }
 
-export default function Checkout(){
+export default function Checkout() {
     const navigate = useNavigate()
-    const [selectDelivery, setSelectDelivery ] = useState()
+    const [selectDelivery, setSelectDelivery] = useState()
     const {
         register,
         handleSubmit,
@@ -69,17 +69,17 @@ export default function Checkout(){
     cart.forEach(item => {
         totalTax += item.tax;
     });
-    const total = (totalTax + totalPrice).toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})
-    
-    function generateNoOrder(){
+    const total = (totalTax + totalPrice).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })
+
+    function generateNoOrder() {
         const date = Date.now()
         const year = new Date(date).getFullYear();
         const month = new Date(date).getMonth();
         const hour = new Date(date).getHours()
         const second = new Date(date).getSeconds()
         const ml = new Date(date).getMilliseconds()
-        const monthyear = (String(month)+String(year))
-        const id = (String(hour)+String(second)+String(ml))
+        const monthyear = (String(month) + String(year))
+        const id = (String(hour) + String(second) + String(ml))
 
         const uniqueId = String(`${monthyear}-${id}`)
         return uniqueId
@@ -121,7 +121,7 @@ export default function Checkout(){
         // navigate("/login")
     }
     return (
-        <>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <header className="m-10 text-[#0B0909] text-5xl">
                 <h1>Payment Detail</h1>
             </header>
@@ -133,23 +133,23 @@ export default function Checkout(){
                                 <h4 className="text-xl">Your Order</h4>
                                 <Link to="/product" className="bg-[#FF8906] p-2 rounded-xl"> + Add Menu</Link>
                             </header>
-                            { cart.length == 0 ? (
+                            {cart.length == 0 ? (
                                 <>
-                                <main className="my-5">
-                                    <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
-                                        <h1>Belum ada apa-apa</h1>
-                                    </div>
-                                </main>
+                                    <main className="my-5">
+                                        <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
+                                            <h1>Belum ada apa-apa</h1>
+                                        </div>
+                                    </main>
                                 </>
                             ) : (
                                 <>
-                                {cart.map((data, i) => (
-                                    <div key={data.id} >
-                                        <CheckoutProduct name={data.name} image={data.image} oldPrice={data.oldPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} newPrice={data.newPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})} />
-                                    </div>
-                                ))}
-                            </>
-                            ) }
+                                    {cart.map((data, i) => (
+                                        <div key={data.id} >
+                                            <CheckoutProduct name={data.name} image={data.image} oldPrice={data.oldPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })} newPrice={data.newPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })} />
+                                        </div>
+                                    ))}
+                                </>
+                            )}
                         </section>
                         <table className="my-5 md:w-[40%] w-[80%] mx-auto">
                             <thead>
@@ -158,7 +158,7 @@ export default function Checkout(){
                             <tbody className="[&>tr]:bg-[#F5F5F5] [&>tr]:flex [&>tr]:justify-between [&>tr]:w-full [&>tr]:py-5 [&>tr>td]:mx-5 [&>tr>span]:mx-5">
                                 <tr>
                                     <td>Order</td>
-                                    <td>{totalPrice.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})}</td>
+                                    <td>{totalPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })}</td>
                                 </tr>
                                 <tr>
                                     <td>Delivery</td>
@@ -166,14 +166,16 @@ export default function Checkout(){
                                 </tr>
                                 <tr>
                                     <td>Tax</td>
-                                    <td>{totalTax.toLocaleString('id-ID', {style: 'currency', currency: 'IDR',})}</td>
+                                    <td>{totalTax.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })}</td>
                                 </tr>
                                 <tr className="border-t pt-2">
                                     <td>Sub Total</td>
                                     <td>{total}</td>
                                 </tr>
                                 <tr className="text-center ">
-                                    <td onClick={() => onClick()} className="text-center bg-[#FF8906] w-full py-2 rounded cursor-pointer">Submit</td>
+                                    <td className="text-center bg-[#FF8906] w-full py-2 rounded cursor-pointer">
+                                        <button type="submit" className="w-full">Submit</button>
+                                    </td>
                                 </tr>
                                 <tr className="text-center ">
                                     <td className="text-center vetical-center w-full py-2 rounded">
@@ -205,7 +207,7 @@ export default function Checkout(){
             </main>
             <section className="m-10 w-[50%] mx-auto md:mx-10">
                 <h1>Payment info & Delivery</h1>
-                <form className="w-full my-5  flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
+                <div className="w-full my-5  flex flex-col gap-5" >
                     <CheckoutInput value="email" text="Email" placeholder="Enter Your Email" registerInput={register("email")} >
                         <MdOutlineEmail size="30" />
                     </CheckoutInput>
@@ -215,16 +217,16 @@ export default function Checkout(){
                     <CheckoutInput value="address" text="Address" placeholder="Enter Your Address" registerInput={register("address")}>
                         <HiOutlineLocationMarker size="30" />
                     </CheckoutInput>
-                    <div  className="flex flex-col md:flex-row gap-5 justify-between items-center [&>label]:text-center [&>label]:px-10 [&>label]:py-1 [&>label]:border [&>label]:rounded ">
+                    <div className="flex flex-col md:flex-row gap-5 justify-between items-center [&>label]:text-center [&>label]:px-10 [&>label]:py-1 [&>label]:border [&>label]:rounded ">
                         {options.map(option => (
-                            <label onClick={() => setSelectDelivery(option)} key={option} className={` cursor-pointer ${selectDelivery === option ? "border-[#FF8906]" : "border-black" }`}>
+                            <label onClick={() => setSelectDelivery(option)} key={option} className={` cursor-pointer ${selectDelivery === option ? "border-[#FF8906]" : "border-black"}`}>
                                 <input type="radio" name="delivery" id="delivery" value={option} hidden {...register("delivery")} />{option}
                             </label>
                         ))}
                     </div>
-                    <button type="submit">Submit</button>
-                </form>
+                    
+                </div>
             </section>
-        </>
+        </form>
     )
 }
