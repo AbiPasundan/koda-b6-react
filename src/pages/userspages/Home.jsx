@@ -12,7 +12,10 @@ function Hero() {
     return (
         <>
             <main className="grid md:grid-cols-2 md:grid-cols-2-reverse overflow-hidden h-full " >
-                <section className="order-2 py-10 bg-[#777C82] bg-[linear-gradient(180deg,_rgba(119,_124,_130,_1)_0%,_rgba(11,_9,_9,_1)_66%)] flex w-full max-h-[130vh] ">
+                <section className="order-1 flex max-h-[130vh] ">
+                    <img src="/src/assets/img/userimg/home.png"  className="w-full overflow-hidden" alt="main image" />
+                </section>
+                <section className="order-2 py-10 bg-[#777C82] bg-[linear-gradient(180deg,rgba(119,124,130,1)_0%,rgba(11,9,9,1)_66%)] flex w-full max-h-[130vh] ">
                     <div className="flex flex-col justify-center items-start mx-10 gap-5">
                         <h1 className="text-5xl text-white">Start Your Daily With Coffee and Good Meals</h1>
                         <p className="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, reprehenderit repudiandae sequi animi dicta vitae dolorum nam a. Porro, quia.</p>
@@ -24,9 +27,7 @@ function Hero() {
                         </div>
                     </div>
                 </section>
-                <section className="order-1 flex max-h-[130vh] ">
-                    <img src="/src/assets/img/userimg/home.png"  className="w-full overflow-hidden" alt="main image" />
-                </section>
+                
             </main>
         </>
     )
@@ -80,7 +81,7 @@ function VisitOurStore() {
         <section className="max-w-[80vw] flex flex-col items-center mx-auto gap-5">
             <div className="text-center my-5 mx-10 md:mx-20">
                 <h2 className="md:text-[48px] text-[34px] text-[#0B132A] flex-wrap "><span className="text-[#8E6447]">Visit Our Store</span> in the Spot on the Map Below</h2>
-                <hr className="border-b-3 border-[#FF8906] w-[100px] my-10 mx-auto"  />
+                <hr className="border-b-3 border-[#FF8906] w-25 my-10 mx-auto"  />
                 <span className="text-[#4F5665] " >You can explore the menu that we provide with fun and have their own taste and make your day better.</span>
             </div>
             <div>

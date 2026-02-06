@@ -2,8 +2,11 @@ import AuthImage from '@/components/authcomp/Image'
 import ImageAuthLogo from '@/components/authcomp/ImageAuthLogo'
 import AuthHeader from '@/components/authcomp/AuthHeader'
 import { FormForgotPassword } from '@/components/authcomp/Form'
+import { DataFetchContext } from '@/components/hook/DataFetchContext'
+import { useContext } from 'react'
 
 export default function ForgotPassword() {
+	useContext(DataFetchContext)
 	return (
 		<main className="flex grid-cols-[30%_auto] gap-10 ">
 			<AuthImage image={'https://placehold.co/400x960'} />

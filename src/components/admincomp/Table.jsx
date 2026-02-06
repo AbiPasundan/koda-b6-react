@@ -1,100 +1,59 @@
 export function Thead(props) {
   return (
-    <thead className=" [&>tr>td]:py-5 [&>tr>td]:px-2 ">
-      <tr className="">
+    <thead className="[&>tr>td]:py-3 sm:[&>tr>td]:py-5 [&>tr>td]:px-2 bg-gray-50">
+      <tr className="whitespace-nowrap font-medium">
         <td>
-          <input type="checkbox" name="check" id="check" />
+          <input type="checkbox" />
         </td>
-        <td>
-          <span>{props.first}</span>
-        </td>
-        <td>
-          <span>{props.second}</span>
-        </td>
-        <td>
-          <span>{props.third}</span>
-        </td>
-        <td>
-          <span>{props.fourth}</span>
-        </td>
-        <td>
-          <span>{props.fifth}</span>
-        </td>
-        <td>
-          <span>{props.sixth}</span>
-        </td>
-        <td>
-          <span>{props.seventh}</span>
-        </td>
+        <td>{props.first}</td>
+        <td>{props.second}</td>
+        <td>{props.third}</td>
+        <td>{props.fourth}</td>
+        <td>{props.fifth}</td>
+        <td>{props.sixth}</td>
+        <td>{props.seventh}</td>
       </tr>
     </thead>
   );
 }
 
+
 export function Tbody(props) {
-//   const [dataApi, setData] = useState([]);
-//   const [error, setError] = useState(null);
-//   const [isLoading, setIsLoading] = useState(true);
-//   useEffect(() => {
-//     async function getData() {
-//       try {
-//         const api = await fetch(
-//           "https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json",
-//         );
-//         console.log(api);
-//         const { menu } = await api.json();
-//         setData(menu);
-//         dataApi(menu);
-//         console.log(menu);
-//         console.log(menu[0].name);
-//         console.log(menu[0].image);
-//         setIsLoading(false);
-//       } catch (error) {
-//         setError(error.message);
-//         setIsLoading(false);
-//       }
-//     }
-//     getData();
-//   }, []);
   return (
-    <tbody className=" [&>tr>td]:py-5 [&>tr>td]:px-2 ">
-      {/* {dataApi.map((data) => ( */}
-        <tr className="border-t-1 odd:bg-white even:bg-gray-100">
-          <td>
-            <input type="checkbox" name="check" id="check" />
-          </td>
-          <td className="max-w-[200px]">
-            <span>
-              <img src={props.first} width="100" alt="Image" />
-            </span>
-          </td>
-          <td className="max-w-[200px]">
-            <span>{props.second}</span>
-          </td>
-          <td className="max-w-[200px]">
-            <span>{props.third}</span>
-          </td>
-          <td className="max-w-[200px]">
-            <span>{props.fourth}</span>
-          </td>
-          <td className="max-w-[200px]">
-            <span>R,L,M</span>
-          </td>
-          <td className="max-w-[200px]">
-            <span>Delivery, Dine In </span>
-          </td>
-        </tr>
-      {/* ))} */}
+    <tbody className="[&>tr>td]:py-3 sm:[&>tr>td]:py-5 [&>tr>td]:px-2">
+      <tr className="border-t odd:bg-white even:bg-gray-100 whitespace-nowrap">
+        <td>
+          <input type="checkbox" />
+        </td>
+
+        <td>
+          <img
+            src={props.first}
+            className="w-[60px] sm:w-[80px] md:w-[100px] rounded"
+            alt="Image"
+          />
+        </td>
+
+        <td>{props.second}</td>
+        <td>{props.third}</td>
+        <td>{props.fourth}</td>
+        <td>R,L,M</td>
+        <td>Delivery, Dine In</td>
+      </tr>
     </tbody>
   );
 }
 
-export function Table({children}) {
+
+export function Table({ children }) {
   return (
-    <div className="flex flex-col my-10 border p-5">
-        <table className=" border border-red-100 [&>thead>tr]:p-5 [&>tbody>tr]:p-5 ">
+    <div className="my-10 border p-5 max-w-[90%]">
+      <div className="w-full overflow-x-auto">
+        <table className="w-full min-w-[900px] border border-red-100 text-sm">
           {children}
         </table>
+      </div>
     </div>
   );
 }
+
