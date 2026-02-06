@@ -151,7 +151,7 @@ function FormLogin({ children }) {
 						});
 					} else {
 
-  setError("Email atau password salah");
+						setError("Email atau password salah");
 					}
 				}
 			});
@@ -176,8 +176,8 @@ function FormLogin({ children }) {
 		<form onSubmit={handleSubmit(onSubmit)} method="POST" className="flex flex-col">
 			<div>
 				{error ?
-				<h1 className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-md" > Email or Password Wrong </h1>
-				: <></> }
+					<h1 className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-md" > Email or Password Wrong </h1>
+					: <></>}
 			</div>
 			<AuthComp registerInput={register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email address" } })} error={errors.email?.message} title="Email" type="text" name="email" id="email" placeholder="Enter Email" >
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
@@ -205,6 +205,7 @@ function FormLogin({ children }) {
 
 function FormRegister() {
 	const navigate = useNavigate();
+	const [registerError, setRegisterError] = useState("");
 	const {
 		register,
 		handleSubmit,
@@ -226,18 +227,44 @@ function FormRegister() {
 	console.log(user)
 
 	const onSubmit = data => {
-		const register = {
+		const emailExist = user.find(
+			(u) => u.email === data.email
+		);
+
+		if (emailExist) {
+			setRegisterError("Email sudah terdaftar");
+			return;
+		}
+
+		const newUser = {
 			name: data.name,
 			email: data.email,
 			password: data.password,
-		}
-		user.push(register)
-		console.log(data)
-		localStorage.setItem("user_coffee_shop", JSON.stringify(user))
-		navigate("/login", { replace: true, state: { name: data.name, email: data.email, } });
+		};
+
+		user.push(newUser);
+
+		localStorage.setItem("user_coffee_shop", JSON.stringify(user));
+
+		navigate("/login", {
+			replace: true,
+			state: {
+				name: data.name,
+				email: data.email,
+			},
+		});
 	};
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+
+			<div className="">
+				{registerError ? 
+					<p className="my-10 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-md"> {registerError} </p>
+				: <></>}
+			</div>
+
+
 			<AuthComp registerInput={register("name", { required: "Username is required", minLength: { value: 2, message: "username min 2 character" } })} error={errors.name?.message} type="text" id="name" placeholder="Enter Name">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-person" viewBox="0 0 16 16">
 					<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
