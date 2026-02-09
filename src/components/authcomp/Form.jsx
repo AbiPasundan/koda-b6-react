@@ -7,15 +7,6 @@ import { DataFetchContext } from "@/components/hook/DataFetchContext";
 
 function Input({ type, registerInput, id, placeholder }) {
 	const { dataApi, isLoading, error } = useContext(DataFetchContext);
-
-	console.log(dataApi)
-	console.log(isLoading)
-	console.log(error)
-
-	if (isLoading) return <p>Loading...</p>;
-	if (error) return <p>Error</p>;
-
-
 	return (
 		<input
 			type={type}
@@ -131,6 +122,8 @@ function FormLogin({ children }) {
 							isAdminLogin: true
 						}
 					});
+				} else {
+					setError("Email atau password salah");
 				}
 			})
 			users.forEach(e => {
@@ -150,7 +143,6 @@ function FormLogin({ children }) {
 							}
 						});
 					} else {
-
 						setError("Email atau password salah");
 					}
 				}
@@ -204,6 +196,7 @@ function FormLogin({ children }) {
 }
 
 function FormRegister() {
+	const [dataApi, setData] = useState([]);
 	const navigate = useNavigate();
 	const [registerError, setRegisterError] = useState("");
 	const {
@@ -224,14 +217,16 @@ function FormRegister() {
 		localStorage.removeItem("user_coffee_shop")
 	}
 
+	console.log(`data api berhasil di fetch ${dataApi} `)
+
 	console.log(user)
 
 	const onSubmit = data => {
 		const emailExist = user.find(
-			(u) => u.email === data.email
+			u => u.email === data.email
 		);
 
-		if (emailExist) {
+		if (emailExist || dataApi) {
 			setRegisterError("Email sudah terdaftar");
 			return;
 		}
@@ -259,9 +254,9 @@ function FormRegister() {
 		<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
 
 			<div className="">
-				{registerError ? 
+				{registerError ?
 					<p className="my-10 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-md"> {registerError} </p>
-				: <></>}
+					: <></>}
 			</div>
 
 

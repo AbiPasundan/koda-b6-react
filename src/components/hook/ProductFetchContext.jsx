@@ -11,8 +11,8 @@ export const ProductFetch = ({ children }) => {
     async function getData() {
       try {
         const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
-        const response = await api.json()
-        setData(response.menu)
+        const {menu} = await api.json()
+        setData(menu)
         setIsLoading(false);
       } catch (error) {
         setError(error.message);

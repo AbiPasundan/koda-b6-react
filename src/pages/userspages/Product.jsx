@@ -1,5 +1,3 @@
-import Nav from '/src/components/usercomp/Nav'
-import Footer from '/src/components/usercomp/Footer'
 import { ProductCard } from '@/components/usercomp/Card';
 
 import { PiSlidersHorizontalBold } from "react-icons/pi";

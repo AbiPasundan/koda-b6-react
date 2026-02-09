@@ -1,4 +1,3 @@
-import { Nav, Footer } from "@/App"
 import { MdOutlineEmail } from "react-icons/md";
 import { IoPersonOutline } from "react-icons/io5";
 import { HiOutlineLocationMarker } from "react-icons/hi";
@@ -87,9 +86,6 @@ export default function Checkout() {
     console.log(generateNoOrder())
 
 
-    const onClick = e => {
-        console.log(123)
-    }
     const onSubmit = data => {
         const date = new Date
         console.log(date)
@@ -118,7 +114,6 @@ export default function Checkout() {
             localStorage.removeItem("cart")
             navigate("/detailorder", dataOrder)
         }
-        // navigate("/login")
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
