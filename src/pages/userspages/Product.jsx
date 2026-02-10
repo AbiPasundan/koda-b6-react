@@ -4,8 +4,9 @@ import { PiSlidersHorizontalBold } from "react-icons/pi";
 import { IoMdSearch } from "react-icons/io";
 
 import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { ProductFetchContext } from '@/components/hook/ProductFetchContext';
 
 
 function ProductHero() {
@@ -55,7 +56,7 @@ function ProductCarouselComp({ img, title, text, bg = "bg-[#88B788]" }) {
                     <span>klaim kupon</span>
                 </div>
             </section>
-            <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-[400px]`}>
+            <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-100`}>
                 <div className='w-[30%]'>
                     <img src={img} alt="avatar" />
                 </div>
@@ -83,8 +84,6 @@ function ProductCarousel() {
             <main className=" flex flex-col  justify-start overflow-x-auto gap-5 ">
                 <div className="mx-10 my-10 flex flex-row  justify-start gap-5  py-5">
                     <ProductCarouselComp img="/src/assets/img/userimg/women.png" title="Happy Mother Days" text="Get one of our menu for free" />
-                    <ProductCarouselComp img="/src/assets/img/userimg/women.png" title="Happy Mother Days" text="Get one of our menu for free" />
-                    <ProductCarouselComp img="/src/assets/img/userimg/women.png" title="Happy Mother Days" text="Get one of our menu for free" />
                     <ProductCarouselComp bg="bg-[#F5C361]" img="/src/assets/img/userimg/man.png" title="Get a cup of coffee for free on sunday morning" text="Only at 7 to 9 AM" />
                 </div>
             </main>
@@ -99,7 +98,7 @@ function ProductFilter() {
         sort: [],
         range: {}
     }
-    const { register, handleSubmit, reset, } = useForm({defaultValues})
+    const { register, handleSubmit, reset, } = useForm({ defaultValues })
     const onSubmit = e => {
         console.log("berhas")
         console.log(e)
@@ -110,7 +109,7 @@ function ProductFilter() {
             <form onSubmit={handleSubmit(onSubmit)} className='mx-10 rounded-xl sticky md:flex flex-col gap-5 p-5 bg-black text-white max-w-[30%] hidden '>
                 <header className='flex justify-between'>
                     <h4>Filter</h4>
-                    <button onClick={() => reset({...defaultValues}) }>Reset Filter</button>
+                    <button onClick={() => reset({ ...defaultValues })}>Reset Filter</button>
                 </header>
                 <div className='flex gap-3 flex-col'>
                     <span>Search</span>
@@ -179,17 +178,42 @@ function ProductFilter() {
 }
 
 function MainProductFilter() {
+    const { dataApi, isLoading, error } = useContext(ProductFetchContext);
     return (
         <>
-            <div className='flex flex-wrap gap-3'>
-                <ProductFilter />
-                <div className='flex flex-row flex-wrap gap-3 flex-1 justify-center'>
-                    <ProductCard />
-                </div>
-            </div>
-            <section className='flex flex-row justify-center items-center gap-5 my-10 [&>span]:py-[3px] [&>span]:px-[10px] [&>span]:bg-[#FF8906] [&>span]:rounded-full '>
-                <span>1</span><span>2</span><span>3</span><span>3</span><span><FaCircleArrowRight size={24} /></span>
-            </section>
+            {dataApi.length == 0 ?
+                (
+                    <main className="my-5">
+                        <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
+                            <h1>Loading</h1>
+                        </div>
+                    </main>
+                )
+                :
+                (
+                    <>
+                        {!isLoading && !error && (
+                            <>
+                                    <>
+                                        <div className='flex flex-wrap gap-3'>
+                                            <ProductFilter />
+                                            <div className='flex flex-row flex-wrap gap-3 flex-1 justify-center'>
+                                                {dataApi.map(item => (
+                                                    <ProductCard key={item.id} image={item.image} id={item.id} name={item.name} description={item.description} newPrice={item.newPrice} oldPrice={item.oldPrice} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <>
+                                            <section className='flex flex-row justify-center items-center gap-5 my-10 [&>span]:py-0.75 [&>span]:px-2.5 [&>span]:bg-[#FF8906] [&>span]:rounded-full '>
+                                                <span>1</span><span>2</span><span>3</span><span>3</span><span><FaCircleArrowRight size={24} /></span>
+                                            </section>
+                                        </>
+                                    </>
+                            </>
+                        )}
+                    </>
+                )
+            }
         </>
     )
 }

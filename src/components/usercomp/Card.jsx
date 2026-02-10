@@ -132,8 +132,7 @@ function HomeCard() {
     )
 }
 
-function ProductCard() {
-    const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+function ProductCard(props) {
     const onClick = e => {
         const cart = JSON.parse(localStorage.getItem("cart")) || []
         cart.push(e)
@@ -141,41 +140,23 @@ function ProductCard() {
     }
     return (
      <>
-        {dataApi.length == 0 ? 
-        (
-            <main className="my-5">
-                <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
-                    <h1>Loading</h1>
-                </div>
-            </main>
-        )
-        :
-        (
             <>
-            {!isLoading && !error && (
-            <>
-            {dataApi.map((item, index) => (
-            <main key={item.id ? item.id :index} className="relative flex flex-col max-w-75">
-                <ImageCard img={item.image} link={item.id} >
+            <main className="relative flex flex-col max-w-75">
+                <ImageCard img={props.image} link={props.id} >
                     <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>
                 </ImageCard>
                 <CardWrapper>
-                    <CardHeader productName={item.name} desc={item.description} />
+                    <CardHeader productName={props.name} desc={props.description} />
                     <Rattings />
-                    <Price currentPrice={item.newPrice}>
-                        <span className="text-[#D00000] line-through font-medium text-[12px]">{item.oldPrice}</span>
+                    <Price currentPrice={props.newPrice}>
+                        <span className="text-[#D00000] line-through font-medium text-[12px]">{props.oldPrice}</span>
                     </Price>
-                    <ButtonCard link={item.id}>
-                        <FiShoppingCart onClick={() => onClick(item) } className="z-10" size={22} color='#FF8906' />
+                    <ButtonCard link={props.id}>
+                        <FiShoppingCart onClick={() => onClick(props) } className="z-10" size={22} color='#FF8906' />
                     </ButtonCard>
                 </CardWrapper>
             </main>
-            ))}
             </>
-            )}
-            </>
-        )
-        }
      </>
     )
 }
