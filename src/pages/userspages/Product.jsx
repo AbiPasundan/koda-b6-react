@@ -36,7 +36,7 @@ function MobileFilter() {
 function ProductCarouselComp({ img, title, text, bg = "bg-[#88B788]" }) {
     return (
         <>
-            <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-[400px]`}>
+            <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-100`}>
                 <div className='w-[30%]'>
                     <img src={img} alt="avatar" />
                 </div>
@@ -46,7 +46,7 @@ function ProductCarouselComp({ img, title, text, bg = "bg-[#88B788]" }) {
                     <span>klaim kupon</span>
                 </div>
             </section>
-            <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-[400px]`}>
+            <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-100`}>
                 <div className='w-[30%]'>
                     <img src={img} alt="avatar" />
                 </div>

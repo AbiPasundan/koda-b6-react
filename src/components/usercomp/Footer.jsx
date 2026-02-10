@@ -1,13 +1,16 @@
 import { FaFacebook, FaTwitter } from "react-icons/fa";
 import { ImInstagram } from "react-icons/im";
+// img
+import footer from "@/assets/img/userimg/footer.png"
 
 export default function Footer() {
     return (
         <>
             <footer className="flex flex-col flex-wrap py-10 md:flex-row pt-10 gap-10 bg-[#F9F9FA] [&>section]:mx-10">
-                <section className="flex flex-col flex-wrap">
-                    <img src="/src/assets/img/userimg/image.png" alt="logo" className="w-[80px] "/>
-                    <p className="md:w-[500px] ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis ut quos doloremque, tempore nisi quod sed et! Dolores, impedit vel. Dolore cumque officia dolor voluptate consequatur vel porro unde aliquam.</p>
+                <section className="flex flex-col flex-wrap gap-5">
+                    <img src={footer} alt="logo" width="300px"/>
+                    <p className="md:w-125 ">Coffee Shop is a store that sells some good meals, and especially coffee. We provide high quality beans</p>
+                    <span className="text-[14px] text-[#AFB5C0]">©2020CoffeeStore</span>
                 </section>
                 <section className="flex flex-row flex-wrap justify-between gap-10 [&>ul]:flex [&>ul]:flex-col [&>ul>h2]:font-bold ">
                     <ul>

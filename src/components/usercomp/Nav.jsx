@@ -5,6 +5,8 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { FaRegFontAwesomeLogoFull } from "react-icons/fa";
 import { useRef, useState } from 'react';
+// img
+import image from "@/assets/img/userimg/image.png"
 export default function Nav(props){
     const navigate = useNavigate()
     const showMenu = useRef(null)
@@ -23,7 +25,7 @@ export default function Nav(props){
             <nav className={`flex flex-row absolute justify-around items-center ${props.bg} p-5 left-0 right-0 `}>
                 <section className='flex flex-row justify-between gap-10 items-center'>
                     <Link to="/">
-                        <img src="/src/assets/img/userimg/image.png" alt="Logo" />
+                        <img src={image} alt="Logo" />
                     </Link>
                     <div className='hidden md:flex gap-10 text-white text-sm md:text-xl'>
                         <Link to="/">Home</Link>
@@ -57,7 +59,7 @@ export default function Nav(props){
                     </div>
                 </section>
                     {/* mobile */}
-                <section className={`${open ? 'block' : 'hidden'} md:hidden fixed justify-between top-0 left-0 bg-white z-100 h-[100vh]`}>
+                <section className={`${open ? 'block' : 'hidden'} md:hidden fixed justify-between top-0 left-0 bg-white z-100 h-screen`}>
                         <div>
                             <header className='flex justify-between p-3' >
                                 <FaRegFontAwesomeLogoFull size={90} />

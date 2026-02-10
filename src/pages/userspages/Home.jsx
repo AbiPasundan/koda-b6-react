@@ -8,6 +8,11 @@ import { IoMdSend } from "react-icons/io"
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5"
 import { useState } from "react"
 
+// img
+import testimoni from "@/assets/img/userimg/testimoni.png"
+import home from "@/assets/img/userimg/home.png"
+import barista from "@/assets/img/userimg/barista.png"
+
 function Hero() {
     return (
         <>
@@ -21,8 +26,8 @@ function Hero() {
                         <p className="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, reprehenderit repudiandae sequi animi dicta vitae dolorum nam a. Porro, quia.</p>
                         <Link to="/product" className="px-5 py-3 bg-[#FF8906] rounded">Get Started</Link>
                         <div className="flex gap-5 items-center justify-between text-[#FF8906]">
-                            <span className="border-r-1 px-5"> <p className="text-3xl">90+</p><br /> Staff</span>
-                            <span className="border-r-1 px-5"> <p className="text-3xl">30+</p><br /> Store</span>
+                            <span className="border-r px-5"> <p className="text-3xl">90+</p><br /> Staff</span>
+                            <span className="border-r px-5"> <p className="text-3xl">30+</p><br /> Store</span>
                             <span><p className="text-3xl"> 800+ </p><br /> Customer</span>
                         </div>
                     </div>
@@ -37,7 +42,7 @@ function About() {
     return (
         <>
             <main className="md:grid md:grid-cols-2 flex flex-col-reverse " >
-                <section className="bg-[#FFFFFF] flex w-full max-h-[130vh] flex flex-wrap flex-col">
+                <section className="bg-[#FFFFFF] w-full max-h-[130vh] flex flex-wrap flex-col">
                     <div className="mx-10 md:mx-20 my-auto">
                         <div className=" border-l-2 border-[#ff8906] my-10">
                             <h2 className="px-5 text-3xl md:text-5xl [&>span]:text-[#8E6447] ">We Provide <span> Good Coffee </span>and<span>  Healthy Meals</span> </h2>
@@ -54,7 +59,7 @@ function About() {
                     </div>
                 </section>
                 <section className="flex max-h-[130vh] ">
-                    <img src="/src/assets/img/userimg/barista.png"  className="w-full overflow-hidden" alt="main image" />
+                    <img src={barista}  className="w-full overflow-hidden" alt="main image" />
                 </section>
             </main>
         </>
@@ -85,7 +90,7 @@ function VisitOurStore() {
                 <span className="text-[#4F5665] " >You can explore the menu that we provide with fun and have their own taste and make your day better.</span>
             </div>
             <div>
-                <img src="/src/assets/img/userimg/map.png" alt="map" />
+                <img src={home} alt="map" />
             </div>
         </section>
         </>
@@ -95,11 +100,11 @@ function VisitOurStore() {
 function Testimoni() {
     return (
         <>
-            <section className=" overflow-hidden md:h-[80vh] h-[80vh] flex flex-col md:flex-row gap-10  px-10 bg-[#777C82] bg-[linear-gradient(180deg,_rgba(119,_124,_130,_1)_0%,_rgba(11,_9,_9,_1)_66%)]">
+            <section className=" overflow-hidden md:h-[80vh] h-[80vh] flex flex-col md:flex-row gap-10  px-10 bg-[#777C82] bg-[linear-gradient(180deg,rgba(119,124,130,1)_0%,rgba(11,9,9,1)_66%)]">
                 <div className="md:w-[30%] w-[80%] my-auto">
-                    <img src="/src/assets/img/userimg/testimoni.png"  className="w-full overflow-hidden" alt="main image" />
+                    <img src={testimoni}  className="w-full overflow-hidden" alt="main image" />
                 </div>
-                <div className="my-auto md:w-[440px] w-[220px] text-white flex flex-col gap-5 mx-10 md:mx-20">
+                <div className="my-auto md:w-110 w-55 text-white flex flex-col gap-5 mx-10 md:mx-20">
                     <h4>TESTIMONIAL</h4>
                     <h2 className="md:text-[48px] text-[24px] border-l-5 border-[#FF8906] px-5">Viezh Robert</h2>
                     <span className="text-[#FF8906] text-sm">Manager Coffe Shop</span>
@@ -130,7 +135,7 @@ function ChatBox(){
     }
     return (
         <div className="fixed bottom-20 right-10 z-50 flex flex-col items-end space-y-4">
-            <div id="chat-container" className={`chat-hidden ${open ? 'hidden' : 'block'} w-full max-w-[350px] sm:w-[350px] bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200`}>
+            <div id="chat-container" className={`chat-hidden ${open ? 'hidden' : 'block'} w-full max-w-87.5 sm:w-87.5 bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200`}>
                 <div className="border-t-8 py-6 border-orange-500 p-4 flex items-center shadow-sm">
                     <div className="relative">
                         <img src="https://i.pravatar.cc/150?img=32" alt="Admin" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
