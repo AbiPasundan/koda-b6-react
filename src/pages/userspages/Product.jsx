@@ -18,6 +18,12 @@ function ProductHero() {
 }
 
 function MobileFilter() {
+    const [show, setShow] = useState(false)
+    const onClick = () => {
+        console.log("berhasil")
+        setShow(show => !show)
+        console.log(show)
+    }
     return (
         <>
             <main className='flex items-center justify-center my-10 gap-5 md:hidden'>
@@ -26,7 +32,7 @@ function MobileFilter() {
                     <input type="text" name="search" id="search" placeholder='Find Product' />
                 </label>
                 <div>
-                    <PiSlidersHorizontalBold color='black' size="40" className=' bg-[#FF8906] rounded' />
+                    <PiSlidersHorizontalBold onClick={onClick} color='black' size="40" className=' bg-[#FF8906] rounded' />
                 </div>
             </main>
         </>
@@ -106,7 +112,7 @@ function ProductFilter() {
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} className='mx-10 rounded-xl sticky md:flex flex-col gap-5 p-5 bg-black text-white max-w-[30%] hidden '>
+            <form onSubmit={handleSubmit(onSubmit)} className={`mx-10 rounded-xl sticky md:flex flex-col gap-5 p-5 bg-black text-white max-w-[30%] hidden `}>
                 <header className='flex justify-between'>
                     <h4>Filter</h4>
                     <button onClick={() => reset({ ...defaultValues })}>Reset Filter</button>
@@ -221,11 +227,11 @@ function MainProductFilter() {
 
 export default function Product() {
     return (
-        <>
+        <div>
             <ProductHero />
             <MobileFilter />
             <ProductCarousel />
             <MainProductFilter />
-        </>
+        </div>
     )
 }

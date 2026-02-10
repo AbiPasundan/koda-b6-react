@@ -61,14 +61,16 @@ export default function Checkout() {
     const cart = JSON.parse(localStorage.getItem("cart")) || []
 
     let totalPrice = 0
-    cart.forEach(item => {
-        totalPrice += item.newPrice;
-    });
     let totalTax = 0
     cart.forEach(item => {
-        totalTax += item.tax;
+        totalTax += Number(item.tax);
+        totalPrice += Number(item.newPrice * totalTax );
     });
-    const total = (totalTax + totalPrice).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })
+    
+    // cart.forEach(item => {
+    //     totalTax += item.tax;
+    // });
+    const total = Number(totalTax + totalPrice).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })
 
     function generateNoOrder() {
         const date = Date.now()

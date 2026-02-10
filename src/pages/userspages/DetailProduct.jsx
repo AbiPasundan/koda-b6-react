@@ -1,10 +1,7 @@
-import Nav from "@/components/usercomp/Nav";
-import Footer from "@/components/usercomp/Footer";
 import { DetailProductCard } from "@/components/usercomp/Card";
 import { useNavigate, useParams } from "react-router";
 import { useContext, useEffect, useState } from "react";
 import { ProductFetchContext } from "@/components/hook/ProductFetchContext";
-
 
 function PoductImageComp(props) {
   return <img src={props.image} className="w-full h-24 object-cover cursor-pointer hover:opacity-80 border border-gray-200" />
@@ -36,9 +33,12 @@ function Desc(props) {
     console.log(element.name)
   });
   const navigate = useNavigate();
-  const buyProduct = () => {
+  const buyProduct = e => {
     dataApi.forEach(e => {
-      console.log(e.name)
+      const cart = JSON.parse(localStorage.getItem("cart")) || []
+      cart.push(e)
+      console.log(cart)
+      localStorage.setItem("cart", JSON.stringify(cart));
       navigate("/checkout", {
         replace: true, state: {
           email: e.email,
@@ -47,6 +47,12 @@ function Desc(props) {
         }
       })
     })
+  }
+  const addCart = e => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || []
+    cart.push(e)
+    console.log(cart)
+    localStorage.setItem("cart", JSON.stringify(cart));
   }
   return (
     <>
@@ -83,13 +89,13 @@ function Desc(props) {
         <label className="block font-[Plus_Jakarta_Sans] font-bold text-[18px] leading-[100%] tracking-[0%] text-[#0B0909] mb-2 ">Hot/Ice?</label>
         <div className="grid grid-cols-2 gap-3">
           {temps.map((temp, i) => (
-            <button key={i} onClick={() => { setSelectTemp(temp) }} className={`border ${selectTemp === temp ? 'border-orange-300' : 'border-black'}  py-2 rounded text-sm font-medium font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909]`}>{temp}</button>
+            <button key={i} onClick={() => { setSelectTemp(temp) }} className={`border ${selectTemp === temp ? 'border-orange-300' : 'border-black'}  py-2 rounded text-sm font-medium font-[Plus_Jakarta_Sans] text-[16px] leading-[100%] tracking-[0%] text-[#0B0909]`}>{temp}</button>
           ))}
         </div>
       </div>
       <div className="flex gap-4">
-        <button onClick={buyProduct} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-[20px] tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button>
-        <button className="flex-1 border border-orange-300 text-orange-600 font-bold py-3 rounded-md flex items-center justify-center gap-2 hover:bg-orange-50 transition">
+        <button onClick={() => buyProduct(props)} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button>
+        <button onClick={() => addCart(props)} className="flex-1 border border-orange-300 text-orange-600 font-bold py-3 rounded-md flex items-center justify-center gap-2 hover:bg-orange-50 transition">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
@@ -137,8 +143,6 @@ function Prev() {
 
 export default function DetailProduct() {
   const { dataApi, isLoading, error } = useContext(ProductFetchContext);
-  // const [error, setError] = useState(null);
-  // const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
 
   console.log(id)
