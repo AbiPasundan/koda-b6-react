@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { useContext } from "react";
 import { DataFetchContext } from "@/components/hook/DataFetchContext";
+import { ProductFetchContext } from "../hook/ProductFetchContext";
 
 
 function Input({ type, registerInput, id, placeholder }) {
@@ -108,15 +109,18 @@ function FormLogin({ children }) {
 			console.log("error")
 		} else {
 			dataApi.forEach(e => {
+				console.log(e.name)
 				if (data.email === e.email && data.password === e.password) {
 					console.log("bener euy")
 					const tokenAuthAdmin = {
+						name: e.name,
 						email: e.email,
 						password: e.password,
 					}
 					localStorage.setItem("token_auth_admin", JSON.stringify(tokenAuthAdmin))
 					navigate("/admin", {
 						replace: true, state: {
+							name: e.name,
 							email: e.email,
 							password: e.password,
 							isAdminLogin: true
@@ -131,12 +135,15 @@ function FormLogin({ children }) {
 					if (data.email === e.email && data.password === e.password) {
 						console.log("bener euy")
 						const tokenAuthUser = {
-							email: data.email,
-							password: data.password,
+							name: e.name,
+							email: e.email,
+							password: e.password,
 						}
+
 						localStorage.setItem("token_auth_user", JSON.stringify(tokenAuthUser))
 						navigate("/", {
 							replace: true, state: {
+								name: e.name,
 								email: e.email,
 								password: e.password,
 								isUserLogin: true
@@ -196,7 +203,7 @@ function FormLogin({ children }) {
 }
 
 function FormRegister() {
-	const [dataApi, setData] = useState([]);
+	const { dataApi, isLoading, error } = useContext(DataFetchContext);
 	const navigate = useNavigate();
 	const [registerError, setRegisterError] = useState("");
 	const {
@@ -206,7 +213,19 @@ function FormRegister() {
 		formState: { errors },
 	} = useForm()
 
-	let user = []
+
+
+	console.log(`data api berhasil di fetch ${dataApi} `)
+
+	// console.log(user)
+	// let admin = ""
+	// dataApi.forEach(e => {
+	// 	console.log(e.email)
+	// 	admin += e.email
+	// });
+	// console.log(admin)
+
+	let user
 
 	try {
 		const rawUser = localStorage.getItem("user_coffee_shop")
@@ -217,19 +236,20 @@ function FormRegister() {
 		localStorage.removeItem("user_coffee_shop")
 	}
 
-	console.log(`data api berhasil di fetch ${dataApi} `)
-
-	console.log(user)
-
 	const onSubmit = data => {
 		const emailExist = user.find(
 			u => u.email === data.email
 		);
 
-		if (emailExist || dataApi) {
+
+		// dataApi.forEach(e => {
+		// 	console.log(e.email)
+		// admin += e.email
+		if (emailExist) {
 			setRegisterError("Email sudah terdaftar");
 			return;
 		}
+		// });
 
 		const newUser = {
 			name: data.name,

@@ -1,237 +1,204 @@
+import { useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { ProductFetchContext } from '@/components/hook/ProductFetchContext';
 import { ProductCard } from '@/components/usercomp/Card';
 
 import { PiSlidersHorizontalBold } from "react-icons/pi";
 import { IoMdSearch } from "react-icons/io";
-
 import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
-import { useContext, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { ProductFetchContext } from '@/components/hook/ProductFetchContext';
-
 
 function ProductHero() {
     return (
-        <main className="flex items-center justify-center h-[40vh] mx-auto  bg-[url('/src/assets/img/userimg/heroproduct.png')] bg-no-repeat bg-cover">
-            <h1 className="mx-10 font-bold text-[#FFFFFF] md:text-5xl text-3xl">We Provide Good Coffee and Healthy Meals</h1>
+        <main className="flex items-center justify-center h-[40vh] mx-auto bg-[url('/src/assets/img/userimg/heroproduct.png')] bg-no-repeat bg-cover">
+            <h1 className="mx-10 font-bold text-white md:text-5xl text-3xl text-center">
+                We Provide Good Coffee and Healthy Meals
+            </h1>
         </main>
-    )
+    );
 }
 
-function MobileFilter() {
-    const [show, setShow] = useState(false)
-    const onClick = () => {
-        console.log("berhasil")
-        setShow(show => !show)
-        console.log(show)
-    }
+function MobileFilter({ onOpen }) {
     return (
-        <>
-            <main className='flex items-center justify-center my-10 gap-5 md:hidden'>
-                <label htmlFor="search" className='flex items-center p-3 gap-5 border rounded '>
-                    <IoMdSearch />
-                    <input type="text" name="search" id="search" placeholder='Find Product' />
-                </label>
-                <div>
-                    <PiSlidersHorizontalBold onClick={onClick} color='black' size="40" className=' bg-[#FF8906] rounded' />
-                </div>
-            </main>
-        </>
-    )
-}
-
-function ProductCarouselComp({ img, title, text, bg = "bg-[#88B788]" }) {
-    return (
-        <>
-            <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-100`}>
-                <div className='w-[30%]'>
-                    <img src={img} alt="avatar" />
-                </div>
-                <div className='flex flex-col [&>p]:my-2 w-[70%] nowrap '>
-                    <h2 className='font-bold'>{title}</h2>
-                    <p className='font-normal'> {text} </p>
-                    <span>klaim kupon</span>
-                </div>
-            </section>
-            <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-100`}>
-                <div className='w-[30%]'>
-                    <img src={img} alt="avatar" />
-                </div>
-                <div className='flex flex-col [&>p]:my-2 w-[70%] nowrap '>
-                    <h2 className='font-bold'>{title}</h2>
-                    <p className='font-normal'> {text} </p>
-                    <span>klaim kupon</span>
-                </div>
-            </section>
-            <section className={`flex p-3 gap-5 ${bg} rounded-xl min-w-100`}>
-                <div className='w-[30%]'>
-                    <img src={img} alt="avatar" />
-                </div>
-                <div className='flex flex-col [&>p]:my-2 w-[70%] nowrap '>
-                    <h2 className='font-bold'>{title}</h2>
-                    <p className='font-normal'> {text} </p>
-                    <span>klaim kupon</span>
-                </div>
-            </section>
-        </>
-
-    )
+        <div className='flex items-center justify-center my-10 gap-5 md:hidden px-5'>
+            <label htmlFor="search-mob" className='flex items-center p-3 gap-5 border rounded-xl flex-1'>
+                <IoMdSearch />
+                <input type="text" id="search-mob" placeholder='Find Product' className="outline-none w-full" />
+            </label>
+            <button onClick={onOpen} className='bg-[#FF8906] p-2 rounded-lg'>
+                <PiSlidersHorizontalBold color='black' size="32" />
+            </button>
+        </div>
+    );
 }
 
 function ProductCarousel() {
     return (
-        <>
-            <div className="flex justify-around items-center mt-10 stikcy w-full">
-                <h2 className='md:text-5xl text-3xl'>Today's <span className='text-[#8E6447]'>Promo</span></h2>
-                <span className="flex gap-5">
-                    <FaCircleArrowLeft size="30" />
-                    <FaCircleArrowRight size="30" />
-                </span>
-            </div>
-            <main className=" flex flex-col  justify-start overflow-x-auto gap-5 ">
-                <div className="mx-10 my-10 flex flex-row  justify-start gap-5  py-5">
-                    <ProductCarouselComp img="/src/assets/img/userimg/women.png" title="Happy Mother Days" text="Get one of our menu for free" />
-                    <ProductCarouselComp bg="bg-[#F5C361]" img="/src/assets/img/userimg/man.png" title="Get a cup of coffee for free on sunday morning" text="Only at 7 to 9 AM" />
+        <section className="w-full mb-10">
+            <div className="flex justify-between items-center mb-6">
+                <h2 className='md:text-5xl text-3xl font-medium'>Today's <span className='text-[#8E6447]'>Promo</span></h2>
+                <div className="flex gap-3">
+                    <FaCircleArrowLeft size="30" className="cursor-pointer text-gray-400 hover:text-black" />
+                    <FaCircleArrowRight size="30" className="cursor-pointer text-gray-400 hover:text-black" />
                 </div>
-            </main>
-        </>
-    )
+            </div>
+            <div className="flex gap-5 overflow-x-auto pb-5 no-scrollbar">
+                <PromoCard bg="bg-[#88B788] text-[14px] " img="/src/assets/img/userimg/women.png" title="Happy Mother Days" text="Get one of our menu for free" />
+                <PromoCard bg="bg-[#88B788] text-[14px] " img="/src/assets/img/userimg/women.png" title="Happy Mother Days" text="Get one of our menu for free" />
+                <PromoCard bg="bg-[#88B788] text-[14px] " img="/src/assets/img/userimg/women.png" title="Happy Mother Days" text="Get one of our menu for free" />
+                <PromoCard bg="bg-[#F5C361] text-[14px]" img="/src/assets/img/userimg/man.png" title="Sunday Morning" text="Only at 7 to 9 AM" />
+            </div>
+        </section>
+    );
 }
 
-function ProductFilter() {
+function PromoCard({ img, title, text, bg }) {
+    return (
+        <div className={`flex p-4 gap-4 ${bg} rounded-2xl min-w-75 md:min-w-87.5`}>
+            <img src={img} alt={title} className="w-20 h-20 object-cover" />
+            <div>
+                <h4 className='font-bold text-sm'>{title}</h4>
+                <p className='text-xs my-1'>{text}</p>
+                <span className="text-[10px] font-bold underline cursor-pointer">Klaim Kupon</span>
+            </div>
+        </div>
+    );
+}
+
+function ProductFilter({ isVisible }) {
     const defaultValues = {
         search: "",
         category: [],
         sort: [],
         range: {}
     }
-    const { register, handleSubmit, reset, } = useForm({ defaultValues })
+    const { register, handleSubmit, reset } = useForm({ defaultValues });
     const onSubmit = e => {
         console.log("berhas")
         console.log(e)
     }
 
     return (
-        <>
-            <form onSubmit={handleSubmit(onSubmit)} className={`mx-10 rounded-xl sticky md:flex flex-col gap-5 p-5 bg-black text-white max-w-[30%] hidden `}>
-                <header className='flex justify-between'>
-                    <h4>Filter</h4>
-                    <button onClick={() => reset({ ...defaultValues })}>Reset Filter</button>
-                </header>
-                <div className='flex gap-3 flex-col'>
-                    <span>Search</span>
-                    <label htmlFor="search" className='p-3 border border-red-800 rounded-xl bg-white text-red-900 '>
-                        <input type="text" {...register("search")} id="search" className='outline-none' placeholder='Search Your Product' />
-                    </label>
-                </div>
-                <div className='flex flex-col gap-10 [&>ul>h4]:text-[18px] [&>form>h4]:font-bold [&>form>label>input]:mr-5 [&>form>label>input]:accent-[#FF8906] '>
-                    <div className='flex flex-col gap-2'>
-                        <h4>Category</h4>
-                        <label htmlFor="favorit">
-                            <input type="checkbox" {...register("category")} value="favorite" id="favorit" />
-                            <span>Favorit Product</span>
-                        </label>
-                        <label htmlFor="noncoffe">
-                            <input type="checkbox" {...register("category")} value="coffe" id="noncoffe" />
-                            <span>Non Coffe</span>
-                        </label>
-                        <label htmlFor="coffee">
-                            <input type="checkbox" {...register("category")} value="foods" id="coffee" />
-                            <span>Coffe</span>
-                        </label>
-                        <label htmlFor="foods">
-                            <input type="checkbox" {...register("category")} value="favorit" id="foods" />
-                            <span>Foods</span>
-                        </label>
-                        <label htmlFor="addon">
-                            <input type="checkbox" {...register("category")} value="addon" id="addon" />
-                            <span>Add On</span>
-                        </label>
-                    </div>
-                    <div className='flex flex-col gap-2'>
-                        <h4>Sort By</h4>
-                        <label htmlFor="freeone">
-                            <input type="checkbox" {...register("sort")} value="freeone" id="freeone" />
-                            <span>Buy1 get1</span>
-                        </label>
-                        <label htmlFor="flashsale">
-                            <input type="checkbox" {...register("sort")} value="flashsale" id="flashsale" />
-                            <span>Flash Sale</span>
-                        </label>
-                        <label htmlFor="birthday">
-                            <input type="checkbox" {...register("sort")} value="birthday" id="birthday" />
-                            <span>BirthDay Package</span>
-                        </label>
-                        <label htmlFor="cheap">
-                            <input type="checkbox" {...register("sort")} value="cheap" id="cheap" />
-                            <span>Cheap</span>
-                        </label>
-                    </div>
-                </div>
-                <div className='flex gap-3 flex-col'>
-                    <span>Range Price</span>
-                    <label htmlFor="search" className='p-3 border border-red-800 rounded-xl bg-white text-red-900 '>
-                        <input type="range" name="rangeMin" id="rangeMin" className='outline-none' />
-                        <input type="range" name="rangeMax" id="rangeMax" className='outline-none' />
-                    </label>
-                </div>
-                <div className='flex gap-3 flex-col'>
-                    <span>Range Price</span>
-                    <button type='submit' htmlFor="search" className='p-3 border border-red-800 rounded-xl bg-[#FF8906] text-black '>Apply Filter</button>
-                </div>
-            </form>
-        </>
-    )
+        <form form onSubmit={handleSubmit(onSubmit)} className={`${isVisible ? 'flex' : 'hidden'} md:flex flex-col gap-6 p-6 bg-black text-white rounded-2xl h-fit sticky top-5 w-full md:max-w-70 z-999`}>
+            <div className='flex justify-between items-center'>
+                <h4 className="text-xl font-bold">Filter</h4>
+                <button type="button" onClick={() => reset()} className="text-sm text-gray-400">Reset</button>
+            </div>
+
+            <div className='flex flex-col gap-2'>
+                <span className="font-semibold text-orange-400">Search</span>
+                <input {...register("search")} className='p-2 rounded-lg text-[black] bg-[#FCFDFE] outline-none' placeholder='Search...' />
+            </div>
+
+            <div className='flex flex-col gap-4'>
+                <FilterGroup title="Category" register={register} name="category"
+                    options={['Favorite', 'Coffee', 'Non-Coffee', 'Foods', 'Add-on']} />
+                <FilterGroup title="Sort By" register={register} name="sort"
+                    options={['Buy1 Get1', 'Flash Sale', 'Cheap']} />
+            </div>
+
+            <button className='w-full py-3 bg-[#FF8906] text-black font-bold rounded-xl mt-4'>Apply Filter</button>
+        </form>
+    );
 }
 
-function MainProductFilter() {
-    const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+function FilterGroup({ title, options, register, name }) {
     return (
-        <>
-            {dataApi.length == 0 ?
-                (
-                    <main className="my-5">
-                        <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
-                            <h1>Loading</h1>
-                        </div>
-                    </main>
-                )
-                :
-                (
-                    <>
-                        {!isLoading && !error && (
-                            <>
-                                    <>
-                                        <div className='flex flex-wrap gap-3'>
-                                            <ProductFilter />
-                                            <div className='flex flex-row flex-wrap gap-3 flex-1 justify-center'>
-                                                {dataApi.map(item => (
-                                                    <ProductCard key={item.id} image={item.image} id={item.id} name={item.name} description={item.description} newPrice={item.newPrice} oldPrice={item.oldPrice} />
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <>
-                                            <section className='flex flex-row justify-center items-center gap-5 my-10 [&>span]:py-0.75 [&>span]:px-2.5 [&>span]:bg-[#FF8906] [&>span]:rounded-full '>
-                                                <span>1</span><span>2</span><span>3</span><span>3</span><span><FaCircleArrowRight size={24} /></span>
-                                            </section>
-                                        </>
-                                    </>
-                            </>
-                        )}
-                    </>
-                )
-            }
-        </>
-    )
+        <div className="flex flex-col gap-2">
+            <h5 className="font-semibold text-orange-400">{title}</h5>
+            {options.map(opt => (
+                <label key={opt} className="flex items-center gap-3 text-sm cursor-pointer">
+                    <input type="checkbox" {...register(name)} value={opt.toLowerCase()} className="accent-[#FF8906]" />
+                    {opt}
+                </label>
+            ))}
+        </div>
+    );
+}
+
+function MainProductList({ currentPage, setCurrentPage, itemsPerPage }) {
+    const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+
+    if (isLoading) return <div className="text-center py-10">Loading products...</div>;
+    if (error) return <div className="text-center py-10 text-red-500">Error loading data.</div>;
+
+    const totalItems = dataApi.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentProducts = dataApi.slice(indexOfFirstItem, indexOfLastItem);
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        window.scrollTo({ top: 500, behavior: 'smooth' });
+    };
+
+    return (
+        <div className="w-full">
+            <div className='flex flex-wrap justify-center gap-5'>
+                {currentProducts.map(item => (
+                    <ProductCard key={item.id} {...item} />
+                ))}
+            </div>
+
+            {totalPages > 1 && (
+                <div className='flex justify-center items-center gap-3 mt-12 mb-10'>
+                    {/* Tombol Angka */}
+                    {[...Array(totalPages)].map((_, index) => {
+                        const pageNum = index + 1;
+                        return (
+                            <button
+                                key={pageNum}
+                                onClick={() => paginate(pageNum)}
+                                className={`w-10 h-10 flex items-center justify-center rounded-full transition-all
+                                ${currentPage === pageNum 
+                                    ? 'bg-[#FF8906] text-white font-bold shadow-lg' 
+                                    : 'bg-gray-100 hover:bg-gray-200 text-black'}`}
+                            >
+                                {pageNum}
+                            </button>
+                        );
+                    })}
+
+                    {/* Tombol Next */}
+                    <button 
+                        disabled={currentPage === totalPages}
+                        onClick={() => paginate(currentPage + 1)}
+                        className={`ml-2 ${currentPage === totalPages ? 'opacity-30 cursor-not-allowed' : 'text-[#FF8906]'}`}
+                    >
+                        <FaCircleArrowRight size={28} />
+                    </button>
+                </div>
+            )}
+            
+            <p className="text-center text-gray-400 text-sm">
+                Showing {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, totalItems)} of {totalItems} Products
+            </p>
+        </div>
+    );
 }
 
 
 export default function Product() {
+    const [showFilter, setShowFilter] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 8;
+
+
     return (
-        <div>
+        <div className="min-h-screen bg-white">
             <ProductHero />
-            <MobileFilter />
-            <ProductCarousel />
-            <MainProductFilter />
+
+            <MobileFilter onOpen={() => setShowFilter(!showFilter)} />
+
+            <div className="max-w-full mx-auto px-5 md:px-10 py-10 flex flex-col md:flex-row gap-10">
+                <ProductFilter isVisible={showFilter} />
+                <div className=" flex flex-col gap-5 overflow-x-auto pb-5 no-scrollbar">
+                    <ProductCarousel />
+                    <MainProductList currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} />
+                </div>
+
+            </div>
         </div>
-    )
+    );
 }

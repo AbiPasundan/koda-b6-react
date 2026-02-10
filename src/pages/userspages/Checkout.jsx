@@ -1,10 +1,11 @@
+import { BiX } from "react-icons/bi";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoPersonOutline } from "react-icons/io5";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
-function CheckoutProduct({ name, newPrice, oldPrice, image }) {
+function CheckoutProduct({ name, newPrice, oldPrice, image, onDelete }) {
     return (
         <main className="my-5">
             <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
@@ -29,19 +30,21 @@ function CheckoutProduct({ name, newPrice, oldPrice, image }) {
                         <span className="text-[#FF8906] text-[18px]">{newPrice}</span>
                     </div>
                 </div>
-                <div className="my-auto -mx-5 md:mx-10">X</div>
+                <div className="my-auto -mx-5 md:mx-10 cursor-pointer">
+                    <BiX onClick={onDelete} />
+                </div>
             </div>
         </main>
     )
 }
 
-function CheckoutInput({ children, value, text, placeholder, registerInput }) {
+function CheckoutInput({ children, value, text, placeholder, registerInput, realValue }) {
     return (
         <label htmlFor={value} className="w-full [&>span]:w-full [&>div]:w-full [&>div>input]:w-full">
             <span>{text}</span>
             <div className="flex items-center p-3 border">
                 {children}
-                <input {...registerInput} className="mx-5 outline-none" type={value} name={value} id={value} placeholder={placeholder} />
+                <input {...registerInput} className="mx-5 outline-none" value={realValue} type={value} name={value} id={value} placeholder={placeholder} />
             </div>
         </label>
     )
@@ -56,21 +59,49 @@ export default function Checkout() {
         watch,
         formState: { errors },
     } = useForm()
+    console.log(register)
 
     const options = ['Dine In', 'Door Delivery', 'Pick Up'];
-    const cart = JSON.parse(localStorage.getItem("cart")) || []
+    // const cart = JSON.parse(localStorage.getItem("cart")) || []
+    const rawCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    let totalPrice = 0
-    let totalTax = 0
-    cart.forEach(item => {
-        totalTax += Number(item.tax);
-        totalPrice += Number(item.newPrice * totalTax );
-    });
-    
+    const cart = rawCart.reduce((acc, item) => {
+        const existingItem = acc.find(i => i.id === item.id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+            existingItem.totalNewPrice += item.newPrice;
+        } else {
+            acc.push({
+                ...item,
+                quantity: 1,
+                totalNewPrice: item.newPrice
+            });
+        }
+        return acc;
+    }, []);
+
+    // let totalPrice = 0
+    // let totalTax = 0
+    // let cartPrice = 0
     // cart.forEach(item => {
-    //     totalTax += item.tax;
+    //     cartPrice += item.newPrice
+    //     totalPrice += item.newPrice
+    //     totalTax += item.tax * totalPrice
+    //     console.log(item.tax * totalPrice)
     // });
-    const total = Number(totalTax + totalPrice).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })
+    // const total = Number(totalTax + totalPrice).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })
+
+    let totalPrice = 0;
+    let totalTax = 0;
+
+    rawCart.forEach(item => {
+        totalPrice += item.newPrice;
+        // console.log(totalPrice)
+    });
+
+    totalTax = rawCart.reduce((acc, item) => acc + (item.tax * item.newPrice), 0);
+
+    const total = Number(totalTax + totalPrice).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
     function generateNoOrder() {
         const date = Date.now()
@@ -87,36 +118,59 @@ export default function Checkout() {
     }
     console.log(generateNoOrder())
 
+    const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || []
+    console.log(dataLogin)
+    // token_auth_user
 
     const onSubmit = data => {
         const date = new Date
         console.log(date)
+        console.log(data.name)
         const localData = JSON.parse(localStorage.getItem("orders")) || []
         const tokenAuthUser = JSON.parse(localStorage.getItem("token_auth_user")) || null
-        if (tokenAuthUser === null) {
-            navigate("/login")
-        } else {
-            const dataOrder = {
-                no: generateNoOrder(),
-                date: date.toLocaleDateString(),
-                total: total,
-                status: "done",
-                detail:
-                {
-                    name: data.name,
-                    email: data.email,
-                    address: data.address,
-                    phone: 628123456789,
-                    payment: "Cash",
-                    delivery: data.delivery,
+
+        if (!data) {
+            if (tokenAuthUser === null) {
+                navigate("/login")
+            } else {
+                const dataOrder = {
+                    no: generateNoOrder(),
+                    date: date.toLocaleDateString(),
+                    total,
+                    status: "done",
+                    detail:
+                    {
+                        name: data.name,
+                        email: data.email,
+                        address: data.address,
+                        phone: 628123456789,
+                        payment: "Cash",
+                        delivery: data.delivery,
+                    }
                 }
+                localData.push(dataOrder)
+                localStorage.setItem("orders", JSON.stringify(localData))
+                localStorage.removeItem("cart")
+                navigate("/detailorder", dataOrder)
             }
-            localData.push(dataOrder)
-            localStorage.setItem("orders", JSON.stringify(localData))
-            localStorage.removeItem("cart")
-            navigate("/detailorder", dataOrder)
+
+        } else {
+            return <h1>salah</h1>
         }
     }
+
+    const ongkirDoorDelivery = 4000
+
+    const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []);
+
+    const handleDelete = id => {
+        const updatedCart = carts.filter(item => item.id !== id);
+        console.log(carts)
+
+        setCarts(updatedCart);
+
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+    };
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <header className="m-10 text-[#0B0909] text-5xl">
@@ -142,7 +196,7 @@ export default function Checkout() {
                                 <>
                                     {cart.map((data, i) => (
                                         <div key={data.id} >
-                                            <CheckoutProduct name={data.name} image={data.image} oldPrice={data.oldPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })} newPrice={data.newPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })} />
+                                            <CheckoutProduct onDelete={() => handleDelete(data.id)} name={data.name} image={data.image} oldPrice={data.oldPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.newPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} />
                                         </div>
                                     ))}
                                 </>
@@ -155,15 +209,20 @@ export default function Checkout() {
                             <tbody className="[&>tr]:bg-[#F5F5F5] [&>tr]:flex [&>tr]:justify-between [&>tr]:w-full [&>tr]:py-5 [&>tr>td]:mx-5 [&>tr>span]:mx-5">
                                 <tr>
                                     <td>Order</td>
-                                    <td>{totalPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })}</td>
+                                    <td>{totalPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
                                 </tr>
                                 <tr>
                                     <td>Delivery</td>
-                                    <td>Idr 0</td>
+                                    {/* <td>{options.includes("Door Delivery") ? "bayar ajig" : ""}</td> */}
+                                    <td>{selectDelivery === "Door Delivery" ? (ongkirDoorDelivery.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })) : "Rp 0"}</td>
+                                    {/* .toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }) */}
+                                    {/* {options.map(option => ( */}
+
+                                    {/* ))} */}
                                 </tr>
                                 <tr>
                                     <td>Tax</td>
-                                    <td>{totalTax.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', })}</td>
+                                    <td>{totalTax.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
                                 </tr>
                                 <tr className="border-t pt-2">
                                     <td>Sub Total</td>
@@ -205,10 +264,10 @@ export default function Checkout() {
             <section className="m-10 w-[50%] mx-auto md:mx-10">
                 <h1>Payment info & Delivery</h1>
                 <div className="w-full my-5  flex flex-col gap-5" >
-                    <CheckoutInput value="email" text="Email" placeholder="Enter Your Email" registerInput={register("email")} >
+                    <CheckoutInput realValue={dataLogin.email} value={dataLogin.email} text="Email" placeholder={dataLogin.email ?? "Enter Your Email"} registerInput={register("email")} >
                         <MdOutlineEmail size="30" />
                     </CheckoutInput>
-                    <CheckoutInput value="name" text="Full Name" placeholder="Enter Your Full Name" registerInput={register("name")}>
+                    <CheckoutInput realValue={dataLogin.name} value={dataLogin.name} text="Full Name" placeholder={dataLogin.name ?? "Enter Your Name"} registerInput={register("name")}>
                         <IoPersonOutline size="30" />
                     </CheckoutInput>
                     <CheckoutInput value="address" text="Address" placeholder="Enter Your Address" registerInput={register("address")}>
@@ -221,7 +280,7 @@ export default function Checkout() {
                             </label>
                         ))}
                     </div>
-                    
+
                 </div>
             </section>
         </form>

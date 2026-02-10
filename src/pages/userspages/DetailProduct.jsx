@@ -11,7 +11,7 @@ function ProductImage(props) {
   return (
     <div className="space-y-4">
       <div className="relative overflow-hidden shadow-sm">
-        <img src={props.mainImage} alt="Hazelnut Latte" className="w-full h-[400px] object-cover" />
+        <img src={props.mainImage} alt="Hazelnut Latte" className="w-full h-100 object-cover" />
       </div>
       <div className="grid grid-cols-3 gap-4">
         <PoductImageComp image="https://placehold.co/600x400" />
@@ -29,9 +29,9 @@ function Desc(props) {
   const sizes = ["regular", "medium", "large"]
   const temps = ["hot", "cold"]
   const { dataApi, isLoading, error } = useContext(ProductFetchContext);
-  dataApi.forEach(element => {
-    console.log(element.name)
-  });
+  // dataApi.forEach(element => {
+  //   console.log(element.name)
+  // });
   const navigate = useNavigate();
   const buyProduct = e => {
     dataApi.forEach(e => {
@@ -54,6 +54,15 @@ function Desc(props) {
     console.log(cart)
     localStorage.setItem("cart", JSON.stringify(cart));
   }
+
+  const plus = () => {
+    (count < dataApi.stock && setCount(count + 1)  )
+    console.log(count)
+    // dataApi.forEach(element => {
+    //   console.log(count)
+    // });
+  }
+
   return (
     <>
       <span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>
@@ -75,7 +84,7 @@ function Desc(props) {
       <div className="flex items-center mb-6">
         <button onClick={() => (count ? setCount(count - 1) : setCount(0))} className="w-8 h-8 border border-[#FF8906] rounded flex items-center justify-center text-gray-600 hover:bg-gray-100">-</button>
         <span className="w-10 text-center font-medium">{count}</span>
-        <button onClick={() => (count != 10 ? setCount(count + 1) : setCount(10))} className="w-8 h-8 bg-[#FF8906] text-white rounded flex items-center justify-center hover:bg-orange-600">+</button>
+        <button onClick={() => (count != 10 ? setCount(plus) : setCount(10))} className="w-8 h-8 bg-[#FF8906] text-white rounded flex items-center justify-center hover:bg-orange-600">+</button>
       </div>
       <div className="mb-4">
         <label className="block font-[Plus_Jakarta_Sans] font-bold text-[18px] leading-[100%] tracking-[0%] text-[#0B0909] mb-2">Choose Size</label>

@@ -7,13 +7,6 @@ import { useEffect } from 'react'
 
 export default function LoginPage() {
 	const navigate = useNavigate()
-	const tokenUser = localStorage.getItem("token_auth_user");
-	const tokenAdmin = localStorage.getItem("token_auth_admin");
-	// if (tokenAdmin || tokenUser) {
-	// 	navigate("/")
-	// } else{
-	// 	console.log("can baleg euy");
-	// }
 	useEffect(() => {
 			const tokenUser = localStorage.getItem("token_auth_user");
 			const tokenAdmin = localStorage.getItem("token_auth_admin");
