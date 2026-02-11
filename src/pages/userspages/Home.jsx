@@ -12,6 +12,7 @@ import { useState } from "react"
 import testimoni from "@/assets/img/userimg/testimoni.png"
 import home from "@/assets/img/userimg/home.png"
 import barista from "@/assets/img/userimg/barista.png"
+import map from "@/assets/img/userimg/map.png"
 
 function Hero() {
     return (
@@ -90,7 +91,7 @@ function VisitOurStore() {
                 <span className="text-[#4F5665] " >You can explore the menu that we provide with fun and have their own taste and make your day better.</span>
             </div>
             <div>
-                <img src={home} alt="map" />
+                <img src={map} alt="map" />
             </div>
         </section>
         </>

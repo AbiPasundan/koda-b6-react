@@ -51,6 +51,7 @@ function CheckoutInput({ children, value, text, placeholder, registerInput, real
 }
 
 export default function Checkout() {
+    const [error, setError] = useState(null);
     const navigate = useNavigate()
     const [selectDelivery, setSelectDelivery] = useState()
     const {
@@ -155,7 +156,7 @@ export default function Checkout() {
             }
 
         } else {
-            return <h1>salah</h1>
+            setError("Error")
         }
     }
 
@@ -176,8 +177,19 @@ export default function Checkout() {
             <header className="m-10 text-[#0B0909] text-5xl">
                 <h1>Payment Detail</h1>
             </header>
+            {/* <div className="w-[70%] bg-[whitesmoke] rounded-2xl flex flex-col gap-5 right-0 left-0 top-20 px-20 py-10 mx-auto text-center sticky border border-t-8 shadow-2xl border-t-[#ff8906]">
+                    <h1 className="text-3xl"> Warning </h1>
+                    <span className="text-left">Input Tidak Boleh Kosong dan Harus Ada Barang untuk checkout </span>
+                </div> */}
             <main className="flex flex-col">
                 <section className="flex flex-col">
+                    {error &&
+                        (
+                            <div className="w-[70%] bg-[whitesmoke] rounded-2xl flex flex-col gap-5 right-0 left-0 top-20 px-20 py-10 mx-auto text-center sticky border border-t-8 shadow-2xl border-t-[#ff8906]">
+                                <h1 className="text-3xl"> Warning </h1>
+                                <span className="text-left">Input Tidak Boleh Kosong dan Harus Ada Barang untuk checkout </span>
+                            </div>
+                        )}
                     <div className="flex flex-col md:flex-row justify-center gap-10">
                         <section className="md:w-[50%] w-[80%] mx-auto ">
                             <header className="flex items-center justify-between">
