@@ -9,14 +9,13 @@ import { Link } from "react-router";
 
 export default function HistoryOrder(){
     const orders = JSON.parse(localStorage.getItem("orders")) || [] ;
-    console.log(orders)
     const status = ["on progress", "done"]
     return (
         <>
         <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-8 mx-3">
                 <h1 className="text-4xl font-bold text-black">History Order</h1>
-                <span className="bg-gray-200 text-gray-600 px-3 py-1 rounded-md text-sm font-bold">2</span>
+                <span className="bg-gray-200 text-gray-600 px-3 py-1 rounded-md text-sm font-bold">{orders.length}</span>
             </div>
 
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mx-3 mb-8 gap-4">
@@ -49,7 +48,7 @@ export default function HistoryOrder(){
                                     No. Order
                                 </div>
                                 <div className="font-bold text-gray-900 text-sm">{order.no}</div>
-                                <Link to={`/detailorder/${order.no}`} className="text-yellow-500 text-xs font-medium underline mt-1 block">Views Order Detail</Link>
+                                <Link to={`/detailorder/${order.no}`} state={{ order: order }} className="text-yellow-500 text-xs font-medium underline mt-1 block">Views Order Detail</Link>
                             </div>
                             <div>
                                 <div className="flex items-center text-gray-400 text-xs mb-1 gap-1">

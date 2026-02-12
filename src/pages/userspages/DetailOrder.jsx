@@ -4,14 +4,15 @@ import { MdOutlinePhoneInTalk } from "react-icons/md";
 import { MdPayment } from "react-icons/md";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { BsArrowsFullscreen } from "react-icons/bs";
-import { useLocation } from "react-router";
+import { useLocation, useParams } from "react-router";
 
 function Left(props) {
     // const location = useLocation()
     // const results = location.state
     // const { dataApi, isLoading, error } = useContext(ProductFetchContext);
     const abc = JSON.parse(localStorage.getItem("cart")) || []
-    
+
+
     return (
         <div>
             <h2 className="text-xl font-medium mb-6">Order Information</h2>
@@ -21,7 +22,7 @@ function Left(props) {
                         <IoPersonOutline size="20" />
                         <span className="mx-5 text-sm font-medium">Full Name</span>
                     </div>
-                    <div className="text-right font-semibold text-black w-2/3">test</div>
+                    <div className="text-right font-semibold text-black w-2/3">{props.name}</div>
                 </div>
 
                 <div className="flex justify-between items-start py-5 border-b border-gray-100">
@@ -75,12 +76,12 @@ function Left(props) {
     )
 }
 
-function Right(props){
+function Right(props) {
     return (
         <div>
-        <h2 className="text-xl font-medium mb-6">Your Order</h2>
+            <h2 className="text-xl font-medium mb-6">Your Order</h2>
             <div className="flex gap-5 mb-8">
-                <div className="w-36 h-28 flex-shrink-0">
+                <div className="w-36 h-28 shrink-0">
                     <img src={props.image} alt="Coffee" className="w-full h-full object-cover rounded-lg shadow-sm" />
                 </div>
                 <div className="flex flex-col justify-center">
@@ -99,7 +100,7 @@ function Right(props){
     )
 }
 
-function LayoutContent({children}) {
+function LayoutContent({ children }) {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {children}
@@ -109,7 +110,7 @@ function LayoutContent({children}) {
 
 
 function HeaderTitle() {
-    return(
+    return (
         <div className="mb-8">
             <h1 className="text-4xl font-bold text-black mb-1">Order <span>#12354-09893</span></h1>
             <p className="text-gray-400 text-sm">21 March 2023 at 10:30 AM</p>
@@ -117,18 +118,61 @@ function HeaderTitle() {
     )
 }
 
-export default function DetailOrder(){
+export default function DetailOrder() {
+
+    // const location = useLocation();
+    // const { orderNo } = useParams();
+    // const dataDariNavigasi = location.state?.order;
+    // console.log(dataDariNavigasi);
+    // console.log(orderNo);
+    // console.log(location);
+
+    // const results = location.state
+    // console.log(results)
+    // console.log(results.no)
+
+
+    const location = useLocation();
+
+    //   const getOrderData = () => {
+    //     if (location.state?.order) {
+    //       return location.state.order;
+    //     }
+
+    //     const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    //     return savedOrders.find(item => item.no === orderNo);
+    //   };
+    const { id } = useParams();
+
+    const getOrderData = () => {
+        if (location.state?.order) {
+            return location.state.order;
+        }
+
+        const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
+        return savedOrders.find((item) => String(item.no) === String(id));
+    };
+
+    const order = getOrderData();
+    
+    console.log(order.no);
+    console.log(order.detail.name);
+    
+
+    if (!order) {
+        return <div>Order tidak ditemukan atau URL tidak valid.</div>;
+    }
     return (
         <>
-        <div  className="bg-gray-50 text-gray-800 p-6 md:p-12">
-            <div className="max-w-6xl mx-auto">
-                <HeaderTitle />
+            <div className="bg-gray-50 text-gray-800 p-6 md:p-12">
+                <div className="max-w-6xl mx-auto">
+                    <HeaderTitle />
+                </div>
+                <LayoutContent>
+                    <Left name={order.no} address={order.detail.address} phone={order.detail.phone} payment={order.detail.payment} delivery={order.detail.delivery} status={order.status} total={order.total}/>
+                    <Right image="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=300&auto=format&fit=crop" name="Hazelnut Latte" oldPrice="40.000" newPrice="20.000" />
+                </LayoutContent>
             </div>
-            <LayoutContent>
-                <Left name="Galuh Wizard Anggrono" address="Griya bandung indah" phone="082116304338" payment="cash" delivery="Dine In" status="Done" total="40.000" />
-                <Right image="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=300&auto=format&fit=crop" name="Hazelnut Latte" oldPrice="40.000" newPrice="20.000" />
-            </LayoutContent>
-        </div>
         </>
     )
 }
