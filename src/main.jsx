@@ -28,19 +28,19 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/Login",
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "/Register",
+    path: "/register",
     element: <RegisterPage />,
   },
   {
-    path: "/Forgotpassword",
+    path: "/forgotpassword",
     element: <ForgotPassword />,
   },
   {
-    path: "/Admin",
+    path: "/admin",
     element: <AdminLayout />,
     children: [
       {
@@ -66,27 +66,27 @@ const router = createBrowserRouter([
     element: <UserLayout />,
     children: [
       {
-        path: "/Product",
+        path: "/product",
         element: <Product />,
       },
       {
-        path: "/Detailproduct/:id",
+        path: "/detailproduct/:id",
         element: <DetailProduct />,
       },
       {
-        path: "/Profile",
+        path: "/profile",
         element: <Profile />,
       },
       {
-        path: "/Checkout",
+        path: "/checkout",
         element: <Checkout />,
       },
       {
-        path: "/DetailOrder",
+        path: "/detailorder/:id",
         element: <DetailOrder />,
       },
       {
-        path: "/HistoryOrder",
+        path: "/historyOrder",
         element: <HistoryOrder />,
       },
     ]

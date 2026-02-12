@@ -4,9 +4,14 @@ import { MdOutlinePhoneInTalk } from "react-icons/md";
 import { MdPayment } from "react-icons/md";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { BsArrowsFullscreen } from "react-icons/bs";
-import { Footer, Nav } from "@/App";
+import { useLocation } from "react-router";
 
 function Left(props) {
+    // const location = useLocation()
+    // const results = location.state
+    // const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+    const abc = JSON.parse(localStorage.getItem("cart")) || []
+    
     return (
         <div>
             <h2 className="text-xl font-medium mb-6">Order Information</h2>
@@ -16,7 +21,7 @@ function Left(props) {
                         <IoPersonOutline size="20" />
                         <span className="mx-5 text-sm font-medium">Full Name</span>
                     </div>
-                    <div className="text-right font-semibold text-black w-2/3">{props.name}</div>
+                    <div className="text-right font-semibold text-black w-2/3">test</div>
                 </div>
 
                 <div className="flex justify-between items-start py-5 border-b border-gray-100">

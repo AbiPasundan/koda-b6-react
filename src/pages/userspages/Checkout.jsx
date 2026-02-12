@@ -54,7 +54,7 @@ export default function Checkout() {
     const [error, setError] = useState(null);
     const navigate = useNavigate()
     const [selectDelivery, setSelectDelivery] = useState()
-    const { register, handleSubmit,} = useForm()
+    const { register, handleSubmit, } = useForm()
     console.log(register)
 
     const options = ['Dine In', 'Door Delivery', 'Pick Up'];
@@ -75,23 +75,11 @@ export default function Checkout() {
         return acc;
     }, []);
 
-    // let totalPrice = 0
-    // let totalTax = 0
-    // let cartPrice = 0
-    // cart.forEach(item => {
-    //     cartPrice += item.newPrice
-    //     totalPrice += item.newPrice
-    //     totalTax += item.tax * totalPrice
-    //     console.log(item.tax * totalPrice)
-    // });
-    // const total = Number(totalTax + totalPrice).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })
-
     let totalPrice = 0;
     let totalTax = 0;
 
     rawCart.forEach(item => {
         totalPrice += item.newPrice;
-        // console.log(totalPrice)
     });
 
     totalTax = rawCart.reduce((acc, item) => acc + (item.tax * item.newPrice), 0);
@@ -111,47 +99,81 @@ export default function Checkout() {
         const uniqueId = String(`${monthyear}-${id}`)
         return uniqueId
     }
-    console.log(generateNoOrder())
+    // console.log(generateNoOrder())
 
     const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || []
-    console.log(dataLogin)
+    console.log(dataLogin.name)
     // token_auth_user
 
     const onSubmit = data => {
         const date = new Date
-        console.log(data)
-        console.log(data.name)
+        // console.log(data)
+        // console.log(data.email)
         const localData = JSON.parse(localStorage.getItem("orders")) || []
         const tokenAuthUser = JSON.parse(localStorage.getItem("token_auth_user")) || null
 
-        if (!data) {
-            if (tokenAuthUser === null) {
-                navigate("/login")
-            } else {
-                const dataOrder = {
-                    no: generateNoOrder(),
-                    date: date.toLocaleDateString(),
-                    total,
-                    status: "done",
-                    detail:
-                    {
-                        name: data.name,
-                        email: data.email,
-                        address: data.address,
-                        phone: 628123456789,
-                        payment: "Cash",
-                        delivery: data.delivery,
-                    }
-                }
-                localData.push(dataOrder)
-                localStorage.setItem("orders", JSON.stringify(localData))
-                localStorage.removeItem("cart")
-                navigate("/detailorder", dataOrder)
-            }
+        // if (!data) {
+        //     if (tokenAuthUser === null) {
+        //         navigate("/login")
+        //     } else {
+        //         const dataOrder = {
+        //             no: generateNoOrder(),
+        //             date: date.toLocaleDateString(),
+        //             total,
+        //             status: "done",
+        //             detail:
+        //             {
+        //                 name: data.name,
+        //                 email: data.email,
+        //                 address: data.address,
+        //                 phone: 628123456789,
+        //                 payment: "Cash",
+        //                 delivery: data.delivery,
+        //             }
+        //         }
+        //         localData.push(dataOrder)
+        //         localStorage.setItem("orders", JSON.stringify(localData))
+        //         localStorage.removeItem("cart")
+        //         navigate("/detailorder", dataOrder)
+        //     }
 
-        } else {
-            setError("Error")
+        // } else {
+        //     setError("Error")
+        // }
+
+        if (!tokenAuthUser) navigate("/detailorder", dataOrder)
+
+        if (!data.delivery) {
+            setError("Delivery must be selected")
+            return
         }
+        if (!data.address) {
+            setError("Alamat wajib disi")
+            return
+        }
+
+        const dataOrder = {
+            no: generateNoOrder(),
+            date: date.toLocaleDateString(),
+            total,
+            status: "done",
+            detail: {
+                name: data.name || dataLogin.name,
+                email: data.email || dataLogin.email,
+                address: data.address,
+                phone: 628123456789,
+                payment: "Cash",
+                delivery: data.delivery,
+            }
+        }
+
+        localData.push(dataOrder)
+        localStorage.setItem("orders", JSON.stringify(localData))
+        localStorage.removeItem("cart")
+
+        navigate(`/detailorder/${dataOrder.no}`, { state: dataOrder })
+
+
     }
 
     const ongkirDoorDelivery = 4000
@@ -177,7 +199,7 @@ export default function Checkout() {
                         (
                             <div className="w-[70%] bg-[whitesmoke] rounded-2xl flex flex-col gap-5 right-0 left-0 top-20 px-20 py-10 mx-auto text-center sticky border border-t-8 shadow-2xl border-t-[#ff8906]">
                                 <h1 className="text-3xl"> Warning </h1>
-                                <span className="text-left">Input Tidak Boleh Kosong dan Harus Ada Barang untuk checkout </span>
+                                <span className="text-left">{error}</span>
                             </div>
                         )}
                     <div className="flex flex-col md:flex-row justify-center gap-10">
@@ -261,10 +283,10 @@ export default function Checkout() {
             <section className="m-10 w-[50%] mx-auto md:mx-10">
                 <h1>Payment info & Delivery</h1>
                 <div className="w-full my-5  flex flex-col gap-5" >
-                    <CheckoutInput value={dataLogin.email} text="Email" placeholder={dataLogin.email ?? "Enter Your Email"} registerInput={register("email")} >
+                    <CheckoutInput value={"email"} text="Email" placeholder={dataLogin.email ?? "Enter Your Email"} registerInput={register("email")} >
                         <MdOutlineEmail size="30" />
                     </CheckoutInput>
-                    <CheckoutInput value={dataLogin.name} text="Full Name" placeholder={dataLogin.name ?? "Enter Your Name"} registerInput={register("name")}>
+                    <CheckoutInput value={"name"} text="Full Name" placeholder={dataLogin.name ?? "Enter Your Name"} registerInput={register("name")}>
                         <IoPersonOutline size="30" />
                     </CheckoutInput>
                     <CheckoutInput value="address" text="Address" placeholder="Enter Your Address" registerInput={register("address")}>

@@ -1,4 +1,3 @@
-import { Nav, Footer } from "@/App";
 import { MdDateRange, MdOutlineDateRange } from "react-icons/md";
 import { VscArrowSwap } from "react-icons/vsc";
 import { FaExpandArrowsAlt } from "react-icons/fa";
@@ -50,7 +49,7 @@ export default function HistoryOrder(){
                                     No. Order
                                 </div>
                                 <div className="font-bold text-gray-900 text-sm">{order.no}</div>
-                                <Link to="/detailorder" className="text-yellow-500 text-xs font-medium underline mt-1 block">Views Order Detail</Link>
+                                <Link to={`/detailorder/${order.no}`} className="text-yellow-500 text-xs font-medium underline mt-1 block">Views Order Detail</Link>
                             </div>
                             <div>
                                 <div className="flex items-center text-gray-400 text-xs mb-1 gap-1">
