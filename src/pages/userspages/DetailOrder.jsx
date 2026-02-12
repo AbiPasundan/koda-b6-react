@@ -7,12 +7,6 @@ import { BsArrowsFullscreen } from "react-icons/bs";
 import { useLocation, useParams } from "react-router";
 
 function Left(props) {
-    // const location = useLocation()
-    // const results = location.state
-    // const { dataApi, isLoading, error } = useContext(ProductFetchContext);
-    const abc = JSON.parse(localStorage.getItem("cart")) || []
-
-
     return (
         <div>
             <h2 className="text-xl font-medium mb-6">Order Information</h2>
@@ -69,7 +63,7 @@ function Left(props) {
 
                 <div className="flex justify-between items-center py-6 mt-2">
                     <span className="text-gray-500 font-medium">Total Transaction</span>
-                    <span className="text-xl font-bold text-yellow-600">IDR {props.total}</span>
+                    <span className="text-xl font-bold text-yellow-600">{props.total}</span>
                 </div>
             </div>
         </div>
@@ -91,8 +85,8 @@ function Right(props) {
                     <h3 className="text-lg font-bold text-black mb-1">{props.name}</h3>
                     <p className="text-gray-400 text-sm mb-2">2pcs | Regular | Ice | Dine In</p>
                     <div className="flex items-center gap-2">
-                        <span className="text-red-300 line-through text-sm font-medium">IDR {props.oldPrice}</span>
-                        <span className="text-yellow-600 font-bold text-lg">IDR {props.newPrice}</span>
+                        <span className="text-red-300 line-through text-sm font-medium">{props.oldPrice}</span>
+                        <span className="text-yellow-600 font-bold text-lg">{props.newPrice}</span>
                     </div>
                 </div>
             </div>
@@ -109,39 +103,18 @@ function LayoutContent({ children }) {
 }
 
 
-function HeaderTitle() {
+function HeaderTitle(props) {
     return (
         <div className="mb-8">
-            <h1 className="text-4xl font-bold text-black mb-1">Order <span>#12354-09893</span></h1>
-            <p className="text-gray-400 text-sm">21 March 2023 at 10:30 AM</p>
+            <h1 className="text-4xl font-bold text-black mb-1">Order <span>#{props.order}</span></h1>
+            <p className="text-gray-400 text-sm">{props.date}</p>
         </div>
     )
 }
 
 export default function DetailOrder() {
-
-    // const location = useLocation();
-    // const { orderNo } = useParams();
-    // const dataDariNavigasi = location.state?.order;
-    // console.log(dataDariNavigasi);
-    // console.log(orderNo);
-    // console.log(location);
-
-    // const results = location.state
-    // console.log(results)
-    // console.log(results.no)
-
-
     const location = useLocation();
 
-    //   const getOrderData = () => {
-    //     if (location.state?.order) {
-    //       return location.state.order;
-    //     }
-
-    //     const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    //     return savedOrders.find(item => item.no === orderNo);
-    //   };
     const { id } = useParams();
 
     const getOrderData = () => {
@@ -155,7 +128,7 @@ export default function DetailOrder() {
 
     const order = getOrderData();
     
-    console.log(order.no);
+    console.log(order);
     console.log(order.detail.name);
     
 
@@ -166,11 +139,11 @@ export default function DetailOrder() {
         <>
             <div className="bg-gray-50 text-gray-800 p-6 md:p-12">
                 <div className="max-w-6xl mx-auto">
-                    <HeaderTitle />
+                    <HeaderTitle order={order.no} date={order.date} />
                 </div>
                 <LayoutContent>
                     <Left name={order.no} address={order.detail.address} phone={order.detail.phone} payment={order.detail.payment} delivery={order.detail.delivery} status={order.status} total={order.total}/>
-                    <Right image="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=300&auto=format&fit=crop" name="Hazelnut Latte" oldPrice="40.000" newPrice="20.000" />
+                    <Right image={order.cart[0].image} name="Hazelnut Latte" oldPrice={order.cart[0].oldPrice} newPrice={order.cart[0].newPrice} />
                 </LayoutContent>
             </div>
         </>

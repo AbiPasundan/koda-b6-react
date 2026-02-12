@@ -55,7 +55,6 @@ export default function Checkout() {
     const navigate = useNavigate()
     const [selectDelivery, setSelectDelivery] = useState()
     const { register, handleSubmit, } = useForm()
-    console.log(register)
 
     const options = ['Dine In', 'Door Delivery', 'Pick Up'];
     const rawCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -102,55 +101,14 @@ export default function Checkout() {
     // console.log(generateNoOrder())
 
     const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || []
-    console.log(dataLogin.name)
+    console.log(dataLogin)
     // token_auth_user
 
     const onSubmit = data => {
         const date = new Date
-        // console.log(data)
-        // console.log(data.email)
         const localData = JSON.parse(localStorage.getItem("orders")) || []
         const tokenAuthUser = JSON.parse(localStorage.getItem("token_auth_user")) || null
 
-        // if (!data) {
-        //     if (tokenAuthUser === null) {
-        //         navigate("/login")
-        //     } else {
-        //         const dataOrder = {
-        //             no: generateNoOrder(),
-        //             date: date.toLocaleDateString(),
-        //             total,
-        //             status: "done",
-        //             detail:
-        //             {
-        //                 name: data.name,
-        //                 email: data.email,
-        //                 address: data.address,
-        //                 phone: 628123456789,
-        //                 payment: "Cash",
-        //                 delivery: data.delivery,
-        //             }
-        //         }
-        //         localData.push(dataOrder)
-        //         localStorage.setItem("orders", JSON.stringify(localData))
-        //         localStorage.removeItem("cart")
-        //         navigate("/detailorder", dataOrder)
-        //     }
-
-        // } else {
-        //     setError("Error")
-        // }
-
-        if (!tokenAuthUser) navigate("/detailorder", dataOrder)
-
-        if (!data.delivery) {
-            setError("Delivery must be selected")
-            return
-        }
-        if (!data.address) {
-            setError("Alamat wajib disi")
-            return
-        }
 
         const dataOrder = {
             no: generateNoOrder(),
@@ -164,8 +122,21 @@ export default function Checkout() {
                 phone: 628123456789,
                 payment: "Cash",
                 delivery: data.delivery,
-            }
+            },
+            cart,
         }
+
+        if (!tokenAuthUser) navigate("/login")
+
+        if (!data.delivery) {
+            setError("Delivery must be selected")
+            return
+        }
+        if (!data.address) {
+            setError("Alamat wajib disi")
+            return
+        }
+
 
         localData.push(dataOrder)
         localStorage.setItem("orders", JSON.stringify(localData))

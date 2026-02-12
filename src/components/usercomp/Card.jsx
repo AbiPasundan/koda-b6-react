@@ -1,6 +1,6 @@
 import { FiShoppingCart } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import React, { useContext, useState } from "react";
 import { ProductFetchContext } from "../hook/ProductFetchContext";
 
@@ -84,12 +84,31 @@ function Card() {
 function HomeCard() {
   const limit = 4
   const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+  const navigate = useNavigate()
+
+
+  // const onClick = e => {
+  //   const cart = JSON.parse(localStorage.getItem("cart")) || []
+  //   cart.push(e)
+  //   console.log(cart)
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+  // }
 
   const onClick = e => {
     const cart = JSON.parse(localStorage.getItem("cart")) || []
+    console.log(cart)
     cart.push(e)
     console.log(cart)
-    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log(e.id)
+    console.log(e)
+    // localStorage.setItem("cart", JSON.stringify(cart));
+
+    navigate(`/detailproduct/${e.id}`, {
+      replace: true,
+      state: {
+        cart
+      }
+    })
   }
 
   return (
@@ -133,11 +152,12 @@ function HomeCard() {
 }
 
 function ProductCard(props) {
-  const onClick = e => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || []
-    cart.push(e)
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }
+  const navigate = useNavigate()
+  // const onClick = e => {
+  //   const cart = JSON.parse(localStorage.getItem("cart")) || []
+  //   cart.push(e)
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+  // }
   return (
     <>
       <main className="relative flex flex-col max-w-75">
@@ -150,8 +170,14 @@ function ProductCard(props) {
           <Price currentPrice={props.newPrice}>
             <span className="text-[#D00000] line-through font-medium text-[12px]">{props.oldPrice}</span>
           </Price>
+
           <ButtonCard link={props.id}>
-            <FiShoppingCart onClick={() => onClick(props)} className="z-10" size={22} color='#FF8906' />
+            <FiShoppingCart
+              onClick={() => navigate(`/detailproduct/${props.id}`)}
+              className="z-10 cursor-pointer"
+              size={22}
+              color='#FF8906'
+            />
           </ButtonCard>
         </CardWrapper>
       </main>
@@ -200,13 +226,19 @@ function Pagination({ currentPage, setCurrentPage, totalItems, itemsPerPage }) {
 }
 
 function DetailProductCard({ item }) {
-  const handleAddToCart = (e) => {
-    e.stopPropagation(); // Biar tidak trigger scrollUp dari parent
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(item);
+  // const handleAddToCart = (e) => {
+  //   e.stopPropagation(); // Biar tidak trigger scrollUp dari parent
+  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  //   cart.push(item);
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+  //   alert(`${item.name} added to cart!`);
+  // };
+
+  const onClick = e => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || []
+    cart.push(e)
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert(`${item.name} added to cart!`);
-  };
+  }
 
   const scrollUp = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -227,7 +259,7 @@ function DetailProductCard({ item }) {
           </span>
         </Price>
         <ButtonCard link={item.id}>
-          <div onClick={handleAddToCart} >
+          <div>
             <FiShoppingCart className="z-10" size={22} color='#FF8906' />
           </div>
         </ButtonCard>

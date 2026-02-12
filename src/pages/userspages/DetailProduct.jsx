@@ -1,5 +1,5 @@
 import { DetailProductCard, Pagination } from "@/components/usercomp/Card";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { useContext, useState } from "react";
 import { ProductFetchContext } from "@/components/hook/ProductFetchContext";
 
@@ -8,15 +8,23 @@ function PoductImageComp(props) {
 }
 
 function ProductImage(props) {
+  const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+  const { id } = useParams();
+  const product = dataApi.find(item => item.id === Number(id));
+  const images = product.image.slice(0, 3)
+  // const def = images.slice(0, 3)
+  // console.log(def)
   return (
     <div className="space-y-4">
       <div className="relative overflow-hidden shadow-sm">
         <img src={props.mainImage} alt="Hazelnut Latte" className="w-full h-100 object-cover" />
       </div>
       <div className="grid grid-cols-3 gap-4">
-        <PoductImageComp image="https://placehold.co/600x400" />
-        <PoductImageComp image="https://placehold.co/600x400" />
-        <PoductImageComp image="https://placehold.co/600x400" />
+        {images.map((e, i) => (
+          <div key={i}>
+            <PoductImageComp image={e} />
+          </div>
+        ))}
       </div>
     </div>
   )
@@ -24,36 +32,70 @@ function ProductImage(props) {
 
 function Desc(props) {
   const [selectSize, setSelectSize] = useState()
-  const sizeOption = size => {
-    setSelectSize(size)
-    console.log(size)
-  }
+  const { id } = useParams();
+
+  
   const [selectTemp, setSelectTemp] = useState()
   const [count, setCount] = useState(0)
   const sizes = ["regular", "medium", "large"]
   const temps = ["hot", "cold"]
   const { dataApi, isLoading, error } = useContext(ProductFetchContext);
   const navigate = useNavigate();
-  const buyProduct = e => {
-    dataApi.forEach(e => {
-      const cart = JSON.parse(localStorage.getItem("cart")) || []
-      cart.push(e)
-      console.log(cart)
-      localStorage.setItem("cart", JSON.stringify(cart));
-      navigate("/checkout", {
-        replace: true, state: {
-          email: e.email,
-          password: e.password,
-          isUserLogin: true
-        }
-      })
-    })
+  // const buyProduct = e => {
+  //   dataApi.forEach(e => {
+  //     const cart = JSON.parse(localStorage.getItem("cart")) || []
+  //     cart.push(e)
+  //     console.log(cart)
+  //     localStorage.setItem("cart", JSON.stringify(cart));
+  //     navigate("/checkout", {
+  //       replace: true, state: {
+  //         email: e.email,
+  //         password: e.password,
+  //         isUserLogin: true
+  //       }
+  //     })
+  //   })
+  // }
+
+
+
+
+  const product = dataApi.find(item => item.id === Number(id));
+
+  console.log(product)
+  const sizeOption = size => {
+    setSelectSize(size)
   }
-  const addCart = e => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || []
-    cart.push(e)
-    console.log(cart)
+
+  const buyProduct = (productToBuy) => {
+
+    if (!selectSize || !selectTemp) {
+      alert("Mohon pilih ukuran dan penyajian dulu!");
+      return;
+    }
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const newItem = {
+      ...productToBuy,
+      product,
+      selectedSize: selectSize,
+      selectedTemp: selectTemp,
+      quantity: count > 0 ? count : 1
+    };
+
+    cart.push(newItem);
+
     localStorage.setItem("cart", JSON.stringify(cart));
+
+    console.log("Item added:", newItem);
+
+    navigate("/checkout", {
+      replace: true,
+      state: {
+        isUserLogin: true,
+        checkoutData: newItem
+      }
+    });
   }
 
   const plus = () => {
@@ -61,14 +103,77 @@ function Desc(props) {
     console.log(count)
   }
 
+  // const addCart = e => {
+  //   const cart = JSON.parse(localStorage.getItem("cart")) || []
+  //   cart.push(e)
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+  // }
+
+  // const addCart = () => {
+  //   if (!selectSize || !selectTemp) {
+  //     alert("Mohon pilih ukuran dan penyajian (Hot/Ice) terlebih dahulu!");
+  //     return;
+  //   }
+
+  //   if (count < 1) {
+  //     alert("Jumlah pesanan minimal 1");
+  //     return;
+  //   }
+
+  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  //   const itemToAdd = {
+  //     ...props, 
+  //     selectedSize: selectSize,
+  //     selectedTemp: selectTemp,
+  //     quantity: count
+  //   };
+
+  //   cart.push(itemToAdd);
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+
+  //   alert("Berhasil masuk keranjang!"); 
+  // }
+
+  const addCart = e => {
+    console.log(e)
+    if (!selectSize || !selectTemp) {
+      alert("Mohon pilih ukuran dan penyajian (Hot/Ice) terlebih dahulu!");
+      return;
+    }
+    if (count < 1) {
+      alert("Jumlah pesanan minimal 1");
+      return;
+    }
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const itemToAdd = {
+      id: props.id,
+      name: props.name,
+      image: props.image,
+      price: props.newPrice,
+      description: props.desc,
+      selectedSize: selectSize,
+      selectedTemp: selectTemp,
+      quantity: count
+    };
+
+    cart.push(itemToAdd);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Berhasil masuk keranjang!");
+  }
+
+
   return (
     <>
       <span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>
       <h1 className="text-4xl font-bold font-[Plus_Jakarta_Sans]  text-[48px] leading-[100%] tracking-[0%] ">{props.name}</h1>
       <div className="flex items-center space-x-3 my-5">
-        <span className=" line-throug font-[Plus_Jakarta_Sans] font-medium text-[12px] leading-[100%] tracking-[0%] line-through text-[#D00000]">{props.oldprice}</span>
-        <span className="text-2xl font-bold w-600 font-[Plus_Jakarta_Sans] text-[22px] leading-[100%] tracking-[0%] text-[#FF8906]">{props.newprice}</span>
+        <span className=" line-throug font-[Plus_Jakarta_Sans] font-medium text-[12px] leading-[100%] tracking-[0%] line-through text-[#D00000]">{props.oldPrice}</span>
+        <span className="text-2xl font-bold w-600 font-[Plus_Jakarta_Sans] text-[22px] leading-[100%] tracking-[0%] text-[#FF8906]">{props.newPrice}</span>
       </div>
+      <span hidden> {props.tax} </span>
       <div className="flex items-center mb-4 text-sm text-gray-500">
         <div className="flex text-yellow-400 mr-2">
           <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
@@ -80,9 +185,9 @@ function Desc(props) {
         {props.desc}
       </p>
       <div className="flex items-center mb-6">
-        <button onClick={() => (count ? setCount(count - 1) : setCount(0))} className="w-8 h-8 border border-[#FF8906] rounded flex items-center justify-center text-gray-600 hover:bg-gray-100">-</button>
+        <button onClick={() => setCount(prev => (prev > 0 ? prev - 1 : 0))} className="w-8 h-8 border border-[#FF8906] rounded flex items-center justify-center text-gray-600 hover:bg-gray-100">-</button>
         <span className="w-10 text-center font-medium">{count}</span>
-        <button onClick={() => (count != 10 ? setCount(plus) : setCount(10))} className="w-8 h-8 bg-[#FF8906] text-white rounded flex items-center justify-center hover:bg-orange-600">+</button>
+        <button onClick={() => setCount(prev => (prev < 10 ? prev + 1 : 10))} className="w-8 h-8 bg-[#FF8906] text-white rounded flex items-center justify-center hover:bg-orange-600">+</button>
       </div>
       <div className="mb-4">
         <label className="block font-[Plus_Jakarta_Sans] font-bold text-[18px] leading-[100%] tracking-[0%] text-[#0B0909] mb-2">Choose Size</label>
@@ -101,7 +206,8 @@ function Desc(props) {
         </div>
       </div>
       <div className="flex gap-4">
-        <button onClick={() => buyProduct(props)} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button>
+        {/* <button onClick={() => buyProduct(props)} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button> */}
+        <button onClick={() => buyProduct(dataApi[0])} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button>
         <button onClick={() => addCart(props)} className="flex-1 border border-orange-300 text-orange-600 font-bold py-3 rounded-md flex items-center justify-center gap-2 hover:bg-orange-50 transition">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -109,6 +215,7 @@ function Desc(props) {
           add to cart
         </button>
       </div>
+
     </>
   )
 }
@@ -116,10 +223,11 @@ function Desc(props) {
 
 export default function DetailProduct() {
   const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+  console.log(dataApi)
   const { id } = useParams();
-  
+
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3; 
+  const itemsPerPage = 3;
 
   const product = dataApi.find(item => item.id === Number(id));
 
@@ -131,18 +239,20 @@ export default function DetailProduct() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentProducts = recommendations.slice(indexOfFirstItem, indexOfLastItem);
 
+  const abc = product.image.length
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="grid grid-cols-1 my-10 md:grid-cols-2 gap-10">
         <ProductImage mainImage={product.image} />
         <div>
-          <Desc name={product.name} desc={product.description} oldprice={product.oldPrice} newprice={product.newPrice} size />
+          <Desc name={product.name} desc={product.description} oldPrice={product.oldPrice} newPrice={product.newPrice} id={product.id} image={product.image} tax={product.tax} size />
         </div>
       </div>
 
       <div className="mt-24">
         <h2 className="md:text-3xl text-xl overflow-hidden font-medium mb-8 font-[Plus_Jakarta_Sans] text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-items-center">
           {currentProducts.map(item => (
             <DetailProductCard key={item.id} item={item} />
