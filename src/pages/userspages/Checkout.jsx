@@ -54,16 +54,10 @@ export default function Checkout() {
     const [error, setError] = useState(null);
     const navigate = useNavigate()
     const [selectDelivery, setSelectDelivery] = useState()
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-    } = useForm()
+    const { register, handleSubmit,} = useForm()
     console.log(register)
 
     const options = ['Dine In', 'Door Delivery', 'Pick Up'];
-    // const cart = JSON.parse(localStorage.getItem("cart")) || []
     const rawCart = JSON.parse(localStorage.getItem("cart")) || [];
 
     const cart = rawCart.reduce((acc, item) => {
@@ -125,7 +119,7 @@ export default function Checkout() {
 
     const onSubmit = data => {
         const date = new Date
-        console.log(date)
+        console.log(data)
         console.log(data.name)
         const localData = JSON.parse(localStorage.getItem("orders")) || []
         const tokenAuthUser = JSON.parse(localStorage.getItem("token_auth_user")) || null
@@ -177,10 +171,6 @@ export default function Checkout() {
             <header className="m-10 text-[#0B0909] text-5xl">
                 <h1>Payment Detail</h1>
             </header>
-            {/* <div className="w-[70%] bg-[whitesmoke] rounded-2xl flex flex-col gap-5 right-0 left-0 top-20 px-20 py-10 mx-auto text-center sticky border border-t-8 shadow-2xl border-t-[#ff8906]">
-                    <h1 className="text-3xl"> Warning </h1>
-                    <span className="text-left">Input Tidak Boleh Kosong dan Harus Ada Barang untuk checkout </span>
-                </div> */}
             <main className="flex flex-col">
                 <section className="flex flex-col">
                     {error &&
@@ -225,12 +215,7 @@ export default function Checkout() {
                                 </tr>
                                 <tr>
                                     <td>Delivery</td>
-                                    {/* <td>{options.includes("Door Delivery") ? "bayar ajig" : ""}</td> */}
                                     <td>{selectDelivery === "Door Delivery" ? (ongkirDoorDelivery.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })) : "Rp 0"}</td>
-                                    {/* .toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }) */}
-                                    {/* {options.map(option => ( */}
-
-                                    {/* ))} */}
                                 </tr>
                                 <tr>
                                     <td>Tax</td>
@@ -276,10 +261,10 @@ export default function Checkout() {
             <section className="m-10 w-[50%] mx-auto md:mx-10">
                 <h1>Payment info & Delivery</h1>
                 <div className="w-full my-5  flex flex-col gap-5" >
-                    <CheckoutInput realValue={dataLogin.email} value={dataLogin.email} text="Email" placeholder={dataLogin.email ?? "Enter Your Email"} registerInput={register("email")} >
+                    <CheckoutInput value={dataLogin.email} text="Email" placeholder={dataLogin.email ?? "Enter Your Email"} registerInput={register("email")} >
                         <MdOutlineEmail size="30" />
                     </CheckoutInput>
-                    <CheckoutInput realValue={dataLogin.name} value={dataLogin.name} text="Full Name" placeholder={dataLogin.name ?? "Enter Your Name"} registerInput={register("name")}>
+                    <CheckoutInput value={dataLogin.name} text="Full Name" placeholder={dataLogin.name ?? "Enter Your Name"} registerInput={register("name")}>
                         <IoPersonOutline size="30" />
                     </CheckoutInput>
                     <CheckoutInput value="address" text="Address" placeholder="Enter Your Address" registerInput={register("address")}>

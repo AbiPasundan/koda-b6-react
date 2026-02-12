@@ -1,6 +1,6 @@
-import { DetailProductCard } from "@/components/usercomp/Card";
+import { DetailProductCard, Pagination } from "@/components/usercomp/Card";
 import { useNavigate, useParams } from "react-router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ProductFetchContext } from "@/components/hook/ProductFetchContext";
 
 function PoductImageComp(props) {
@@ -24,14 +24,15 @@ function ProductImage(props) {
 
 function Desc(props) {
   const [selectSize, setSelectSize] = useState()
+  const sizeOption = size => {
+    setSelectSize(size)
+    console.log(size)
+  }
   const [selectTemp, setSelectTemp] = useState()
   const [count, setCount] = useState(0)
   const sizes = ["regular", "medium", "large"]
   const temps = ["hot", "cold"]
   const { dataApi, isLoading, error } = useContext(ProductFetchContext);
-  // dataApi.forEach(element => {
-  //   console.log(element.name)
-  // });
   const navigate = useNavigate();
   const buyProduct = e => {
     dataApi.forEach(e => {
@@ -56,11 +57,8 @@ function Desc(props) {
   }
 
   const plus = () => {
-    (count < dataApi.stock && setCount(count + 1)  )
+    (count < dataApi.stock && setCount(count + 1))
     console.log(count)
-    // dataApi.forEach(element => {
-    //   console.log(count)
-    // });
   }
 
   return (
@@ -90,7 +88,7 @@ function Desc(props) {
         <label className="block font-[Plus_Jakarta_Sans] font-bold text-[18px] leading-[100%] tracking-[0%] text-[#0B0909] mb-2">Choose Size</label>
         <div className="grid grid-cols-3 gap-3">
           {sizes.map((size, i) => (
-            <button key={i} onClick={() => setSelectSize(size)} className={`border font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909] ${selectSize === size ? 'border-orange-300' : 'border-black'}  py-2 rounded text-sm font-medium`}>{size}</button>
+            <button key={i} onClick={() => setSelectSize(() => sizeOption(size))} className={`border font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909] ${selectSize === size ? 'border-orange-300' : 'border-black'}  py-2 rounded text-sm font-medium`}>{size}</button>
           ))}
         </div>
       </div>
@@ -115,77 +113,43 @@ function Desc(props) {
   )
 }
 
-function Prev() {
-  return (
-    <div className="flex justify-center mt-10 space-x-3">
-      <button className="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-lg font-medium">
-        1
-      </button>
-      <button className="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300">
-        2
-      </button>
-      <button className="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300">
-        3
-      </button>
-      <button className="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300">
-        4
-      </button>
-      <button className="w-10 h-10 rounded-full bg-orange-400 text-white flex items-center justify-center hover:bg-orange-500">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M14 5l7 7m0 0l-7 7m7-7H3"
-          />
-        </svg>
-      </button>
-    </div>
-  );
-}
 
 export default function DetailProduct() {
   const { dataApi, isLoading, error } = useContext(ProductFetchContext);
   const { id } = useParams();
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3; 
 
-  console.log(id)
-  console.log(dataApi)
   const product = dataApi.find(item => item.id === Number(id));
-  console.log(product)
 
-  if (!product) {
-    return (
-      <>
-        <h1> Kela keur loding </h1>
-      </>
-    )
-  }
+  if (isLoading) return <div className="text-center py-20">Loading...</div>;
+  if (error || !product) return <div className="text-center py-20 text-red-500">Product not found.</div>;
+
+  const recommendations = dataApi.filter(item => item.id !== product.id);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentProducts = recommendations.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
-    <>
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        <div className="grid grid-cols-1 my-10 md:grid-cols-2 gap-10">
-          <ProductImage mainImage={product.image} />
-          <div>
-            <Desc name={product.name} desc={product.description} oldprice={product.oldPrice} newprice={product.newPrice} />
-          </div>
-        </div>
-        <div className="mt-16">
-          <h2 className="md:text-3xl text-xl overflow-hidden font-medium mb-8 font-[Plus_Jakarta_Sans] text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <DetailProductCard />
-          </div>
-          <Prev />
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="grid grid-cols-1 my-10 md:grid-cols-2 gap-10">
+        <ProductImage mainImage={product.image} />
+        <div>
+          <Desc name={product.name} desc={product.description} oldprice={product.oldPrice} newprice={product.newPrice} size />
         </div>
       </div>
-    </>
 
-
+      <div className="mt-24">
+        <h2 className="md:text-3xl text-xl overflow-hidden font-medium mb-8 font-[Plus_Jakarta_Sans] text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          {currentProducts.map(item => (
+            <DetailProductCard key={item.id} item={item} />
+          ))}
+        </div>
+        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={recommendations.length} itemsPerPage={itemsPerPage} />
+      </div>
+    </div>
   );
 }
