@@ -17,12 +17,12 @@ function ProductHero() {
     );
 }
 
-function MobileFilter({ onOpen }) {
+function MobileFilter({ onOpen, setFilters }) {
     return (
         <div className='flex items-center justify-center my-10 gap-5 md:hidden px-5'>
             <label htmlFor="search-mob" className='flex items-center p-3 gap-5 border rounded-xl flex-1'>
                 <IoMdSearch />
-                <input type="text" id="search-mob" placeholder='Find Product' className="outline-none w-full" />
+                <input type="text" id="search-mob" placeholder='Find Product' className="outline-none w-full" onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))} />
             </label>
             <button onClick={onOpen} className='bg-[#FF8906] p-2 rounded-lg'>
                 <PiSlidersHorizontalBold color='black' size="32" />
@@ -64,7 +64,7 @@ function PromoCard({ img, title, text, bg }) {
     );
 }
 
-function ProductFilter({ isVisible }) {
+function ProductFilter({ isVisible, setFilters, setCurrentPage }) {
     const defaultValues = {
         search: "",
         category: [],
@@ -72,31 +72,45 @@ function ProductFilter({ isVisible }) {
         range: {}
     }
     const { register, handleSubmit, reset } = useForm({ defaultValues });
-    const onSubmit = e => {
-        console.log("berhas")
-        console.log(e)
-    }
+
+
+    const onSubmit = (data) => {
+
+        const formattedData = {
+            ...data,
+            category: Array.isArray(data.category) ? data.category : (data.category ? [data.category] : []),
+            // sort: Array.isArray(data.sort) ? data.sort : (data.sort ? [data.sort] : [])
+        };
+
+        setFilters(formattedData);
+        setCurrentPage(1);
+    };
+    const handleReset = () => {
+        reset(defaultValues);
+        setFilters(defaultValues);
+        setCurrentPage(1);
+    };
 
     return (
-        <form form onSubmit={handleSubmit(onSubmit)} className={`${isVisible ? 'flex' : 'hidden'} md:flex flex-col gap-6 p-6 bg-black text-white rounded-2xl h-fit sticky top-5 w-full md:max-w-70 z-999`}>
+        <form onSubmit={handleSubmit(onSubmit)} className={`${isVisible ? 'flex' : 'hidden'} md:flex flex-col gap-6 p-6 bg-black text-white rounded-2xl h-fit sticky top-5 w-full md:max-w-70 z-999`}>
             <div className='flex justify-between items-center'>
                 <h4 className="text-xl font-bold">Filter</h4>
-                <button type="button" onClick={() => reset()} className="text-sm text-gray-400">Reset</button>
+                <button type="button" onClick={() => handleReset} className="text-sm text-gray-400">Reset</button>
             </div>
 
-            <div className='flex flex-col gap-2'>
+            <div className='hidden md:flex flex-col gap-2'>
                 <span className="font-semibold text-orange-400">Search</span>
-                <input {...register("search")} className='p-2 rounded-lg text-[black] bg-[#FCFDFE] outline-none' placeholder='Search...' />
+                <input {...register("search")} className='p-2 rounded-lg text-black bg-[#FCFDFE] outline-none' placeholder='Search...' />
             </div>
 
             <div className='flex flex-col gap-4'>
                 <FilterGroup title="Category" register={register} name="category"
-                    options={['Favorite', 'Coffee', 'Non-Coffee', 'Foods', 'Add-on']} />
+                    options={['Favorite', 'Coffe', 'Non-Coffee', 'Foods', 'Add-on']} />
                 <FilterGroup title="Sort By" register={register} name="sort"
                     options={['Buy1 Get1', 'Flash Sale', 'Cheap']} />
             </div>
 
-            <button className='w-full py-3 bg-[#FF8906] text-black font-bold rounded-xl mt-4'>Apply Filter</button>
+            <button type="submit" className='w-full py-3 bg-[#FF8906] text-black font-bold rounded-xl mt-4'>Apply Filter</button>
         </form>
     );
 }
@@ -115,18 +129,64 @@ function FilterGroup({ title, options, register, name }) {
     );
 }
 
-function MainProductList({ currentPage, setCurrentPage, itemsPerPage }) {
+function MainProductList({ currentPage, setCurrentPage, itemsPerPage, filters }) {
     const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+    console.log(filters.category)
+
+    const products = dataApi || [];
+
 
     if (isLoading) return <div className="text-center py-10">Loading products...</div>;
     if (error) return <div className="text-center py-10 text-red-500">Error loading data.</div>;
 
-    const totalItems = dataApi.length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    // const filteredProducts = dataApi.filter(product => {
+    //     const matchSearch = product.name.toLowerCase().includes(filters.search.toLowerCase());
+    //     console.log(matchSearch)
 
+    //     // const matchCategory = filters.category.length === 0 || filters.category.includes(product.category?.toLowerCase())
+    //     const matchCategory = filters.category.length === 0 || (product.category && filters.category.includes(String(product.category).toLowerCase()));
+    //     // console.log(matchCategory)
+
+    //     console.log(filters.category.includes(product.category?.toLowerCase()));
+    //     const res = matchSearch + matchCategory
+    //     // console.log(res);
+
+
+    //     return matchSearch && matchCategory;
+    // });
+
+    // const filteredProducts = dataApi.filter(product => {
+    //     console.log(`Item: ${product.name}, Category:`, product.category, "Type:", typeof product.category);
+
+    //     const matchSearch = product.name.toLowerCase().includes(filters.search.toLowerCase());
+
+    //     const productCat = product.category ? String(product.category).toLowerCase() : "";
+    //     const matchCategory = filters.category.length === 0 || filters.category.includes(productCat);
+
+    //     return matchSearch && matchCategory;
+    // });
+
+
+    let filteredProducts = products.filter(product => {
+        // Search Match
+        const matchSearch = product.name.toLowerCase().includes((filters.search || "").toLowerCase());
+
+        const activeCategories = Array.isArray(filters.category)
+            ? filters.category
+            : (filters.category ? [filters.category] : []);
+
+        const productCat = product.category ? String(product.category).toLowerCase() : "";
+        const matchCategory = activeCategories.length === 0 || activeCategories.includes(productCat);
+
+        return matchSearch && matchCategory;
+    });
+
+
+    const totalItems = filteredProducts.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentProducts = dataApi.slice(indexOfFirstItem, indexOfLastItem);
+    const currentProducts = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -136,9 +196,11 @@ function MainProductList({ currentPage, setCurrentPage, itemsPerPage }) {
     return (
         <div className="w-full">
             <div className='flex flex-wrap justify-center gap-5'>
-                {currentProducts.map(item => (
-                    <ProductCard key={item.id} {...item} />
-                ))}
+                {currentProducts.length > 0 ? (
+                    currentProducts.map(item => <ProductCard key={item.id} {...item} />)
+                ) : (
+                    <p className="text-gray-500">Product not found.</p>
+                )}
             </div>
 
             {totalPages > 1 && (
@@ -151,9 +213,9 @@ function MainProductList({ currentPage, setCurrentPage, itemsPerPage }) {
                                 key={pageNum}
                                 onClick={() => paginate(pageNum)}
                                 className={`w-10 h-10 flex items-center justify-center rounded-full transition-all
-                                ${currentPage === pageNum 
-                                    ? 'bg-[#FF8906] text-white font-bold shadow-lg' 
-                                    : 'bg-gray-100 hover:bg-gray-200 text-black'}`}
+                                ${currentPage === pageNum
+                                        ? 'bg-[#FF8906] text-white font-bold shadow-lg'
+                                        : 'bg-gray-100 hover:bg-gray-200 text-black'}`}
                             >
                                 {pageNum}
                             </button>
@@ -161,7 +223,7 @@ function MainProductList({ currentPage, setCurrentPage, itemsPerPage }) {
                     })}
 
                     {/* Tombol Next */}
-                    <button 
+                    <button
                         disabled={currentPage === totalPages}
                         onClick={() => paginate(currentPage + 1)}
                         className={`ml-2 ${currentPage === totalPages ? 'opacity-30 cursor-not-allowed' : 'text-[#FF8906]'}`}
@@ -170,7 +232,7 @@ function MainProductList({ currentPage, setCurrentPage, itemsPerPage }) {
                     </button>
                 </div>
             )}
-            
+
             <p className="text-center text-gray-400 text-sm">
                 Showing {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, totalItems)} of {totalItems} Products
             </p>
@@ -178,26 +240,29 @@ function MainProductList({ currentPage, setCurrentPage, itemsPerPage }) {
     );
 }
 
-
 export default function Product() {
     const [showFilter, setShowFilter] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [filters, setFilters] = useState({ search: "", category: [], sort: [] });
     const itemsPerPage = 8;
-
 
     return (
         <div className="min-h-screen bg-white">
             <ProductHero />
-
-            <MobileFilter onOpen={() => setShowFilter(!showFilter)} />
+            <MobileFilter onOpen={() => setShowFilter(!showFilter)} setFilters={setFilters} />
 
             <div className="max-w-full mx-auto px-5 md:px-10 py-10 flex flex-col md:flex-row gap-10">
-                <ProductFilter isVisible={showFilter} />
-                <div className=" flex flex-col gap-5 overflow-x-auto pb-5 no-scrollbar">
-                    <ProductCarousel />
-                    <MainProductList currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} />
-                </div>
+                <ProductFilter isVisible={showFilter} setFilters={setFilters} setCurrentPage={setCurrentPage} />
 
+                <div className="flex flex-col gap-5 overflow-x-auto pb-5 no-scrollbar w-full">
+                    <ProductCarousel />
+                    <MainProductList
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        itemsPerPage={itemsPerPage}
+                        filters={filters}
+                    />
+                </div>
             </div>
         </div>
     );
