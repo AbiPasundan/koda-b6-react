@@ -41,28 +41,13 @@ function Desc(props) {
   const temps = ["hot", "cold"]
   const { dataApi, isLoading, error } = useContext(ProductFetchContext);
   const navigate = useNavigate();
-  // const buyProduct = e => {
-  //   dataApi.forEach(e => {
-  //     const cart = JSON.parse(localStorage.getItem("cart")) || []
-  //     cart.push(e)
-  //     console.log(cart)
-  //     localStorage.setItem("cart", JSON.stringify(cart));
-  //     navigate("/checkout", {
-  //       replace: true, state: {
-  //         email: e.email,
-  //         password: e.password,
-  //         isUserLogin: true
-  //       }
-  //     })
-  //   })
-  // }
-
-
-
 
   const product = dataApi.find(item => item.id === Number(id));
+  console.log(dataApi);
+  console.log(product);
+  
 
-  console.log(product)
+  // console.log(product)
   const sizeOption = size => {
     setSelectSize(size)
   }
@@ -87,7 +72,7 @@ function Desc(props) {
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    console.log("Item added:", newItem);
+    // console.log("Item added:", newItem);
 
     navigate("/checkout", {
       replace: true,
@@ -103,40 +88,8 @@ function Desc(props) {
     console.log(count)
   }
 
-  // const addCart = e => {
-  //   const cart = JSON.parse(localStorage.getItem("cart")) || []
-  //   cart.push(e)
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-  // }
-
-  // const addCart = () => {
-  //   if (!selectSize || !selectTemp) {
-  //     alert("Mohon pilih ukuran dan penyajian (Hot/Ice) terlebih dahulu!");
-  //     return;
-  //   }
-
-  //   if (count < 1) {
-  //     alert("Jumlah pesanan minimal 1");
-  //     return;
-  //   }
-
-  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  //   const itemToAdd = {
-  //     ...props, 
-  //     selectedSize: selectSize,
-  //     selectedTemp: selectTemp,
-  //     quantity: count
-  //   };
-
-  //   cart.push(itemToAdd);
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-
-  //   alert("Berhasil masuk keranjang!"); 
-  // }
-
   const addCart = e => {
-    console.log(e)
+    // console.log(e)
     if (!selectSize || !selectTemp) {
       alert("Mohon pilih ukuran dan penyajian (Hot/Ice) terlebih dahulu!");
       return;
@@ -148,12 +101,15 @@ function Desc(props) {
 
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+    // didieu
+
     const itemToAdd = {
-      id: props.id,
-      name: props.name,
-      image: props.image,
-      price: props.newPrice,
-      description: props.desc,
+      // id: props.id,
+      // name: props.name,
+      // image: props.image,
+      // price: props.newPrice,
+      // description: props.desc,
+      product,
       selectedSize: selectSize,
       selectedTemp: selectTemp,
       quantity: count
@@ -223,7 +179,6 @@ function Desc(props) {
 
 export default function DetailProduct() {
   const { dataApi, isLoading, error } = useContext(ProductFetchContext);
-  console.log(dataApi)
   const { id } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);

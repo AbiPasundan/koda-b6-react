@@ -5,7 +5,7 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
-function CheckoutProduct({ name, newPrice, oldPrice, image, onDelete }) {
+function CheckoutProduct({ name, newPrice, oldPrice, image, onDelete, quantity, size, temp, delivery }) {
     return (
         <main className="my-5">
             <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
@@ -20,10 +20,10 @@ function CheckoutProduct({ name, newPrice, oldPrice, image, onDelete }) {
                         <h2 className="text-[#0B0909] font-bold">{name}</h2>
                     </div>
                     <div className="text-[#4F5665]">
-                        <span>2pcs | </span>
-                        <span>Regular | </span>
-                        <span>Ice | </span>
-                        <span>Dine in </span>
+                        <span>{quantity} pcs | </span>
+                        <span>{size} | </span>
+                        <span>{temp} | </span>
+                        <span>{delivery} </span>
                     </div>
                     <div className="flex items-center flex-wrap gap-1">
                         <span className="text-[#D00000] line-through text-[8px]">{oldPrice}</span>
@@ -78,10 +78,10 @@ export default function Checkout() {
     let totalTax = 0;
 
     rawCart.forEach(item => {
-        totalPrice += item.newPrice;
+        totalPrice += item.product.newPrice;
     });
 
-    totalTax = rawCart.reduce((acc, item) => acc + (item.tax * item.newPrice), 0);
+    totalTax = rawCart.reduce((acc, item) => acc + (item.product.tax * item.product.newPrice), 0);
 
     const total = Number(totalTax + totalPrice).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
@@ -143,8 +143,6 @@ export default function Checkout() {
         localStorage.removeItem("cart")
 
         navigate(`/detailorder/${dataOrder.no}`, { state: dataOrder })
-
-
     }
 
     const ongkirDoorDelivery = 4000
@@ -191,7 +189,7 @@ export default function Checkout() {
                                 <>
                                     {cart.map((data, i) => (
                                         <div key={data.id} >
-                                            <CheckoutProduct onDelete={() => handleDelete(data.id)} name={data.name} image={data.image} oldPrice={data.oldPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.newPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} />
+                                            <CheckoutProduct onDelete={() => handleDelete(data.product.id)} size={data.selectedSize} temp={data.selectedTemp} quantity={data.quantity} name={data.product.name} image={data.product.image} oldPrice={data.product.oldPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.product.newPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} />
                                         </div>
                                     ))}
                                 </>

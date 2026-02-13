@@ -83,7 +83,7 @@ function Right(props) {
                         <span className="bg-red-700 text-white text-[10px] font-bold px-2 py-1 rounded">FLASH SALE!</span>
                     </div>
                     <h3 className="text-lg font-bold text-black mb-1">{props.name}</h3>
-                    <p className="text-gray-400 text-sm mb-2">2pcs | Regular | Ice | Dine In</p>
+                    <p className="text-gray-400 text-sm mb-2">{props.quantity} pcs | {props.size} | {props.temp} | {props.delivery}</p>
                     <div className="flex items-center gap-2">
                         <span className="text-red-300 line-through text-sm font-medium">{props.oldPrice}</span>
                         <span className="text-yellow-600 font-bold text-lg">{props.newPrice}</span>
@@ -143,7 +143,7 @@ export default function DetailOrder() {
                 </div>
                 <LayoutContent>
                     <Left name={order.no} address={order.detail.address} phone={order.detail.phone} payment={order.detail.payment} delivery={order.detail.delivery} status={order.status} total={order.total}/>
-                    <Right image={order.cart[0].image} name="Hazelnut Latte" oldPrice={order.cart[0].oldPrice} newPrice={order.cart[0].newPrice} />
+                    <Right image={order.cart[0].product.image} name="Hazelnut Latte" oldPrice={order.cart[0].product.oldPrice} newPrice={order.cart[0].product.newPrice} quantity={order.cart[0].quantity} size={order.cart[0].selectedSize} temp={order.cart[0].selectedTemp} />
                 </LayoutContent>
             </div>
         </>
