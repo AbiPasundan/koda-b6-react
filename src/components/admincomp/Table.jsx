@@ -26,18 +26,12 @@ export function Tbody(props) {
           <input type="checkbox" />
         </td>
 
-        <td>
-          <img
-            src={props.first}
-            className="w-[60px] sm:w-[80px] md:w-[100px] rounded"
-            alt="Image"
-          />
-        </td>
+        <td>{props.first}</td>
 
         <td>{props.second}</td>
         <td>{props.third}</td>
         <td>{props.fourth}</td>
-        <td>R,L,M</td>
+        <td>{props.fifth}</td>
         <td>Delivery, Dine In</td>
       </tr>
     </tbody>
@@ -49,7 +43,7 @@ export function Table({ children }) {
   return (
     <div className="my-10 border p-5 max-w-[90%]">
       <div className="w-full overflow-x-auto">
-        <table className="w-full min-w-[900px] border border-red-100 text-sm">
+        <table className="w-full min-w-225 border border-red-100 text-sm">
           {children}
         </table>
       </div>

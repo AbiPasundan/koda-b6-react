@@ -57,33 +57,29 @@ export default function Checkout() {
     const { register, handleSubmit, } = useForm()
 
     const options = ['Dine In', 'Door Delivery', 'Pick Up'];
-    const rawCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const ongkirDoorDelivery = 4000
 
-    const cart = rawCart.reduce((acc, item) => {
-        const existingItem = acc.find(i => i.id === item.id);
-        if (existingItem) {
-            existingItem.quantity += 1;
-            existingItem.totalNewPrice += item.newPrice;
-        } else {
-            acc.push({
-                ...item,
-                quantity: 1,
-                totalNewPrice: item.newPrice
-            });
-        }
-        return acc;
-    }, []);
+    const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []);
 
-    let totalPrice = 0;
-    let totalTax = 0;
+    let totalPrice = carts.reduce(
+        (acc, item) => acc + (item.product.newPrice * item.quantity),
+        0
+    );
+    const totalTax = carts.reduce(
+        (acc, item) =>
+            acc + (item.product.tax * item.product.newPrice * item.quantity),
+        0
+    );
 
-    rawCart.forEach(item => {
-        totalPrice += item.product.newPrice;
-    });
 
-    totalTax = rawCart.reduce((acc, item) => acc + (item.product.tax * item.product.newPrice), 0);
+    // rawCart.forEach(item => {
+    //     totalPrice += item.product.newPrice;
+    // });
 
-    const total = Number(totalTax + totalPrice).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+    // totalTax = rawCart.reduce((acc, item) => acc + (item.product.tax * item.product.newPrice), 0);
+
+    const total = Number(totalTax + totalPrice + ongkirDoorDelivery).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
     function generateNoOrder() {
         const date = Date.now()
@@ -98,17 +94,12 @@ export default function Checkout() {
         const uniqueId = String(`${monthyear}-${id}`)
         return uniqueId
     }
-    // console.log(generateNoOrder())
-
     const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || []
     console.log(dataLogin)
-    // token_auth_user
-
     const onSubmit = data => {
         const date = new Date
         const localData = JSON.parse(localStorage.getItem("orders")) || []
         const tokenAuthUser = JSON.parse(localStorage.getItem("token_auth_user")) || null
-
 
         const dataOrder = {
             no: generateNoOrder(),
@@ -123,7 +114,7 @@ export default function Checkout() {
                 payment: "Cash",
                 delivery: data.delivery,
             },
-            cart,
+            cart: carts,
         }
 
         if (!tokenAuthUser) navigate("/login")
@@ -137,7 +128,6 @@ export default function Checkout() {
             return
         }
 
-
         localData.push(dataOrder)
         localStorage.setItem("orders", JSON.stringify(localData))
         localStorage.removeItem("cart")
@@ -145,18 +135,27 @@ export default function Checkout() {
         navigate(`/detailorder/${dataOrder.no}`, { state: dataOrder })
     }
 
-    const ongkirDoorDelivery = 4000
+    // const handleDelete = id => {
+    //     const updatedCart = carts.filter(item => item.product.id !== id);
+    //     // console.log(carts)
+    //     // console.log(id)
+    //     setCarts(updatedCart);
+    //     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    // };
 
-    const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []);
-
-    const handleDelete = id => {
-        const updatedCart = carts.filter(item => item.id !== id);
-        console.log(carts)
+    const handleDelete = (id, size, temp) => {
+        const updatedCart = carts.filter(item =>
+            !(
+                item.product.id === id &&
+                item.selectedSize === size &&
+                item.selectedTemp === temp
+            )
+        );
 
         setCarts(updatedCart);
-
         localStorage.setItem("cart", JSON.stringify(updatedCart));
     };
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <header className="m-10 text-[#0B0909] text-5xl">
@@ -177,7 +176,7 @@ export default function Checkout() {
                                 <h4 className="text-xl">Your Order</h4>
                                 <Link to="/product" className="bg-[#FF8906] p-2 rounded-xl"> + Add Menu</Link>
                             </header>
-                            {cart.length == 0 ? (
+                            {carts.length == 0 ? (
                                 <>
                                     <main className="my-5">
                                         <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
@@ -187,9 +186,11 @@ export default function Checkout() {
                                 </>
                             ) : (
                                 <>
-                                    {cart.map((data, i) => (
-                                        <div key={data.id} >
-                                            <CheckoutProduct onDelete={() => handleDelete(data.product.id)} size={data.selectedSize} temp={data.selectedTemp} quantity={data.quantity} name={data.product.name} image={data.product.image} oldPrice={data.product.oldPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.product.newPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} />
+                                    {carts.map(data => (
+                                        <div key={`${data.product.id}-${data.selectedSize}-${data.selectedTemp}`}>
+                                            <div>
+                                                <CheckoutProduct onDelete={() => handleDelete(data.product.id, data.selectedSize, data.selectedTemp)} size={data.selectedSize} temp={data.selectedTemp} quantity={data.quantity} name={data.product.name} image={data.product.image} oldPrice={data.product.oldPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.product.newPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} />
+                                            </div>
                                         </div>
                                     ))}
                                 </>
@@ -262,10 +263,12 @@ export default function Checkout() {
                         <HiOutlineLocationMarker size="30" />
                     </CheckoutInput>
                     <div className="flex flex-col md:flex-row gap-5 justify-between items-center [&>label]:text-center [&>label]:px-10 [&>label]:py-1 [&>label]:border [&>label]:rounded ">
-                        {options.map(option => (
-                            <label onClick={() => setSelectDelivery(option)} key={option} className={` cursor-pointer ${selectDelivery === option ? "border-[#FF8906]" : "border-black"}`}>
+                        {options.map((option, i) => (
+                            // <div key={i} >
+                            <label key={i} onClick={() => setSelectDelivery(option)} className={` cursor-pointer ${selectDelivery === option ? "border-[#FF8906]" : "border-black"}`}>
                                 <input type="radio" name="delivery" id="delivery" value={option} hidden {...register("delivery")} />{option}
                             </label>
+                            // </div>
                         ))}
                     </div>
 

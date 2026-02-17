@@ -34,7 +34,7 @@ function Desc(props) {
   const [selectSize, setSelectSize] = useState()
   const { id } = useParams();
 
-  
+
   const [selectTemp, setSelectTemp] = useState()
   const [count, setCount] = useState(0)
   const sizes = ["regular", "medium", "large"]
@@ -45,7 +45,7 @@ function Desc(props) {
   const product = dataApi.find(item => item.id === Number(id));
   console.log(dataApi);
   console.log(product);
-  
+
 
   // console.log(product)
   const sizeOption = size => {
@@ -68,7 +68,19 @@ function Desc(props) {
       quantity: count > 0 ? count : 1
     };
 
-    cart.push(newItem);
+    // cart.push(newItem);
+    const existingItem = cart.find(item =>
+      item.product.id === product.id &&
+      item.selectedSize === selectSize &&
+      item.selectedTemp === selectTemp
+    );
+
+    if (existingItem) {
+      existingItem.quantity += newItem.quantity;
+    } else {
+      cart.push(newItem);
+    }
+
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
@@ -88,12 +100,40 @@ function Desc(props) {
     console.log(count)
   }
 
-  const addCart = e => {
-    // console.log(e)
+  // const addCart = e => {
+  //   if (!selectSize || !selectTemp) {
+  //     alert("Mohon pilih ukuran dan penyajian (Hot/Ice) terlebih dahulu!");
+  //     return;
+  //   }
+  //   if (count < 1) {
+  //     alert("Jumlah pesanan minimal 1");
+  //     return;
+  //   }
+
+  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  //   const itemToAdd = {
+  //     // id: props.id,
+  //     // name: props.name,
+  //     // image: props.image,
+  //     // price: props.newPrice,
+  //     // description: props.desc,
+  //     product,
+  //     selectedSize: selectSize,
+  //     selectedTemp: selectTemp,
+  //     quantity: count
+  //   };
+
+  //   cart.push(itemToAdd);
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+  //   alert("Berhasil masuk keranjang!");
+  // }
+  const addCart = () => {
     if (!selectSize || !selectTemp) {
       alert("Mohon pilih ukuran dan penyajian (Hot/Ice) terlebih dahulu!");
       return;
     }
+
     if (count < 1) {
       alert("Jumlah pesanan minimal 1");
       return;
@@ -101,24 +141,27 @@ function Desc(props) {
 
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // didieu
+    const existingItem = cart.find(item =>
+      item.product.id === product.id &&
+      item.selectedSize === selectSize &&
+      item.selectedTemp === selectTemp
+    );
 
-    const itemToAdd = {
-      // id: props.id,
-      // name: props.name,
-      // image: props.image,
-      // price: props.newPrice,
-      // description: props.desc,
-      product,
-      selectedSize: selectSize,
-      selectedTemp: selectTemp,
-      quantity: count
-    };
+    if (existingItem) {
+      existingItem.quantity += count;
+    } else {
+      cart.push({
+        product,
+        selectedSize: selectSize,
+        selectedTemp: selectTemp,
+        quantity: count
+      });
+    }
 
-    cart.push(itemToAdd);
     localStorage.setItem("cart", JSON.stringify(cart));
     alert("Berhasil masuk keranjang!");
-  }
+  };
+
 
 
   return (
@@ -193,8 +236,6 @@ export default function DetailProduct() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentProducts = recommendations.slice(indexOfFirstItem, indexOfLastItem);
-
-  const abc = product.image.length
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
