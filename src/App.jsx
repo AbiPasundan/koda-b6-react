@@ -9,7 +9,6 @@ import Footer from './components/usercomp/Footer'
 
 
 
-
 // img
 import forgotpasswordimg from "@/assets/img/authimg/forgotpassword.png"
 import registerimg from "@/assets/img/authimg/register.png"
@@ -20,8 +19,8 @@ import footer from "@/assets/img/userimg/footer.png"
 
 
 // auth
-export { LoginPage, RegisterPage, ForgotPassword}
+export { LoginPage, RegisterPage, ForgotPassword }
 // component
-export { Nav, Footer}
+export { Nav, Footer }
 // img
-export {forgotpasswordimg, registerimg, loginimg, footer}
+export { forgotpasswordimg, registerimg, loginimg, footer }

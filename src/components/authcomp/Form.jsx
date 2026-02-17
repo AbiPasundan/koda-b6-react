@@ -3,11 +3,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { useContext } from "react";
 import { DataFetchContext } from "@/components/hook/DataFetchContext";
-import { ProductFetchContext } from "../hook/ProductFetchContext";
-
 
 function Input({ type, registerInput, id, placeholder }) {
-	const { dataApi, isLoading, error } = useContext(DataFetchContext);
 	return (
 		<input
 			type={type}
@@ -27,32 +24,51 @@ function LinkNavigation({ text, linkText, link }) {
 }
 
 function SocialMediaLogin() {
-	return (
-		<section className="flex justify-center items-center justify-self-center gap-5 [&>div>a]:w-95.75">
-			<div className="bg-white w-full p-3.25 rounded-xl shadow-lg text-center">
-				<div className="relative">
-					<a href="#">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-facebook absolute top-1 left-20 md:left-130" viewBox="0 0 16 16">
-							<path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
-							<path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
-						</svg>
-						Google </a>
-				</div>
-			</div>
-			<div className="bg-white w-full p-3.25 rounded-xl shadow-lg text-center">
-				<div className="relative">
-					<a href="#">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-facebook absolute top-1 left-10 md:left-115" viewBox="0 0 16 16">
-							<path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
-						</svg>
-						Facebook </a>
-				</div>
-			</div>
-		</section>
-	)
+  return (
+    <section className="flex flex-col sm:flex-row gap-4 w-full">
+      
+      {/* Google */}
+      <a
+        href="#"
+        className="flex items-center justify-center gap-3 bg-white w-full py-3 rounded-xl shadow-md hover:shadow-lg transition"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+        >
+          <path d="M8 3.293c1.488 0 2.805.512 3.85 1.516l2.89-2.89C13.027.89 10.707 0 8 0 4.932 0 2.24 1.64.84 4.042l3.357 2.61C5.03 4.73 6.365 3.293 8 3.293z"/>
+          <path d="M15.91 8.09c0-.636-.057-1.247-.162-1.837H8v3.48h4.41c-.19 1.024-.76 1.89-1.62 2.47l2.5 1.94c1.46-1.35 2.62-3.34 2.62-6.053z"/>
+          <path d="M4.197 9.348A4.803 4.803 0 0 1 3.84 8c0-.467.08-.92.223-1.348L.706 4.042A7.96 7.96 0 0 0 0 8c0 1.28.307 2.49.84 3.958l3.357-2.61z"/>
+          <path d="M8 16c2.707 0 4.977-.89 6.636-2.42l-2.5-1.94c-.693.465-1.58.74-2.636.74-1.635 0-3.02-1.437-3.803-3.358l-3.357 2.61C2.24 14.36 4.932 16 8 16z"/>
+        </svg>
+        <span>Google</span>
+      </a>
+
+      {/* Facebook */}
+      <a
+        href="#"
+        className="flex items-center justify-center gap-3 bg-white w-full py-3 rounded-xl shadow-md hover:shadow-lg transition"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          fill="#1877F2"
+          viewBox="0 0 16 16"
+        >
+          <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+        </svg>
+        <span>Facebook</span>
+      </a>
+
+    </section>
+  );
 }
 
-// 
+
 function AuthComp({ registerInput, title, children, type, name, id, placeholder, error }) {
 	return (
 		<label className="text-[#0B132A] text-[16px] mb-5">
@@ -92,9 +108,8 @@ function FormForgotPassword() {
 }
 
 function FormLogin({ children }) {
-	const [dataApi, setData] = useState([]);
-	const [error, setError] = useState(null);
-	const [isLoading, setIsLoading] = useState(true);
+	const { dataApi, isLoading, error } = useContext(DataFetchContext);
+		const [err, setError] = useState(null);
 
 	const navigate = useNavigate();
 	const {
@@ -137,18 +152,10 @@ function FormLogin({ children }) {
 						const tokenAuthUser = {
 							name: e.name,
 							email: e.email,
-							password: e.password,
 						}
 
 						localStorage.setItem("token_auth_user", JSON.stringify(tokenAuthUser))
-						navigate("/", {
-							replace: true, state: {
-								name: e.name,
-								email: e.email,
-								password: e.password,
-								isUserLogin: true
-							}
-						});
+						navigate("/profile");
 					} else {
 						setError("Email atau password salah");
 					}
@@ -156,21 +163,6 @@ function FormLogin({ children }) {
 			});
 		}
 	};
-
-	useEffect(() => {
-		async function getData() {
-			try {
-				const api = await fetch("https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json")
-				const response = await api.json()
-				setData(response.data)
-				setIsLoading(false);
-			} catch (error) {
-				setError(error.message);
-				setIsLoading(false);
-			}
-		}
-		getData()
-	}, [])
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} method="POST" className="flex flex-col">
 			<div>
@@ -216,17 +208,7 @@ function FormRegister() {
 
 
 	console.log(`data api berhasil di fetch ${dataApi} `)
-
-	// console.log(user)
-	// let admin = ""
-	// dataApi.forEach(e => {
-	// 	console.log(e.email)
-	// 	admin += e.email
-	// });
-	// console.log(admin)
-
 	let user
-
 	try {
 		const rawUser = localStorage.getItem("user_coffee_shop")
 		user = rawUser ? JSON.parse(rawUser) : []
@@ -240,23 +222,19 @@ function FormRegister() {
 		const emailExist = user.find(
 			u => u.email === data.email
 		);
-
-
-		// dataApi.forEach(e => {
-		// 	console.log(e.email)
-		// admin += e.email
 		if (emailExist) {
 			setRegisterError("Email sudah terdaftar");
 			return;
 		}
-		// });
 
 		const newUser = {
 			name: data.name,
 			email: data.email,
 			password: data.password,
+			phone: "628000000",
+			image: "https://i.pravatar.cc/300",
+			address: "your address",
 		};
-
 		user.push(newUser);
 
 		localStorage.setItem("user_coffee_shop", JSON.stringify(user));
@@ -266,6 +244,9 @@ function FormRegister() {
 			state: {
 				name: data.name,
 				email: data.email,
+				phone: "628000000",
+				image: "your images",
+				address: "your address",
 			},
 		});
 	};

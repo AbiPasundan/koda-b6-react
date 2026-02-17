@@ -87,13 +87,6 @@ function HomeCard() {
   const navigate = useNavigate()
 
 
-  // const onClick = e => {
-  //   const cart = JSON.parse(localStorage.getItem("cart")) || []
-  //   cart.push(e)
-  //   console.log(cart)
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-  // }
-
   const onClick = e => {
     const cart = JSON.parse(localStorage.getItem("cart")) || []
     console.log(cart)
@@ -101,7 +94,6 @@ function HomeCard() {
     console.log(cart)
     console.log(e.id)
     console.log(e)
-    // localStorage.setItem("cart", JSON.stringify(cart));
 
     navigate(`/detailproduct/${e.id}`, {
       replace: true,
@@ -153,11 +145,6 @@ function HomeCard() {
 
 function ProductCard(props) {
   const navigate = useNavigate()
-  // const onClick = e => {
-  //   const cart = JSON.parse(localStorage.getItem("cart")) || []
-  //   cart.push(e)
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-  // }
   return (
     <>
       <main className="relative flex flex-col max-w-75">
@@ -226,13 +213,6 @@ function Pagination({ currentPage, setCurrentPage, totalItems, itemsPerPage }) {
 }
 
 function DetailProductCard({ item }) {
-  // const handleAddToCart = (e) => {
-  //   e.stopPropagation(); // Biar tidak trigger scrollUp dari parent
-  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  //   cart.push(item);
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-  //   alert(`${item.name} added to cart!`);
-  // };
 
   const onClick = e => {
     const cart = JSON.parse(localStorage.getItem("cart")) || []

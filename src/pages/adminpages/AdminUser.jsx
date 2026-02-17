@@ -1,39 +1,28 @@
-import { Table, Thead, Tbody } from "@/components/admincomp/Table"
-import { useEffect, useState } from "react";
+import { Table, Thead, Tbody, TbodyUser, TheadUser } from "@/components/admincomp/Table"
+import { BiPencil } from "react-icons/bi"
+import { BsFillTrashFill } from "react-icons/bs"
+
+function Actions() {
+  return (
+    <div className="flex gap-5 text-right">
+      <span><BiPencil /></span>
+      <span><BsFillTrashFill /></span>
+    </div>
+  )
+}
 
 export default function AdminUser() {
-    const [dataApi, setData] = useState([]);
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    useEffect(() => {
-      async function getData() {
-        try {
-          const api = await fetch(
-            "https://raw.githubusercontent.com/AbiPasundan/koda-b6-react/refs/heads/main/public/data.json",
-          );
-          console.log(api);
-          const { menu } = await api.json();
-          setData(menu);
-          dataApi(menu);
-          console.log(menu);
-          console.log(menu[0].name);
-          console.log(menu[0].image);
-          setIsLoading(false);
-        } catch (error) {
-          setError(error.message);
-          setIsLoading(false);
-        }
-      }
-      getData();
-    }, []);
-    return (
-        <>
-            <Table>
-                <Thead first="No. Order" second="Date" third="Order" fourth="Status" fifth="Total" />
-                {dataApi.map((data, i) => (
-                    <Tbody key={i} first={data} second="Date" third="Order" fourth="Status" fifth="Total" />
-                ))}
-            </Table>
-        </>
-    )
+  const dataUser = JSON.parse(localStorage.getItem("user_coffee_shop")) || []
+  return (
+    <>
+      <Table>
+        <TheadUser first="Image" second="Full Name" third="Phone" fourth="Address" fifth="Email" sixth="Action" />
+        {dataUser.map((e, i) => (
+          <TbodyUser key={i} first={e.image} second={e.name} third={e.phone} fourth={e.address} fifth={e.email}>
+            <Actions />
+          </TbodyUser>
+        ))}
+      </Table>
+    </>
+  )
 }

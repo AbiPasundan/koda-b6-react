@@ -1,13 +1,10 @@
 import { useContext, useEffect} from "react";
-import { FaCoffee } from "react-icons/fa";
 import { useNavigate } from "react-router";
-import { HamburgerContext, HamburgerMenu } from "../hook/HamburgerContext";
+import { HamburgerContext } from "../hook/HamburgerContext";
+import AdminNavImg from "@/assets/img/adminimg/AdminNavImg.png"
 
 function Right() {
   const { toggleMenu } = useContext(HamburgerContext)
-  // console.log(test)
-  // const { open, toggleMenu } = useContext(HamburgerContext);
-  // console.log(open)
   return (
     <div className="flex items-center">
       <button className="text-2xl cursor-pointer mr-4 lg:hidden" onClick={() => toggleMenu()} >
@@ -26,7 +23,7 @@ function Right() {
         </svg>
       </button>
       <div className="flex items-center gap-2.5 font-semibold text-xl text-[#5d4037]">
-        <FaCoffee />
+        <img src={AdminNavImg} alt="Gambar" width="300" />
       </div>
     </div>
   )
