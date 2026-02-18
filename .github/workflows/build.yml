@@ -1,19 +1,23 @@
 name: Testing Web Coffee Shop
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
 on: [push]
+
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-    - name: setup nodejs v22.22.0
-      uses: actions/setup-node@v6 # testing
-      with: 
-        node-version: '22.22.0'
-    - name: Check nodejs version
-      run: node -v
-    - name: Gethering Source Code
-      uses: actions/setup-node@v6
-    - name: Build App
-      run: npm install && npm run build
-    - name: Check build result
-      run: ls dist/
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22.x"
+      - name: Check Node.js version
+        run: node -v
+      - name: Install dependencies
+        run: npm install
+      - name: Build App
+        run: npm run build
+      - name: Check build result
+        run: ls dist/
