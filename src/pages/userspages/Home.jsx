@@ -19,6 +19,7 @@ function Hero() {
         <>
             <main className="grid md:grid-cols-2 md:grid-cols-2-reverse overflow-hidden h-full " >
                 <section className="order-1 flex max-h-[130vh] ">
+                    {/* <img src={home}  className="w-full overflow-hidden" alt="main image" /> */}
                     <img src={home}  className="w-full overflow-hidden" alt="main image" />
                 </section>
                 <section className="order-2 py-10 bg-[#777C82] bg-[linear-gradient(180deg,rgba(119,124,130,1)_0%,rgba(11,9,9,1)_66%)] flex w-full max-h-[130vh] ">
