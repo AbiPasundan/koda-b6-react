@@ -82,7 +82,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/abipasundan/coffee-shop-web
+          images: ghcr.io/abipasundan/koda-b6-react
 
       - name: "[Docker] Login ghcr"
         uses: docker/login-action@v3
@@ -128,9 +128,9 @@ jobs:
           key: ${{ secrets.KEY }} # private
           port: ${{ secrets.PORT }} # 22
           script: |
-            docker pull ghcr.io/abipasundan/coffee-shop-web:latest
+            docker pull ghcr.io/abipasundan/koda-b6-react:latest
             docker rm -f web-wildan
-            docker run -d -p 20601:80 --name web-wildan ghcr.io/abipasundan/coffee-shop-web:latest
+            docker run -d -p 20601:80 --name web-wildan ghcr.io/abipasundan/koda-b6-react:latest
 
         # with:
         #   context:
