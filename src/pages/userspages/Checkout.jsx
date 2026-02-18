@@ -10,7 +10,7 @@ function CheckoutProduct({ name, newPrice, oldPrice, image, onDelete, quantity, 
         <main className="my-5">
             <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
                 <div>
-                    <img src={`${image}`} alt="kopik" width="150" />
+                    <img loading="lazy" src={`${image}`} alt="kopik" width="150" />
                 </div>
                 <div className="flex flex-col gap-3 w-[70%]">
                     <div>
@@ -224,22 +224,22 @@ export default function Checkout() {
                                 </tr>
                                 <tr className="text-center ">
                                     <td className="text-center vetical-center w-full py-2 rounded">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/BANK_BRI_logo_%28vertical%29.svg/120px-BANK_BRI_logo_%28vertical%29.svg.png" alt="bri" />
+                                        <img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/BANK_BRI_logo_%28vertical%29.svg/120px-BANK_BRI_logo_%28vertical%29.svg.png" alt="bri" />
                                     </td>
                                     <td className="text-center vetical-center w-full py-2 rounded">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/960px-Logo_dana_blue.svg.png?20200124191307" alt="dana" />
+                                        <img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/960px-Logo_dana_blue.svg.png?20200124191307" alt="dana" />
                                     </td>
                                     <td className="text-center vetical-center w-full py-2 rounded">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/960px-Bank_Central_Asia.svg.png?20200318082802" alt="bca" />
+                                        <img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/960px-Bank_Central_Asia.svg.png?20200318082802" alt="bca" />
                                     </td>
                                     <td className="text-center vetical-center w-full py-2 rounded">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/120px-Gopay_logo.svg.png?20251006142655" alt="gopay" />
+                                        <img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/120px-Gopay_logo.svg.png?20251006142655" alt="gopay" />
                                     </td>
                                     <td className="text-center vetical-center w-full py-2 rounded">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/960px-Logo_ovo_purple.svg.png?20210603100330" alt="ovo" />
+                                        <img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/960px-Logo_ovo_purple.svg.png?20210603100330" alt="ovo" />
                                     </td>
                                     <td className="text-center vetical-center w-full py-2 rounded">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/250px-PayPal.svg.png?20241230110020" alt="paypal" />
+                                        <img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/250px-PayPal.svg.png?20241230110020" alt="paypal" />
                                     </td>
                                 </tr>
                                 <tr className="text-center ">

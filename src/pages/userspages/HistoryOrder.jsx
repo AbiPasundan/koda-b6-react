@@ -93,16 +93,7 @@ export default function HistoryOrder() {
                         {currentOrders.map((order, i) => (
                             <div key={i} className="bg-white p-5 mx-3 rounded-xl flex flex-col md:flex-row gap-6 items-start md:items-center">
                                 <div className="w-full md:w-24 h-24 hidden md:block ">
-                                    {/* { order.cart.map((e, i) => (
-                                        <img key={i} src={order.cart?.[0]?.product?.image?.[0]} alt="Coffee" className="w-full h-full object-cover" />
-                                    ) ) } */}
-                                    <img key={i} src={order.cart?.[0]?.product?.image?.[0]} alt="Coffee" className="w-full h-full object-cover" />
-                                    {/* <img
-                                        src={order.cart?.[0]?.image?.[0]}
-                                        alt={order.cart?.[0]?.name}
-                                        className="w-full h-full object-cover"
-                                    /> */}
-
+                                    <img loading="lazy" key={i} src={order.cart?.[0]?.product?.image?.[0]} alt="Coffee" className="w-full h-full object-cover" />
                                 </div>
 
                                 <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">

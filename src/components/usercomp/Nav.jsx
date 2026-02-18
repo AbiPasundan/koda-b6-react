@@ -25,7 +25,7 @@ export default function Nav(props){
             <nav className={`flex flex-row absolute justify-around items-center ${props.bg} p-5 left-0 right-0 `}>
                 <section className='flex flex-row justify-between gap-10 items-center'>
                     <Link to="/">
-                        <img src={image} alt="Logo" />
+                        <img loading="lazy" src={image} alt="Logo" />
                     </Link>
                     <div className='hidden md:flex gap-10 text-white text-sm md:text-xl'>
                         <Link to="/">Home</Link>

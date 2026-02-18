@@ -7,7 +7,7 @@ import { ProductFetchContext } from "../hook/ProductFetchContext";
 function ImageCard({ children, img, link }) {
   return (
     <Link to={`/detailproduct/${link}`} className="w-75" >
-      <img src={img} alt="product" className="w-full" />
+      <img loading="lazy" src={img} alt="product" className="w-full" />
       {children}
     </Link >)
 }

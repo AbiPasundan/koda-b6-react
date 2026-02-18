@@ -78,7 +78,7 @@ function RightContent(props) {
     return (
         <div className="flex gap-5 mb-8">
             <div className="w-36 h-28 shrink-0">
-                <img src={props.image} alt="Coffee" className="w-full h-full object-cover rounded-lg shadow-sm" />
+                <img loading="lazy" src={props.image} alt="Coffee" className="w-full h-full object-cover rounded-lg shadow-sm" />
             </div>
             <div className="flex flex-col justify-center">
                 <div className="mb-1">

@@ -54,7 +54,7 @@ function ProductCarousel() {
 function PromoCard({ img, title, text, bg }) {
     return (
         <div className={`flex p-4 gap-4 ${bg} rounded-2xl min-w-75 md:min-w-87.5`}>
-            <img src={img} alt={title} className="w-20 h-20 object-cover" />
+            <img loading="lazy" src={img} alt={title} className="w-20 h-20 object-cover" />
             <div>
                 <h4 className='font-bold text-sm'>{title}</h4>
                 <p className='text-xs my-1'>{text}</p>

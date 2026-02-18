@@ -24,10 +24,7 @@ function PropfileComp(props) {
       </h2>
       <span className="font-[Plus Jakarta Sans]">{props.email}</span>
       <div className="pics w-full h-28.25 flex justify-center my-5">
-        <img
-          src={props.image}
-          alt="profile"
-          className="rounded-full " />
+        <img loading="lazy" src={props.image} alt="profile" className="rounded-full " />
       </div>
       <div className="btn my-3 mx-auto text-center w-50 h-9.5 rounded-[30px] bg-[#FF8906] flex justify-center justify-self-center" >
         <button className="">Upload New Photo</button>

@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { ProductFetchContext } from "@/components/hook/ProductFetchContext";
 
 function PoductImageComp(props) {
-  return <img src={props.image} className="w-full h-24 object-cover cursor-pointer hover:opacity-80 border border-gray-200" />
+  return <img loading="lazy" src={props.image} className="w-full h-24 object-cover cursor-pointer hover:opacity-80 border border-gray-200" />
 }
 
 function ProductImage(props) {
@@ -17,7 +17,7 @@ function ProductImage(props) {
   return (
     <div className="space-y-4">
       <div className="relative overflow-hidden shadow-sm">
-        <img src={props.mainImage} alt="Hazelnut Latte" className="w-full h-100 object-cover" />
+        <img loading="lazy" src={props.mainImage} alt="Hazelnut Latte" className="w-full h-100 object-cover" />
       </div>
       <div className="grid grid-cols-3 gap-4">
         {images.map((e, i) => (

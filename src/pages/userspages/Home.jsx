@@ -19,8 +19,7 @@ function Hero() {
         <>
             <main className="grid md:grid-cols-2 md:grid-cols-2-reverse overflow-hidden h-full " >
                 <section className="order-1 flex max-h-[130vh] ">
-                    {/* <img src={home}  className="w-full overflow-hidden" alt="main image" /> */}
-                    <img src={home}  className="w-full overflow-hidden" alt="main image" />
+                    <img loading="lazy" src={home}  className="w-full overflow-hidden" alt="main image" />
                 </section>
                 <section className="order-2 py-10 bg-[#777C82] bg-[linear-gradient(180deg,rgba(119,124,130,1)_0%,rgba(11,9,9,1)_66%)] flex w-full max-h-[130vh] ">
                     <div className="flex flex-col justify-center items-start mx-10 gap-5">
@@ -61,7 +60,7 @@ function About() {
                     </div>
                 </section>
                 <section className="flex max-h-[130vh] ">
-                    <img src={barista}  className="w-full overflow-hidden" alt="main image" />
+                    <img loading="lazy" src={barista}  className="w-full overflow-hidden" alt="main image" />
                 </section>
             </main>
         </>
@@ -92,7 +91,7 @@ function VisitOurStore() {
                 <span className="text-[#4F5665] " >You can explore the menu that we provide with fun and have their own taste and make your day better.</span>
             </div>
             <div>
-                <img src={map} alt="map" />
+                <img loading="lazy" src={map} alt="map" />
             </div>
         </section>
         </>
@@ -104,7 +103,7 @@ function Testimoni() {
         <>
             <section className=" overflow-hidden md:h-[80vh] h-[80vh] flex flex-col md:flex-row gap-10  px-10 bg-[#777C82] bg-[linear-gradient(180deg,rgba(119,124,130,1)_0%,rgba(11,9,9,1)_66%)]">
                 <div className="md:w-[30%] w-[80%] my-auto">
-                    <img src={testimoni}  className="w-full overflow-hidden" alt="main image" />
+                    <img loading="lazy" src={testimoni}  className="w-full overflow-hidden" alt="main image" />
                 </div>
                 <div className="my-auto md:w-110 w-55 text-white flex flex-col gap-5 mx-10 md:mx-20">
                     <h4>TESTIMONIAL</h4>
@@ -140,7 +139,7 @@ function ChatBox(){
             <div id="chat-container" className={`chat-hidden ${open ? 'hidden' : 'block'} w-full max-w-87.5 sm:w-87.5 bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200`}>
                 <div className="border-t-8 py-6 border-orange-500 p-4 flex items-center shadow-sm">
                     <div className="relative">
-                        <img src="https://i.pravatar.cc/150?img=32" alt="Admin" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
+                        <img loading="lazy" src="https://i.pravatar.cc/150?img=32" alt="Admin" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
                         <span className="absolute bottom-0 right-0 w-3 h-3  border-2 border-white rounded-full"></span>
                     </div>
                     <div className="ml-3 text-white">
@@ -151,7 +150,7 @@ function ChatBox(){
                 <hr className="bg-red-100 border-t border-neutral-700" />
                 <div className="h-80 bg-gray-50 p-4 overflow-y-auto space-y-4" id="chat-messages">
                     <div className="flex items-start">
-                        <img src="https://i.pravatar.cc/150?img=32" className="w-8 h-8 rounded-full mr-2 mt-1" />
+                        <img loading="lazy" src="https://i.pravatar.cc/150?img=32" className="w-8 h-8 rounded-full mr-2 mt-1" />
                         <div className="bg-white text-gray-700 p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl shadow-sm text-sm border border-gray-100">
                             Halo, Ada yang bisa kami bantu?
                         </div>

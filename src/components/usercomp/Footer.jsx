@@ -8,7 +8,7 @@ export default function Footer() {
         <>
             <footer className="flex flex-col flex-wrap py-10 md:flex-row pt-10 gap-10 bg-[#F9F9FA] [&>section]:mx-10">
                 <section className="flex flex-col flex-wrap gap-5">
-                    <img src={footer} alt="logo" width="300px"/>
+                    <img loading="lazy" src={footer} alt="logo" width="300px"/>
                     <p className="md:w-125 ">Coffee Shop is a store that sells some good meals, and especially coffee. We provide high quality beans</p>
                     <span className="text-[14px] text-[#AFB5C0]">©2020CoffeeStore</span>
                 </section>

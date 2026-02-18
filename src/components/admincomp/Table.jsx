@@ -63,7 +63,7 @@ export function Tbody({first, second, third, fourth, fifth, sixth, seventh, imag
         <td>
           <input type="checkbox" />
         </td>
-        <td> <img src={image} alt="Gambar" /></td>
+        <td> <img loading="lazy" src={image} alt="Gambar" /></td>
         <td>{first}</td>
         <td>{second}</td>
         <td>{third}</td>
@@ -83,7 +83,7 @@ export function TbodyProduct({first, second, third, fourth, fifth, sixth, sevent
         <td>
           <input type="checkbox" />
         </td>
-        <td> <img src={first} alt="Gambar" /></td>
+        <td> <img loading="lazy" src={first} alt="Gambar" /></td>
         <td>{second}</td>
         <td>{third}</td>
         <td>{fourth.length > 50 ? fourth.slice(0, 50) + "..." : fourth}</td>
@@ -102,7 +102,7 @@ export function TbodyUser({first, second, third, fourth, fifth, sixth,children})
         <td>
           <input type="checkbox" />
         </td>
-        <td> <img src={first} alt="Gambar" width="100px" /></td>
+        <td> <img loading="lazy" src={first} alt="Gambar" width="100px" /></td>
         <td>{second}</td>
         <td>{third}</td>
         <td>{fourth}</td>
