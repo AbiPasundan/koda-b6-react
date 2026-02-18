@@ -130,7 +130,6 @@ jobs:
             docker pull ghcr.io/abipasundan/koda-b6-react:latest
             docker rm -f web-wildan
             docker run -d -p 20601:80 --name web-wildan ghcr.io/abipasundan/koda-b6-react:latest
-
         # with:
         #   context:
         #   host: ${{ secret.HOST }}
