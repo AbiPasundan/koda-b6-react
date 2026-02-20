@@ -130,22 +130,4 @@ jobs:
           script: |
             docker pull ghcr.io/abipasundan/koda-b6-react:latest
             docker rm -f web-wildan
-            docker run -d -p 20601:80 --name web-wildan ghcr.io/abipasundan/koda-b6-react:latest
-        # with:
-        #   context:
-        #   host: ${{ secret.HOST }}
-        #   username: ${{ secret.USERNAME }}
-        #   key: ${{ secret.KEY }}
-        #   port: ${{ secret.PORT }}
-        #   script: |
-        #     docker pull ghcr
-
-      # - name: "[SERVER] pull images from repo"
-      #   uses: appleboy/ssh-action@v1
-      # with:
-      #   host: ${{ secret.HOST }}
-      #   username: ${{ secret.USERNAME }}
-      #   key: ${{ secret.KEY }}
-      #   port: ${{ secret.PORT }}
-      #   script: |
-      #     docker pull ghcr
+            docker run -d --network pman_web -p  20601:80 --name web-wildan ghcr.io/abipasundan/koda-b6-react:latest
