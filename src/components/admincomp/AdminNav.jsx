@@ -1,5 +1,4 @@
-import { useContext, useEffect} from "react";
-import { useNavigate } from "react-router";
+import { useContext } from "react";
 import { HamburgerContext } from "../hook/HamburgerContext";
 import AdminNavImg from "@/assets/img/adminimg/AdminNavImg.png"
 
@@ -75,13 +74,6 @@ function Left() {
 }
 
 export default function AdminNav() {
-  const navigate = useNavigate()
-    useEffect(() => {
-        const tokenAuth = localStorage.getItem("token_auth_admin");
-        if (!tokenAuth) {
-          navigate("/login");
-        }
-      }, [navigate]);
   return (
     <>
       <nav className="fixed top-0 left-0 w-full h-17.5 bg-white flex justify-between items-center px-6 shadow-sm z-1000">

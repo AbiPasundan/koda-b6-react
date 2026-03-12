@@ -4,7 +4,7 @@ import { BsPersonFill } from "react-icons/bs";
 import { IoBagOutline } from "react-icons/io5";
 import { CiLogout } from "react-icons/ci";
 import { Link, useNavigate } from "react-router";
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { HamburgerContext } from "../hook/HamburgerContext";
 
 
@@ -12,23 +12,16 @@ import { HamburgerContext } from "../hook/HamburgerContext";
 
 export default function SidebarAdmin() {
     const navigate = useNavigate()
-    useEffect(() => {
-        const tokenAuth = localStorage.getItem("token_auth_admin");
-        if (!tokenAuth) {
-          navigate("/login");
-        }
-      }, [navigate]);
+    const tokenAuth = localStorage.getItem("token_auth_admin");
+    if (!tokenAuth) {
+      navigate("/login");
+    }
     
     const onClick = () => {
-        console.log(123)
         localStorage.removeItem("token_auth_admin");
         navigate("/")
     }
-    // const { open, toggleMenu } = useContext(HamburgerContext);
-    //   console.log(open)
-
-    // jika true maka translate-x-0
-    // jika false maka -translate-x-full
+    
     const { open } = useContext(HamburgerContext)
 
     return (
