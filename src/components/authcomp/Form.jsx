@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import { useContext } from "react";
-import { DataFetchContext } from "@/components/hook/DataFetchContext";
 
 function Input({ type, registerInput, id, placeholder }) {
 	return (
@@ -108,8 +106,11 @@ function FormForgotPassword() {
 }
 
 function FormLogin({ children }) {
-	const { dataApi, isLoading, error } = useContext(DataFetchContext);
-		const [err, setError] = useState(null);
+	const [err, setError] = useState(null);
+
+	const { loading, users, error } = useData()
+
+	if (loading) return ( <h1>Loading</h1> )
 
 	const navigate = useNavigate();
 	const {
@@ -118,12 +119,12 @@ function FormLogin({ children }) {
 		watch,
 		formState: { errors },
 	} = useForm()
-	const users = JSON.parse(localStorage.getItem("user_coffee_shop")) || []
+	const user = JSON.parse(localStorage.getItem("user_coffee_shop")) || []
 	const onSubmit = data => {
-		if (!dataApi || !users) {
+		if (!users || !user) {
 			console.log("error")
 		} else {
-			dataApi.forEach(e => {
+			users.forEach(e => {
 				console.log(e.name)
 				if (data.email === e.email && data.password === e.password) {
 					console.log("bener euy")
@@ -145,8 +146,8 @@ function FormLogin({ children }) {
 					setError("Email atau password salah");
 				}
 			})
-			users.forEach(e => {
-				if (users) {
+			user.forEach(e => {
+				if (user) {
 					if (data.email === e.email && data.password === e.password) {
 						console.log("bener euy")
 						const tokenAuthUser = {
@@ -195,19 +196,6 @@ function FormLogin({ children }) {
 }
 
 function FormRegister() {
-	const { dataApi, isLoading, error } = useContext(DataFetchContext);
-	const navigate = useNavigate();
-	const [registerError, setRegisterError] = useState("");
-	const {
-		register,
-		handleSubmit,
-		watch,
-		formState: { errors },
-	} = useForm()
-
-
-
-	console.log(`data api berhasil di fetch ${dataApi} `)
 	let user
 	try {
 		const rawUser = localStorage.getItem("user_coffee_shop")
