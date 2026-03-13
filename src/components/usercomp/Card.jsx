@@ -214,12 +214,6 @@ function Pagination({ currentPage, setCurrentPage, totalItems, itemsPerPage }) {
 
 function DetailProductCard({ item }) {
 
-  const onClick = e => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || []
-    cart.push(e)
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }
-
   const scrollUp = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
