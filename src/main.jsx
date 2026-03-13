@@ -22,6 +22,10 @@ import './index.css'
 import { DataFetch } from "./components/hook/DataFetchContext";
 import { ProductFetch } from "./components/hook/ProductFetchContext";
 
+
+import { store } from './app/store'
+import { Provider } from 'react-redux'
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -100,8 +104,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <ProductFetch>
-    <DataFetch>
-      <RouterProvider router={router} />
-    </DataFetch>
+    <Provider store={store}>
+      <DataFetch>
+        <RouterProvider router={router} />
+      </DataFetch>
+    </Provider>
   </ProductFetch>
 )

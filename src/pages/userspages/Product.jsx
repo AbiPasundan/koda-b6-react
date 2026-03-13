@@ -2,10 +2,12 @@ import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ProductFetchContext } from '@/components/hook/ProductFetchContext';
 import { ProductCard } from '@/components/usercomp/Card';
+import { useSelector } from "react-redux"
 
 import { PiSlidersHorizontalBold } from "react-icons/pi";
 import { IoMdSearch } from "react-icons/io";
 import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
+import { useData } from '@/components/hook/GetAllData';
 
 function ProductHero() {
     return (
@@ -79,7 +81,6 @@ function ProductFilter({ isVisible, setFilters, setCurrentPage }) {
         const formattedData = {
             ...data,
             category: Array.isArray(data.category) ? data.category : (data.category ? [data.category] : []),
-            // sort: Array.isArray(data.sort) ? data.sort : (data.sort ? [data.sort] : [])
         };
 
         setFilters(formattedData);
@@ -130,42 +131,12 @@ function FilterGroup({ title, options, register, name }) {
 }
 
 function MainProductList({ currentPage, setCurrentPage, itemsPerPage, filters }) {
-    const { dataApi, isLoading, error } = useContext(ProductFetchContext);
-    console.log(filters.category)
+    const { menu, loading, error } = useData()
 
-    const products = dataApi || [];
+    const products = menu || [];
 
-
-    if (isLoading) return <div className="text-center py-10">Loading products...</div>;
+    if (loading) return <div className="text-center py-10">Loading products...</div>;
     if (error) return <div className="text-center py-10 text-red-500">Error loading data.</div>;
-
-    // const filteredProducts = dataApi.filter(product => {
-    //     const matchSearch = product.name.toLowerCase().includes(filters.search.toLowerCase());
-    //     console.log(matchSearch)
-
-    //     // const matchCategory = filters.category.length === 0 || filters.category.includes(product.category?.toLowerCase())
-    //     const matchCategory = filters.category.length === 0 || (product.category && filters.category.includes(String(product.category).toLowerCase()));
-    //     // console.log(matchCategory)
-
-    //     console.log(filters.category.includes(product.category?.toLowerCase()));
-    //     const res = matchSearch + matchCategory
-    //     // console.log(res);
-
-
-    //     return matchSearch && matchCategory;
-    // });
-
-    // const filteredProducts = dataApi.filter(product => {
-    //     console.log(`Item: ${product.name}, Category:`, product.category, "Type:", typeof product.category);
-
-    //     const matchSearch = product.name.toLowerCase().includes(filters.search.toLowerCase());
-
-    //     const productCat = product.category ? String(product.category).toLowerCase() : "";
-    //     const matchCategory = filters.category.length === 0 || filters.category.includes(productCat);
-
-    //     return matchSearch && matchCategory;
-    // });
-
 
     let filteredProducts = products.filter(product => {
         // Search Match
@@ -245,6 +216,17 @@ export default function Product() {
     const [currentPage, setCurrentPage] = useState(1);
     const [filters, setFilters] = useState({ search: "", category: [], sort: [] });
     const itemsPerPage = 8;
+
+    // const users = useSelector((state) => state.data.user)
+    // const menu = useSelector((state) => state.data.menu)
+
+    // console.log(users)
+    // console.log(menu)
+    const { menu, loading, users, error } = useData()
+    console.log(menu)
+    console.log(users)
+    console.log(loading)
+    console.log(error)
 
     return (
         <div className="min-h-screen bg-white">
