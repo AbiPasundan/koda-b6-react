@@ -19,7 +19,7 @@ import DetailOrder from './pages/userspages/DetailOrder.jsx';
 
 
 import './index.css'
-import { DataFetch } from "./components/hook/DataFetchContext";
+// import { DataFetch } from "./components/hook/DataFetchContext";
 import { ProductFetch } from "./components/hook/ProductFetchContext";
 
 
@@ -105,9 +105,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <ProductFetch>
     <Provider store={store}>
-      <DataFetch>
+      {/* <DataFetch> */}
         <RouterProvider router={router} />
-      </DataFetch>
+      {/* </DataFetch> */}
     </Provider>
   </ProductFetch>
 )
