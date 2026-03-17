@@ -15,7 +15,7 @@ FROM nginx:1.28.2-alpine
 
 WORKDIR /user/share/nginx/html
 
-COPY --from=build /workspace/dist .
+COPY --from=build /workspace/dist/ .
 
 # COPY default.conf /etc/nginx/conf.d/default.conf
 
