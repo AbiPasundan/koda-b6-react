@@ -1,4 +1,4 @@
-import {HomeCard} from "@/components/usercomp/Card"
+import { HomeCard } from "@/components/usercomp/Card"
 import Nav from "@/components/usercomp/Nav"
 import Footer from "@/components/usercomp/Footer"
 import { Rattings } from "@/components/usercomp/Card"
@@ -14,12 +14,17 @@ import home from "@/assets/img/userimg/home.png"
 import barista from "@/assets/img/userimg/barista.png"
 import map from "@/assets/img/userimg/map.png"
 
+
+import http from "@/lib/http"
+import { useEffect } from "react"
+
+
 function Hero() {
     return (
         <>
             <main className="grid md:grid-cols-2 md:grid-cols-2-reverse overflow-hidden h-full " >
                 <section className="order-1 flex max-h-[130vh] ">
-                    <img loading="lazy" src={home}  className="w-full overflow-hidden" alt="main image" />
+                    <img loading="lazy" src={home} className="w-full overflow-hidden" alt="main image" />
                 </section>
                 <section className="order-2 py-10 bg-[#777C82] bg-[linear-gradient(180deg,rgba(119,124,130,1)_0%,rgba(11,9,9,1)_66%)] flex w-full max-h-[130vh] ">
                     <div className="flex flex-col justify-center items-start mx-10 gap-5">
@@ -33,7 +38,7 @@ function Hero() {
                         </div>
                     </div>
                 </section>
-                
+
             </main>
         </>
     )
@@ -60,7 +65,7 @@ function About() {
                     </div>
                 </section>
                 <section className="flex max-h-[130vh] ">
-                    <img loading="lazy" src={barista}  className="w-full overflow-hidden" alt="main image" />
+                    <img loading="lazy" src={barista} className="w-full overflow-hidden" alt="main image" />
                 </section>
             </main>
         </>
@@ -68,6 +73,14 @@ function About() {
 }
 
 function ProductCard() {
+
+    // useEffect(() => {
+    //     console.log("product")
+    //     http("/products/home")
+    //         .then(res => res.json())
+    //         .then(data => console.log(data))
+    // }, [])
+
     return (
         <>
             <section className="flex flex-col my-10 justify-center items-center gap-5 mx-10 md:mx-20 ">
@@ -84,26 +97,34 @@ function ProductCard() {
 function VisitOurStore() {
     return (
         <>
-        <section className="max-w-[80vw] flex flex-col items-center mx-auto gap-5">
-            <div className="text-center my-5 mx-10 md:mx-20">
-                <h2 className="md:text-[48px] text-[34px] text-[#0B132A] flex-wrap "><span className="text-[#8E6447]">Visit Our Store</span> in the Spot on the Map Below</h2>
-                <hr className="border-b-3 border-[#FF8906] w-25 my-10 mx-auto"  />
-                <span className="text-[#4F5665] " >You can explore the menu that we provide with fun and have their own taste and make your day better.</span>
-            </div>
-            <div>
-                <img loading="lazy" src={map} alt="map" />
-            </div>
-        </section>
+            <section className="max-w-[80vw] flex flex-col items-center mx-auto gap-5">
+                <div className="text-center my-5 mx-10 md:mx-20">
+                    <h2 className="md:text-[48px] text-[34px] text-[#0B132A] flex-wrap "><span className="text-[#8E6447]">Visit Our Store</span> in the Spot on the Map Below</h2>
+                    <hr className="border-b-3 border-[#FF8906] w-25 my-10 mx-auto" />
+                    <span className="text-[#4F5665] " >You can explore the menu that we provide with fun and have their own taste and make your day better.</span>
+                </div>
+                <div>
+                    <img loading="lazy" src={map} alt="map" />
+                </div>
+            </section>
         </>
     )
 }
 
 function Testimoni() {
+
+    console.log("reviw")
+    useEffect(() => {
+        http("/products/reviews")
+            .then(res => res.json())
+            .then(data => console.log(data))
+    }, [])
+
     return (
         <>
             <section className=" overflow-hidden md:h-[80vh] h-[80vh] flex flex-col md:flex-row gap-10  px-10 bg-[#777C82] bg-[linear-gradient(180deg,rgba(119,124,130,1)_0%,rgba(11,9,9,1)_66%)]">
                 <div className="md:w-[30%] w-[80%] my-auto">
-                    <img loading="lazy" src={testimoni}  className="w-full overflow-hidden" alt="main image" />
+                    <img loading="lazy" src={testimoni} className="w-full overflow-hidden" alt="main image" />
                 </div>
                 <div className="my-auto md:w-110 w-55 text-white flex flex-col gap-5 mx-10 md:mx-20">
                     <h4>TESTIMONIAL</h4>
@@ -128,8 +149,8 @@ function Testimoni() {
     )
 }
 
-function ChatBox(){
-    const [ open, setOpen ] = useState(true)
+function ChatBox() {
+    const [open, setOpen] = useState(true)
     const conClick = e => {
         setOpen(open => !open)
         console.log(open)
@@ -163,8 +184,8 @@ function ChatBox(){
                 </div>
                 <div className="bg-white p-3 border-t border-gray-100 flex items-center gap-2">
                     <input type="text" placeholder="Masukan Pesan Anda" className="flex-1 bg-gray-50 text-sm border border-gray-200 rounded-lg px-4 py-2  transition" />
-                    
-                    <button  className="bg-orange-500 text-white p-2 rounded-lg shadow-md transition transform flex items-center justify-center">
+
+                    <button className="bg-orange-500 text-white p-2 rounded-lg shadow-md transition transform flex items-center justify-center">
                         < IoMdSend size="18" />
                     </button>
                 </div>
@@ -176,20 +197,20 @@ function ChatBox(){
     )
 }
 
-function Home(){
-    return(
+function Home() {
+    return (
         <>
-        <Nav bg="bg-black/40"/> 
-        <Hero/>
-        <About/>
-        <ProductCard />
-        <VisitOurStore />
-        <Testimoni />
-        <Footer />
-        <ChatBox />
-        
+            <Nav bg="bg-black/40" />
+            <Hero />
+            <About />
+            <ProductCard />
+            <VisitOurStore />
+            <Testimoni />
+            <Footer />
+            <ChatBox />
+
         </>
     )
 }
 
-export {Hero, Home}
+export { Hero, Home }

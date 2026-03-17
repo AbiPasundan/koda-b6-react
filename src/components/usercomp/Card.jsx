@@ -1,7 +1,7 @@
 import { FiShoppingCart } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
 import { Link, useNavigate } from "react-router";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ProductFetchContext } from "../hook/ProductFetchContext";
 
 function ImageCard({ children, img, link }) {
@@ -82,6 +82,13 @@ function Card() {
   )
 }
 function HomeCard() {
+  // useEffect(() => {
+  //   console.log("product")
+  //   http("/products/home")
+  //     .then(res => res.json())
+  //     .then(data => console.log(data))
+  // }, [])
+
   const limit = 4
   const { dataApi, isLoading, error } = useContext(ProductFetchContext);
   const navigate = useNavigate()
@@ -89,11 +96,7 @@ function HomeCard() {
 
   const onClick = e => {
     const cart = JSON.parse(localStorage.getItem("cart")) || []
-    console.log(cart)
     cart.push(e)
-    console.log(cart)
-    console.log(e.id)
-    console.log(e)
 
     navigate(`/detailproduct/${e.id}`, {
       replace: true,
