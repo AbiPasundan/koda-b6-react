@@ -17,11 +17,13 @@ WORKDIR /user/share/nginx/html
 
 COPY --from=build /workspace/dist .
 
-COPY --from=build /workspace/ ./default.conf
+# COPY default.conf /etc/nginx/conf.d/default.conf
 
-RUN rm /etc/nginx/conf.d/default.conf
+# COPY --from=build /workspace/ ./default.conf
 
-# COPY ./default.conf /etc/nginx/conf.d/default.conf
+# RUN rm /etc/nginx/conf.d/default.conf
+
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 # docker build -t frontend .
 # docker run --name frontend -p 8181:80 --rm frontend
