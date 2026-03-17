@@ -8,8 +8,6 @@ RUN npm ci
 
 COPY . .
 
-COPY ./default.conf /etc/nginx/conf.d/default.conf
-
 RUN npm run build
 
 
@@ -18,6 +16,8 @@ FROM nginx:1.28.2-alpine
 WORKDIR /user/share/nginx/html
 
 COPY --from=build /workspace/dist .
+
+COPY --from=build /workspace/ ./default.conf
 
 RUN rm /etc/nginx/conf.d/default.conf
 
