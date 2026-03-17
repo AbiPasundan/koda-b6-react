@@ -15,7 +15,7 @@ import barista from "@/assets/img/userimg/barista.png"
 import map from "@/assets/img/userimg/map.png"
 
 
-import http from "@/lib/http"
+import http, { getUsers, productCardHome } from "@/lib/http"
 import { useEffect } from "react"
 
 
@@ -73,14 +73,6 @@ function About() {
 }
 
 function ProductCard() {
-
-    // useEffect(() => {
-    //     console.log("product")
-    //     http("/products/home")
-    //         .then(res => res.json())
-    //         .then(data => console.log(data))
-    // }, [])
-
     return (
         <>
             <section className="flex flex-col my-10 justify-center items-center gap-5 mx-10 md:mx-20 ">
@@ -112,17 +104,10 @@ function VisitOurStore() {
 }
 
 function Testimoni() {
-
-    console.log("reviw")
-    useEffect(() => {
-        http("/products/reviews")
-            .then(res => res.json())
-            .then(data => console.log(data))
-    }, [])
-
     return (
         <>
             <section className=" overflow-hidden md:h-[80vh] h-[80vh] flex flex-col md:flex-row gap-10  px-10 bg-[#777C82] bg-[linear-gradient(180deg,rgba(119,124,130,1)_0%,rgba(11,9,9,1)_66%)]">
+                {/* <ul>{users.map(u => <li key={u.id}>{u.product_name}</li>)}</ul> */}
                 <div className="md:w-[30%] w-[80%] my-auto">
                     <img loading="lazy" src={testimoni} className="w-full overflow-hidden" alt="main image" />
                 </div>

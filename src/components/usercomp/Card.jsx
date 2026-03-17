@@ -3,6 +3,7 @@ import { CiStar } from "react-icons/ci";
 import { Link, useNavigate } from "react-router";
 import React, { useContext, useEffect, useState } from "react";
 import { ProductFetchContext } from "../hook/ProductFetchContext";
+import { productCardHome } from "@/lib/http";
 
 function ImageCard({ children, img, link }) {
   return (
@@ -82,21 +83,33 @@ function Card() {
   )
 }
 function HomeCard() {
-  // useEffect(() => {
-  //   console.log("product")
-  //   http("/products/home")
-  //     .then(res => res.json())
-  //     .then(data => console.log(data))
-  // }, [])
+  const [productHome, setUsers] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const limit = 4
-  const { dataApi, isLoading, error } = useContext(ProductFetchContext);
-  const navigate = useNavigate()
+  useEffect(() => {
+    productCardHome()
+      .then(
+        productHome => setUsers(productHome.Results)
+      )
+      .catch(setError)
+      .finally(() => setLoading(false));
+  }, []);
+
+  console.log(productHome);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  // localstorage
+  // const limit = 4
+  // const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+  // const navigate = useNavigate()
 
 
   const onClick = e => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || []
-    cart.push(e)
+    // const cart = JSON.parse(localStorage.getItem("cart")) || []
+    // cart.push(e)
 
     navigate(`/detailproduct/${e.id}`, {
       replace: true,
@@ -108,7 +121,7 @@ function HomeCard() {
 
   return (
     <>
-      {dataApi.length === 0 ?
+      {productHome.length === 0 ?
         (
           <>
             <main className="my-5">
@@ -123,13 +136,13 @@ function HomeCard() {
           <>
             {!isLoading && !error && (
               <>
-                {dataApi.slice(0, limit).map((item, index) => (
+                {productHome.map((item, index) => (
                   <main key={item.id ? item.id : index} className="relative flex justify-items-start justify-center justify-self-start self-start flex-col max-w-75">
-                    <ImageCard img={item.image} link={item.id} />
+                    <ImageCard img={item.image || `https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} link={item.id} />
                     <CardWrapper>
-                      <CardHeader productName={item.name} desc={item.description} />
+                      <CardHeader productName={item.product_name} desc={item.product_desc} />
                       <Rattings />
-                      <Price currentPrice={item.newPrice} />
+                      <Price currentPrice={item.price} />
                       <ButtonCard link={item.id}>
                         <FiShoppingCart onClick={() => onClick(item)} className="z-10" size={22} color='#FF8906' />
                       </ButtonCard>
