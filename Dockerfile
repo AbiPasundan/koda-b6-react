@@ -13,7 +13,7 @@ RUN npm run build
 
 FROM nginx:1.28.2-alpine
 
-WORKDIR /user/share/nginx/html
+WORKDIR /usr/share/nginx/html
 
 COPY --from=build /workspace/dist/ .
 
