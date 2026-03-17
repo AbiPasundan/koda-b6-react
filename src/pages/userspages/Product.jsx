@@ -9,6 +9,9 @@ import { IoMdSearch } from "react-icons/io";
 import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
 import { useData } from '@/components/hook/GetAllData';
 
+import women from '@/assets/img/userimg/women.png'
+import man from '@/assets/img/userimg/man.png'
+
 function ProductHero() {
     return (
         <main className="flex items-center justify-center h-[40vh] mx-auto bg-[url('/src/assets/img/userimg/heroproduct.png')] bg-no-repeat bg-cover">
@@ -44,10 +47,10 @@ function ProductCarousel() {
                 </div>
             </div>
             <div className="flex gap-5 overflow-x-auto pb-5 no-scrollbar">
-                <PromoCard bg="bg-[#88B788] text-[14px] " img="/src/assets/img/userimg/women.png" title="Happy Mother Days" text="Get one of our menu for free" />
-                <PromoCard bg="bg-[#88B788] text-[14px] " img="/src/assets/img/userimg/women.png" title="Happy Mother Days" text="Get one of our menu for free" />
-                <PromoCard bg="bg-[#88B788] text-[14px] " img="/src/assets/img/userimg/women.png" title="Happy Mother Days" text="Get one of our menu for free" />
-                <PromoCard bg="bg-[#F5C361] text-[14px]" img="/src/assets/img/userimg/man.png" title="Sunday Morning" text="Only at 7 to 9 AM" />
+                <PromoCard bg="bg-[#88B788] text-[14px] " img={women} title="Happy Mother Days" text="Get one of our menu for free" />
+                <PromoCard bg="bg-[#88B788] text-[14px] " img={women} title="Happy Mother Days" text="Get one of our menu for free" />
+                <PromoCard bg="bg-[#88B788] text-[14px] " img={women} title="Happy Mother Days" text="Get one of our menu for free" />
+                <PromoCard bg="bg-[#F5C361] text-[14px]" img={man} title="Sunday Morning" text="Only at 7 to 9 AM" />
             </div>
         </section>
     );
