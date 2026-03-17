@@ -15,22 +15,8 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: "22.22.0"
-
-      - name: Check Node.js version
-        run: node -v
-
       - name: Install dependencies
         run: npm install
-
-      - name: Build App
-        run: npm run build
-
-      - name: Check build result
-        run: ls dist/
 
       - name: "[Setup] docker metadata"
         id: meta
@@ -66,7 +52,11 @@ jobs:
           username: ${{ secrets.USERNAME }} # wildan
           key: ${{ secrets.KEY }} # private
           port: ${{ secrets.PORT }} # 22
+          # script: |
+          #   docker pull ghcr.io/abipasundan/koda-b6-react:latest
+          #   docker rm -f web-wildan
+          #   docker run -d --network pman_web -p  20601:80 --name web-wildan ghcr.io/abipasundan/koda-b6-react:latest
           script: |
-            docker pull ghcr.io/abipasundan/koda-b6-react:latest
-            docker rm -f web-wildan
-            docker run -d --network pman_web -p  20601:80 --name web-wildan ghcr.io/abipasundan/koda-b6-react:latest
+            cd server irul
+            docker compose pull frontend
+            docker compose up frontend -d
