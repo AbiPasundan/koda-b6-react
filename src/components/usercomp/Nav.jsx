@@ -4,16 +4,14 @@ import { FiShoppingCart } from "react-icons/fi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { FaRegFontAwesomeLogoFull } from "react-icons/fa";
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 // img
 import image from "@/assets/img/userimg/image.png"
 export default function Nav(props){
     const navigate = useNavigate()
-    const showMenu = useRef(null)
     const [open, setOpen] = useState(false)
     const handleHamburg = () => {
         setOpen(open => !open)
-        console.log(open);
     }
     const token = localStorage.getItem("token_auth_user");
     const logout = () => {
@@ -59,11 +57,11 @@ export default function Nav(props){
                     </div>
                 </section>
                     {/* mobile */}
-                <section className={`${open ? 'block' : 'hidden'} md:hidden fixed justify-between top-0 left-0 bg-white z-100 h-screen`}>
-                        <div>
+                <section className={`${open ? 'block' : 'hidden'} md:hidden fixed justify-between top-0 left-0 bg-white z-100 h-screen`} onClick={() => setOpen(false)}>
+                        <div >
                             <header className='flex justify-between p-3' >
                                 <FaRegFontAwesomeLogoFull size={90} />
-                                <IoMdClose size={30} />
+                                <IoMdClose size={30} onClick={handleHamburg} className="cursor-pointer" />
                             </header>
                             <label htmlFor="search" className='flex flex-col m-3 gap-3 my-10'>
                                 <span>Search Product</span>
@@ -73,7 +71,7 @@ export default function Nav(props){
                                 </div>
                                 <div className='flex items-start flex-col gap-3 '>
                                     <Link to="/" >Home</Link>
-                                    <Link to="/product">product</Link>
+                                    <Link to="/product" onClick={() => setOpen(false)}>product</Link>
                                 </div>
                             </label>
                         </div>
