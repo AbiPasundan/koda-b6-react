@@ -15,10 +15,6 @@ import barista from "@/assets/img/userimg/barista.png"
 import map from "@/assets/img/userimg/map.png"
 
 
-import http, { getUsers, productCardHome } from "@/lib/http"
-import { useEffect } from "react"
-
-
 function Hero() {
     return (
         <>

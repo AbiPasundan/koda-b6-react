@@ -2,8 +2,9 @@ import { FiShoppingCart } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
 import { Link, useNavigate } from "react-router";
 import React, { useContext, useEffect, useState } from "react";
-import { ProductFetchContext } from "../hook/ProductFetchContext";
-import { productCardHome } from "@/lib/http";
+import { useGetReviewsQuery, useGetProductHomeQuery } from "@/feature/api";
+// import { ProductFetchContext } from "../hook/ProductFetchContext";
+// import { productCardHome } from "@/lib/http";
 
 function ImageCard({ children, img, link }) {
   return (
@@ -83,34 +84,14 @@ function Card() {
   )
 }
 function HomeCard() {
-  const [productHome, setUsers] = useState([]);
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, isLoading, error } = useGetProductHomeQuery();
 
-  useEffect(() => {
-    productCardHome()
-      .then(
-        productHome => setUsers(productHome.Results)
-      )
-      .catch(setError)
-      .finally(() => setLoading(false));
-  }, []);
-
-  console.log(productHome);
+  console.log(data);
+  
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
-  // localstorage
-  // const limit = 4
-  // const { dataApi, isLoading, error } = useContext(ProductFetchContext);
-  // const navigate = useNavigate()
-
-
+  if (error) return <p>Terjadi error</p>;
   const onClick = e => {
-    // const cart = JSON.parse(localStorage.getItem("cart")) || []
-    // cart.push(e)
-
     navigate(`/detailproduct/${e.id}`, {
       replace: true,
       state: {
@@ -121,7 +102,7 @@ function HomeCard() {
 
   return (
     <>
-      {productHome.length === 0 ?
+      {data.length === 0 ?
         (
           <>
             <main className="my-5">
@@ -136,7 +117,7 @@ function HomeCard() {
           <>
             {!isLoading && !error && (
               <>
-                {productHome.map((item, index) => (
+                {data.map((item, index) => (
                   <main key={item.id ? item.id : index} className="relative flex justify-items-start justify-center justify-self-start self-start flex-col max-w-75">
                     <ImageCard img={item.image || `https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} link={item.id} />
                     <CardWrapper>

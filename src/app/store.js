@@ -1,8 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit"
-import getAllDataReducer from "@/feature/getAllData/getAllData"
+import { configureStore } from "@reduxjs/toolkit";
+import { api } from "@/feature/api";
 
 export const store = configureStore({
   reducer: {
-    data: getAllDataReducer,
+    [api.reducerPath]: api.reducer,
   },
-})
+
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
+});
