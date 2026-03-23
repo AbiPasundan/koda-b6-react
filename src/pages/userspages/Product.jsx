@@ -11,6 +11,7 @@ import { useData } from '@/components/hook/GetAllData';
 
 import women from '@/assets/img/userimg/women.png'
 import man from '@/assets/img/userimg/man.png'
+import { useGetBrowseProductsQuery } from '@/feature/api';
 
 function ProductHero() {
     return (
@@ -134,16 +135,12 @@ function FilterGroup({ title, options, register, name }) {
 }
 
 function MainProductList({ currentPage, setCurrentPage, itemsPerPage, filters }) {
-    const { menu, loading, error } = useData()
+    const { data, loading, error } = useGetBrowseProductsQuery()
 
-    const products = menu || [];
-
-    if (loading) return <div className="text-center py-10">Loading products...</div>;
-    if (error) return <div className="text-center py-10 text-red-500">Error loading data.</div>;
+    const products = data || [];
 
     let filteredProducts = products.filter(product => {
-        // Search Match
-        const matchSearch = product.name.toLowerCase().includes((filters.search || "").toLowerCase());
+        const matchSearch = product.product_name.toLowerCase().includes((filters.search || "").toLowerCase());
 
         const activeCategories = Array.isArray(filters.category)
             ? filters.category
@@ -167,6 +164,8 @@ function MainProductList({ currentPage, setCurrentPage, itemsPerPage, filters })
         window.scrollTo({ top: 500, behavior: 'smooth' });
     };
 
+    if (loading) return <div className="text-center py-10">Loading products...</div>;
+    if (error) return <div className="text-center py-10 text-red-500">Error loading data.</div>;
     return (
         <div className="w-full">
             <div className='flex flex-wrap justify-center gap-5'>
@@ -179,7 +178,6 @@ function MainProductList({ currentPage, setCurrentPage, itemsPerPage, filters })
 
             {totalPages > 1 && (
                 <div className='flex justify-center items-center gap-3 mt-12 mb-10'>
-                    {/* Tombol Angka */}
                     {[...Array(totalPages)].map((_, index) => {
                         const pageNum = index + 1;
                         return (
@@ -196,7 +194,6 @@ function MainProductList({ currentPage, setCurrentPage, itemsPerPage, filters })
                         );
                     })}
 
-                    {/* Tombol Next */}
                     <button
                         disabled={currentPage === totalPages}
                         onClick={() => paginate(currentPage + 1)}
@@ -219,17 +216,6 @@ export default function Product() {
     const [currentPage, setCurrentPage] = useState(1);
     const [filters, setFilters] = useState({ search: "", category: [], sort: [] });
     const itemsPerPage = 8;
-
-    // const users = useSelector((state) => state.data.user)
-    // const menu = useSelector((state) => state.data.menu)
-
-    // console.log(users)
-    // console.log(menu)
-    const { menu, loading, users, error } = useData()
-    console.log(menu)
-    console.log(users)
-    console.log(loading)
-    console.log(error)
 
     return (
         <div className="min-h-screen bg-white">

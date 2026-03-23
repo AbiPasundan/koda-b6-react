@@ -6,6 +6,7 @@ export const api = createApi({
     baseUrl: "http://localhost:8089",
   }),
   endpoints: (builder) => ({
+    // landing page start
     getReviews: builder.query({
       query: () => "/products/reviews",
       transformResponse: response => response.Results,
@@ -14,7 +15,14 @@ export const api = createApi({
       query: () => "/products/home",
       transformResponse: response => response.Results,
     }),
+    // landing page end
+    // browse product start
+    getBrowseProducts: builder.query({
+      query: () => "/products",
+      transformResponse: response => response.Results,
+    }),
+    // browse product end
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery } = api;

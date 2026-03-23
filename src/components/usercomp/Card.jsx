@@ -145,13 +145,13 @@ function ProductCard(props) {
   return (
     <>
       <main className="relative flex flex-col max-w-75">
-        <ImageCard img={props.image} link={props.id} >
+        <ImageCard img={props.image ?? "https://placehold.net/400x400.png" } link={props.id} >
           <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>
         </ImageCard>
         <CardWrapper>
-          <CardHeader productName={props.name} desc={props.description} />
+          <CardHeader productName={props.product_name} desc={props.product_desc.length > 50 ? props.product_desc.slice(0, 50) + "..." : props.product_desc } />
           <Rattings />
-          <Price currentPrice={props.newPrice}>
+          <Price currentPrice={props.price}>
             <span className="text-[#D00000] line-through font-medium text-[12px]">{props.oldPrice}</span>
           </Price>
 
