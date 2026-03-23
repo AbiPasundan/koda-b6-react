@@ -86,7 +86,7 @@ function Card() {
 function HomeCard() {
   const { data, isLoading, error } = useGetProductHomeQuery();
 
-  console.log(data);
+  console.log(data??"loading");
   
 
   if (isLoading) return <p>Loading...</p>;
