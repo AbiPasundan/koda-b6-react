@@ -86,8 +86,8 @@ function Card() {
 function HomeCard() {
   const { data, isLoading, error } = useGetProductHomeQuery();
 
-  console.log(data??"loading");
-  
+  console.log(data ?? "loading");
+
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Terjadi error</p>;
@@ -121,7 +121,7 @@ function HomeCard() {
                   <main key={item.id ? item.id : index} className="relative flex justify-items-start justify-center justify-self-start self-start flex-col max-w-75">
                     <ImageCard img={item.image || `https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} link={item.id} />
                     <CardWrapper>
-                      <CardHeader productName={item.product_name} desc={item.product_desc} />
+                      <CardHeader productName={item.product_name} desc={ item.product_desc.length > 50 ? item.product_desc.slice(0, 50) + "..." : item.product_desc } />
                       <Rattings />
                       <Price currentPrice={item.price} />
                       <ButtonCard link={item.id}>
