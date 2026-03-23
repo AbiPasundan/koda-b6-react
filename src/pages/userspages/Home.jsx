@@ -101,96 +101,51 @@ function VisitOurStore() {
     )
 }
 
-// function Testimoni() {
-//     return (
-//         <>
-//             <section className=" overflow-hidden md:h-[80vh] h-[80vh] flex flex-col md:flex-row gap-10  px-10 bg-[#777C82] bg-[linear-gradient(180deg,rgba(119,124,130,1)_0%,rgba(11,9,9,1)_66%)]">
-//                     {/* <ul>{users.map(u => <li key={u.id}>{u.product_name}</li>)}</ul> */}
-//                 <div className="md:w-[30%] w-[80%] my-auto">
-//                     <img loading="lazy" src={testimoni} className="w-full overflow-hidden" alt="main image" />
-//                 </div>
-//                 <div className="my-auto md:w-110 w-55 text-white flex flex-col gap-5 mx-10 md:mx-20">
-//                     <h4>TESTIMONIAL</h4>
-//                     <h2 className="md:text-[48px] text-[24px] border-l-5 border-[#FF8906] px-5">Viezh Robert</h2>
-//                     <span className="text-[#FF8906] text-sm">Manager Coffe Shop</span>
-//                     <p className="text-sm">“Wow... I am very happy to spend my whole day here. the Wi-fi is good, and the coffee and meals tho. I like it here!! Very recommended!</p>
-//                     <Rattings />
-//                     <div className="flex gap-3">
-//                         <FaCircleArrowLeft size={28} color="#FF8906" />
-//                         <FaCircleArrowRight size={28} />
-//                     </div>
-//                     <div className="flex flex-row gap-5 [&>span]:p-1 [&>span]:rounded-full [&>span]:bg-[#FF8906] ">
-//                         <span></span>
-//                         <span></span>
-//                         <span></span>
-//                         <span></span>
-//                         <span></span>
-//                     </div>
-//                 </div>
-//             </section>
-//         </>
-//     )
-// }
-
-
-const testimonials = [
-    {
-        id: 1,
-        name: 'Viezh Robert',
-        role: 'Manager Coffe Shop',
-        quote: '"Wow... I am very happy to spend my whole day here. the Wi-fi is good, and the coffee and meals tho. I like it here!! Very recommended!"',
-        rating: 5.0,
-        // Menggunakan gambar placeholder yang mirip dengan desain
-        image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-        id: 2,
-        name: 'Sarah Jenkins',
-        role: 'Freelance Designer',
-        quote: '"Tempat yang luar biasa untuk bekerja! Suasananya tenang, kopinya enak, dan koneksi internetnya sangat stabil. Sangat cocok untuk remote worker."',
-        rating: 4.8,
-        image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-        id: 3,
-        name: 'Ahmad Fauzi',
-        role: 'Software Engineer',
-        quote: '"Sering kesini buat ngerjain project. Tempat duduknya nyaman dan colokan listrik ada di mana-mana. Baristanya juga sangat ramah."',
-        rating: 5.0,
-        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'
-    }
-];
-
-const StarIcon = () => (
-    <svg className="w-5 h-5 text-orange-500 fill-current" viewBox="0 0 24 24">
-        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-    </svg>
-);
 
 const Testimoni = () => {
     const { data, isLoading, error } = useGetReviewsQuery();
 
     console.log(data);
 
-    
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    if (isLoading) {
+        return (
+            <div className="w-full bg-[#1e1e1e] py-16 flex justify-center items-center min-h-100">
+                <p className="text-orange-500 text-xl animate-pulse">Memuat ulasan...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="w-full bg-[#1e1e1e] py-16 flex justify-center items-center min-h-100">
+                <p className="text-red-500 text-xl">Gagal memuat ulasan pelanggan.</p>
+            </div>
+        );
+    }
+
+    if (!data || data.length === 0) {
+        return (
+            <div className="w-full bg-[#1e1e1e] py-16 flex justify-center items-center min-h-100">
+                <p className="text-gray-400 text-xl">Belum ada ulasan saat ini.</p>
+            </div>
+        );
+    }
 
     const nextSlide = () => {
         setCurrentIndex((prevIndex) =>
-            prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
+            prevIndex === data.length - 1 ? 0 : prevIndex + 1
         );
     };
 
     const prevSlide = () => {
         setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
+            prevIndex === 0 ? data.length - 1 : prevIndex - 1
         );
     };
 
-    const currentTestimonial = testimonials[currentIndex];
-
-    if (isLoading) return <p>Loading...</p>;
-    if (error) return <p>Terjadi error</p>;
+    const currentTestimonial = data[currentIndex];
 
     return (
         <div className="w-full bg-[#777C82] bg-[linear-gradient(180deg,rgba(119,124,130,1)_0%,rgba(11,9,9,1)_66%)] py-16 px-6 md:px-12 lg:px-24 font-sans">
@@ -198,8 +153,9 @@ const Testimoni = () => {
 
                 <div className="w-full md:w-1/2 overflow-hidden">
                     <img
-                        src={currentTestimonial.image ?? "https://placehold.net/400x400.png"}
-                        alt={currentTestimonial.name ?? "Testimonial Customer"}
+                        // change src when it launc to production
+                        src={currentTestimonial.pictures ?? "https://placehold.net/400x400.png"}
+                        alt={data.full_name ?? "Testimonial Customer"}
                         className="w-full h-100 object-cover transition-opacity duration-500"
                         key={currentTestimonial.id}
                     />
@@ -213,7 +169,7 @@ const Testimoni = () => {
                     <div className="flex items-center mb-2">
                         <div className="w-1 h-10 bg-orange-500 mr-4"></div>
                         <h2 className="text-white text-4xl md:text-5xl font-semibold">
-                            {currentTestimonial.name ?? "Customer"}
+                            {currentTestimonial.full_name ?? "Customer"}
                         </h2>
                     </div>
 
@@ -222,15 +178,30 @@ const Testimoni = () => {
                     </p>
 
                     <p className="text-gray-300 text-lg leading-relaxed mb-8 min-h-30">
-                        {currentTestimonial.quote ?? "Nice Place"}
+                        {currentTestimonial.messages ?? "Nice Place"}
                     </p>
 
-                    <div className="flex items-center space-x-1 mb-8">
-                        {[...Array(5)].map((_, i) => (
-                            <AiFillStar color="#FF8906" key={i} />
-                        ))}
+                    <div className="flex items-center mb-8">
+                        <div className="flex space-x-1">
+                            {[...Array(5)].map((_, index) => {
+                                const ratingValue = Math.floor(currentTestimonial.ratings || 0);
+
+                                return (
+                                    <svg
+                                        key={index}
+                                        className={`w-5 h-5 ${index < ratingValue
+                                                ? 'text-orange-500 fill-current' 
+                                                : 'text-gray-600 fill-current'   
+                                            }`}
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                    </svg>
+                                );
+                            })}
+                        </div>
                         <span className="text-white ml-3 font-medium">
-                            {currentTestimonial.rating.toFixed(1)}
+                            {Number(currentTestimonial.ratings || 0).toFixed(1)}
                         </span>
                     </div>
 
@@ -256,7 +227,7 @@ const Testimoni = () => {
                         </div>
 
                         <div className="flex items-center space-x-2">
-                            {testimonials.map((_, index) => (
+                            {data.map((_, index) => (
                                 <button
                                     key={index}
                                     onClick={() => setCurrentIndex(index)}
