@@ -1,19 +1,41 @@
 import { DetailProductCard, Pagination } from "@/components/usercomp/Card";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useContext, useState } from "react";
 import { ProductFetchContext } from "@/components/hook/ProductFetchContext";
+import { useGetDetailProductQuery } from "@/feature/api";
 
-function PoductImageComp(props) {
-  return <img loading="lazy" src={props.image} className="w-full h-24 object-cover cursor-pointer hover:opacity-80 border border-gray-200" />
+const getImageUrl = (path) => {
+  const { data, loading, error } = useGetDetailProductQuery()
+
+  const datas = data || []
+  const product = datas.find(item => item.id === Number(id)) || {}
+  const images = product.images || []
+
+  if (!path) return "https://placehold.net/400x400.png"
+
+  if (path.startsWith("http")) return path
+  if (loading) return <div className="text-center py-10">Loading products images...</div>;
+  if (error) return <div className="text-center py-10 text-red-500">Error get images.</div>;
+  return images
+}
+
+function PoductImageComp({ image }) {
+  return (
+    <img loading="lazy" src={getImageUrl(image)} onError={(e) => { e.target.src = "https://placehold.net/400x400.png" }} className="w-full h-24 object-cover cursor-pointer hover:opacity-80 border border-gray-200" />
+  )
 }
 
 function ProductImage(props) {
-  const { dataApi, isLoading, error } = useContext(ProductFetchContext);
   const { id } = useParams();
-  const product = dataApi.find(item => item.id === Number(id));
-  const images = product.image.slice(0, 3)
-  // const def = images.slice(0, 3)
-  // console.log(def)
+
+  const { data, loading, error } = useGetDetailProductQuery()
+
+  const datas = data || []
+  const product = datas.find(item => item.id === Number(id)) || {}
+  const images = product.images || []
+  
+  if (loading) return <div className="text-center py-10">Loading products...</div>;
+  if (error) return <div className="text-center py-10 text-red-500">Error loading data.</div>;
   return (
     <div className="space-y-4">
       <div className="relative overflow-hidden shadow-sm">
@@ -84,8 +106,6 @@ function Desc(props) {
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    // console.log("Item added:", newItem);
-
     navigate("/checkout", {
       replace: true,
       state: {
@@ -94,40 +114,6 @@ function Desc(props) {
       }
     });
   }
-
-  const plus = () => {
-    (count < dataApi.stock && setCount(count + 1))
-    console.log(count)
-  }
-
-  // const addCart = e => {
-  //   if (!selectSize || !selectTemp) {
-  //     alert("Mohon pilih ukuran dan penyajian (Hot/Ice) terlebih dahulu!");
-  //     return;
-  //   }
-  //   if (count < 1) {
-  //     alert("Jumlah pesanan minimal 1");
-  //     return;
-  //   }
-
-  //   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  //   const itemToAdd = {
-  //     // id: props.id,
-  //     // name: props.name,
-  //     // image: props.image,
-  //     // price: props.newPrice,
-  //     // description: props.desc,
-  //     product,
-  //     selectedSize: selectSize,
-  //     selectedTemp: selectTemp,
-  //     quantity: count
-  //   };
-
-  //   cart.push(itemToAdd);
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-  //   alert("Berhasil masuk keranjang!");
-  // }
   const addCart = () => {
     if (!selectSize || !selectTemp) {
       alert("Mohon pilih ukuran dan penyajian (Hot/Ice) terlebih dahulu!");
@@ -205,7 +191,6 @@ function Desc(props) {
         </div>
       </div>
       <div className="flex gap-4">
-        {/* <button onClick={() => buyProduct(props)} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button> */}
         <button onClick={() => buyProduct(dataApi[0])} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button>
         <button onClick={() => addCart(props)} className="flex-1 border border-orange-300 text-orange-600 font-bold py-3 rounded-md flex items-center justify-center gap-2 hover:bg-orange-50 transition">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
