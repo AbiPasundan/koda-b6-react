@@ -18,7 +18,7 @@ export const api = createApi({
     // landing page end
     // browse product start
     getBrowseProducts: builder.query({
-      query: () => "/products",
+      query: () => "/browseproducts",
       transformResponse: response => response.Results,
     }),
     // browse product end

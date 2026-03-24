@@ -146,7 +146,8 @@ function ProductCard(props) {
     <>
       <main className="relative flex flex-col max-w-75">
         <ImageCard img={props.image ?? "https://placehold.net/400x400.png" } link={props.id} >
-          <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>
+        {props.is_flash_sale ?? <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>}
+          
         </ImageCard>
         <CardWrapper>
           <CardHeader productName={props.product_name} desc={props.product_desc.length > 50 ? props.product_desc.slice(0, 50) + "..." : props.product_desc } />

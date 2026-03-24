@@ -137,7 +137,10 @@ function FilterGroup({ title, options, register, name }) {
 function MainProductList({ currentPage, setCurrentPage, itemsPerPage, filters }) {
     const { data, loading, error } = useGetBrowseProductsQuery()
 
+    console.log("data",data);
     const products = data || [];
+    console.log("product var",products);
+    
 
     let filteredProducts = products.filter(product => {
         const matchSearch = product.product_name.toLowerCase().includes((filters.search || "").toLowerCase());
