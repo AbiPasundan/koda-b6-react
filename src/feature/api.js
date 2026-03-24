@@ -22,7 +22,13 @@ export const api = createApi({
       transformResponse: response => response.Results,
     }),
     // browse product end
+    // detail product start
+    getDetailProduct: builder.query({
+      query: () => "/detailproduct",
+      transformResponse: response => response.Results,
+    }),
+    // detail product end
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery } = api;
