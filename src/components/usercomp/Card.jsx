@@ -1,10 +1,7 @@
 import { FiShoppingCart } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
 import { Link, useNavigate } from "react-router";
-import React, { useContext, useEffect, useState } from "react";
-import { useGetReviewsQuery, useGetProductHomeQuery } from "@/feature/api";
-// import { ProductFetchContext } from "../hook/ProductFetchContext";
-// import { productCardHome } from "@/lib/http";
+import { useGetProductHomeQuery } from "@/feature/api";
 
 function ImageCard({ children, img, link }) {
   return (
@@ -119,9 +116,10 @@ function HomeCard() {
               <>
                 {data.map((item, index) => (
                   <main key={item.id ? item.id : index} className="relative flex justify-items-start justify-center justify-self-start self-start flex-col max-w-75">
+                    {/* change if want ot launc to production */}
                     <ImageCard img={item.image || `https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} link={item.id} />
                     <CardWrapper>
-                      <CardHeader productName={item.product_name} desc={ item.product_desc.length > 50 ? item.product_desc.slice(0, 50) + "..." : item.product_desc } />
+                      <CardHeader productName={item.product_name} desc={item.product_desc.length > 50 ? item.product_desc.slice(0, 50) + "..." : item.product_desc} />
                       <Rattings />
                       <Price currentPrice={item.price} />
                       <ButtonCard link={item.id}>
@@ -145,12 +143,11 @@ function ProductCard(props) {
   return (
     <>
       <main className="relative flex flex-col max-w-75">
-        <ImageCard img={props.image ?? "https://placehold.net/400x400.png" } link={props.id} >
-        {props.is_flash_sale ?? <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>}
-          
+        <ImageCard img={props.image ?? "https://placehold.net/400x400.png"} link={props.id} >
+          {props.is_flash_sale ?? <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>}
         </ImageCard>
         <CardWrapper>
-          <CardHeader productName={props.product_name} desc={props.product_desc.length > 50 ? props.product_desc.slice(0, 50) + "..." : props.product_desc } />
+          <CardHeader productName={props.product_name} desc={props.product_desc.length > 50 ? props.product_desc.slice(0, 50) + "..." : props.product_desc} />
           <Rattings />
           <Price currentPrice={props.price}>
             <span className="text-[#D00000] line-through font-medium text-[12px]">{props.oldPrice}</span>
