@@ -1,10 +1,11 @@
 import { DetailProductCard, Pagination } from "@/components/usercomp/Card";
 import { useNavigate, useParams } from "react-router";
-import { useContext, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import { ProductFetchContext } from "@/components/hook/ProductFetchContext";
 import { useGetDetailProductQuery } from "@/feature/api";
 
 const getImageUrl = (path) => {
+  const { id } = useParams();
   const { data, loading, error } = useGetDetailProductQuery()
 
   const datas = data || []
@@ -33,7 +34,7 @@ function ProductImage(props) {
   const datas = data || []
   const product = datas.find(item => item.id === Number(id)) || {}
   const images = product.images || []
-  
+
   if (loading) return <div className="text-center py-10">Loading products...</div>;
   if (error) return <div className="text-center py-10 text-red-500">Error loading data.</div>;
   return (
@@ -53,6 +54,11 @@ function ProductImage(props) {
 }
 
 function Desc(props) {
+  const { data, loading, error } = useGetDetailProductQuery()
+
+  const datas = data || []
+  console.log(datas);
+
   const [selectSize, setSelectSize] = useState()
   const { id } = useParams();
 
@@ -61,12 +67,10 @@ function Desc(props) {
   const [count, setCount] = useState(0)
   const sizes = ["regular", "medium", "large"]
   const temps = ["hot", "cold"]
-  const { dataApi, isLoading, error } = useContext(ProductFetchContext);
+  const { dataApi, isLoading, errors } = useContext(ProductFetchContext);
   const navigate = useNavigate();
 
-  const product = dataApi.find(item => item.id === Number(id));
-  console.log(dataApi);
-  console.log(product);
+  const product = datas.find(item => item.id === Number(id)) || {};
 
 
   // console.log(product)
@@ -126,7 +130,6 @@ function Desc(props) {
     }
 
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
     const existingItem = cart.find(item =>
       item.product.id === product.id &&
       item.selectedSize === selectSize &&
@@ -148,11 +151,21 @@ function Desc(props) {
     alert("Berhasil masuk keranjang!");
   };
 
+  console.log("products tetsibw", product.is_flash_sale);
 
+
+  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (error || !datas) return <div className="text-center py-20 text-red-500">Product not found.</div>;
 
   return (
     <>
-      <span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>
+      {/* {product.forEach(e => {
+        <div key={e.id}>
+          {e.is_flash_sale == true ?? <span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>}
+        </div>
+      })} */}
+      {product.is_flash_sale && (<span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>)}
+      {/* <span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">{props.is_flash_sale}</span> */}
       <h1 className="text-4xl font-bold font-[Plus_Jakarta_Sans]  text-[48px] leading-[100%] tracking-[0%] ">{props.name}</h1>
       <div className="flex items-center space-x-3 my-5">
         <span className=" line-throug font-[Plus_Jakarta_Sans] font-medium text-[12px] leading-[100%] tracking-[0%] line-through text-[#D00000]">{props.oldPrice}</span>
@@ -191,7 +204,7 @@ function Desc(props) {
         </div>
       </div>
       <div className="flex gap-4">
-        <button onClick={() => buyProduct(dataApi[0])} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button>
+        <button onClick={() => buyProduct(datas[0])} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button>
         <button onClick={() => addCart(props)} className="flex-1 border border-orange-300 text-orange-600 font-bold py-3 rounded-md flex items-center justify-center gap-2 hover:bg-orange-50 transition">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -199,35 +212,38 @@ function Desc(props) {
           add to cart
         </button>
       </div>
-
     </>
   )
 }
 
 
 export default function DetailProduct() {
-  const { dataApi, isLoading, error } = useContext(ProductFetchContext);
   const { id } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  const product = dataApi.find(item => item.id === Number(id));
+  const { data, loading, error } = useGetDetailProductQuery(id) || []
 
-  if (isLoading) return <div className="text-center py-20">Loading...</div>;
-  if (error || !product) return <div className="text-center py-20 text-red-500">Product not found.</div>;
+  const datas = data || []
+  const dataproduct = datas.find(item => item.id === Number(id)) || [];
+  console.log(dataproduct);
 
-  const recommendations = dataApi.filter(item => item.id !== product.id);
+
+  const recommendations = datas.filter(item => item.id !== datas.id);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentProducts = recommendations.slice(indexOfFirstItem, indexOfLastItem);
 
+  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (error || !datas) return <div className="text-center py-20 text-red-500">Product not found.</div>;
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="grid grid-cols-1 my-10 md:grid-cols-2 gap-10">
-        <ProductImage mainImage={product.image} />
+        <ProductImage mainImage={dataproduct.pictures} />
         <div>
-          <Desc name={product.name} desc={product.description} oldPrice={product.oldPrice} newPrice={product.newPrice} id={product.id} image={product.image} tax={product.tax} size />
+          <Desc name={dataproduct.product_name} desc={dataproduct.product_desc} oldPrice={dataproduct.price} newPrice={dataproduct.price} id={dataproduct.id} image={dataproduct.image} tax={dataproduct.tax} size />
         </div>
       </div>
 

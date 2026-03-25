@@ -1,7 +1,7 @@
 import { FiShoppingCart } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
-import { Link, useNavigate } from "react-router";
-import { useGetProductHomeQuery } from "@/feature/api";
+import { Link, useNavigate, useParams } from "react-router";
+import { useGetDetailProductQuery, useGetProductHomeQuery } from "@/feature/api";
 
 function ImageCard({ children, img, link }) {
   return (
@@ -143,6 +143,7 @@ function ProductCard(props) {
   return (
     <>
       <main className="relative flex flex-col max-w-75">
+        {/* change when it launch to prod */}
         <ImageCard img={props.image ?? "https://placehold.net/400x400.png"} link={props.id} >
           {props.is_flash_sale ?? <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>}
         </ImageCard>
@@ -207,24 +208,43 @@ function Pagination({ currentPage, setCurrentPage, totalItems, itemsPerPage }) {
   );
 }
 
+const getImageUrl = (path) => {
+  const { id } = useParams();
+  const { data, loading, error } = useGetDetailProductQuery()
+
+  const datas = data || []
+  const product = datas.find(item => item.id === Number(id)) || {}
+  const images = product.images || []
+
+  if (!path) return "https://placehold.net/400x400.png"
+
+  if (path.startsWith("http")) return path
+  if (loading) return <div className="text-center py-10">Loading products images...</div>;
+  if (error) return <div className="text-center py-10 text-red-500">Error get images.</div>;
+  return images
+}
+
 function DetailProductCard({ item }) {
 
   const scrollUp = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
+  // src={getImageUrl(image)} onError={(e) => { e.target.src = "https://placehold.net/400x400.png" }}
+  // {product.is_flash_sale && (<span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>)}
   return (
     <main className="relative flex flex-col max-w-75" onClick={scrollUp} >
-      <ImageCard img={item.image} link={item.id}>
-        <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000]">Flash Sale </span>
+      <ImageCard img={getImageUrl(item.pictures)} onError={(e) => { e.target.src = "https://placehold.net/400x400.png" }} link={item.id}>
+        {item.is_flash_sale && (<span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000]">FLASH SALE!</span>)}
+        {/* <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000]">Flash Sale </span> */}
       </ImageCard>
 
       <CardWrapper>
-        <CardHeader productName={item.name} desc={item.description} />
+        <CardHeader productName={item.product_name} desc={item.product_desc} />
         <Rattings />
-        <Price currentPrice={item.newPrice}>
+        <Price currentPrice={item.price}>
           <span className="text-[#D00000] line-through font-medium text-[12px]">
-            {item.oldPrice}
+            {/* need operatio to calculate discount */}
+            {item.price}
           </span>
         </Price>
         <ButtonCard link={item.id}>
