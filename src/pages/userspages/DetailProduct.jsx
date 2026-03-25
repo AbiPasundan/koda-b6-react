@@ -55,22 +55,29 @@ function ProductImage(props) {
 
 function Desc(props) {
   const { data, loading, error } = useGetDetailProductQuery()
-
-  const datas = data || []
-  console.log(datas);
-
-  const [selectSize, setSelectSize] = useState()
   const { id } = useParams();
-
-
-  const [selectTemp, setSelectTemp] = useState()
-  const [count, setCount] = useState(0)
-  const sizes = ["regular", "medium", "large"]
-  const temps = ["hot", "cold"]
-  const { dataApi, isLoading, errors } = useContext(ProductFetchContext);
-  const navigate = useNavigate();
+  const datas = data || []
 
   const product = datas.find(item => item.id === Number(id)) || {};
+
+  // console.log(product.sizes);
+
+  const productSize = product.sizes || [];
+  const productVariant = product.variants || [];
+
+
+  const [selectSize, setSelectSize] = useState()
+  const [selectTemp, setSelectTemp] = useState()
+  const [count, setCount] = useState(0)
+
+  const sizes = productSize
+
+
+  // const temps = ["hot", "cold"]
+  const temps = productVariant
+  const navigate = useNavigate();
+
+
 
 
   // console.log(product)
@@ -151,7 +158,6 @@ function Desc(props) {
     alert("Berhasil masuk keranjang!");
   };
 
-  console.log("products tetsibw", product.is_flash_sale);
 
 
   if (loading) return <div className="text-center py-20">Loading...</div>;
@@ -159,13 +165,7 @@ function Desc(props) {
 
   return (
     <>
-      {/* {product.forEach(e => {
-        <div key={e.id}>
-          {e.is_flash_sale == true ?? <span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>}
-        </div>
-      })} */}
       {product.is_flash_sale && (<span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>)}
-      {/* <span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">{props.is_flash_sale}</span> */}
       <h1 className="text-4xl font-bold font-[Plus_Jakarta_Sans]  text-[48px] leading-[100%] tracking-[0%] ">{props.name}</h1>
       <div className="flex items-center space-x-3 my-5">
         <span className=" line-throug font-[Plus_Jakarta_Sans] font-medium text-[12px] leading-[100%] tracking-[0%] line-through text-[#D00000]">{props.oldPrice}</span>
@@ -188,18 +188,23 @@ function Desc(props) {
         <button onClick={() => setCount(prev => (prev < 10 ? prev + 1 : 10))} className="w-8 h-8 bg-[#FF8906] text-white rounded flex items-center justify-center hover:bg-orange-600">+</button>
       </div>
       <div className="mb-4">
-        <label className="block font-[Plus_Jakarta_Sans] font-bold text-[18px] leading-[100%] tracking-[0%] text-[#0B0909] mb-2">Choose Size</label>
+        {sizes.length > 0 && (
+          <label className="block font-[Plus_Jakarta_Sans] font-bold text-[18px] leading-[100%] tracking-[0%] text-[#0B0909] mb-2">Choose Size</label>
+        )}
         <div className="grid grid-cols-3 gap-3">
           {sizes.map((size, i) => (
-            <button key={i} onClick={() => setSelectSize(() => sizeOption(size))} className={`border font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909] ${selectSize === size ? 'border-orange-300' : 'border-black'}  py-2 rounded text-sm font-medium`}>{size}</button>
-          ))}
+            <button key={i} onClick={() => setSelectSize(() => sizeOption(size.size_name))} className={`border font-[Plus_Jakarta_Sans] font-normal text-[16px] leading-[100%] tracking-[0%] text-[#0B0909] ${selectSize === size.size_name ? 'border-orange-300' : 'border-black'}  py-2 rounded text-sm font-medium`}>{size.size_name}</button>
+          )
+          )}
         </div>
       </div>
       <div className="mb-8">
-        <label className="block font-[Plus_Jakarta_Sans] font-bold text-[18px] leading-[100%] tracking-[0%] text-[#0B0909] mb-2 ">Hot/Ice?</label>
+        {sizes.length > 0 && (
+          <label className="block font-[Plus_Jakarta_Sans] font-bold text-[18px] leading-[100%] tracking-[0%] text-[#0B0909] mb-2 ">Variant</label>
+        )}
         <div className="grid grid-cols-2 gap-3">
           {temps.map((temp, i) => (
-            <button key={i} onClick={() => { setSelectTemp(temp) }} className={`border ${selectTemp === temp ? 'border-orange-300' : 'border-black'}  py-2 rounded text-sm font-medium font-[Plus_Jakarta_Sans] text-[16px] leading-[100%] tracking-[0%] text-[#0B0909]`}>{temp}</button>
+            <button key={i} onClick={() => { setSelectTemp(temp.variant_name) }} className={`border ${selectTemp === temp.variant_name ? 'border-orange-300' : 'border-black'}  py-2 rounded text-sm font-medium font-[Plus_Jakarta_Sans] text-[16px] leading-[100%] tracking-[0%] text-[#0B0909]`}>{temp.variant_name}</button>
           ))}
         </div>
       </div>

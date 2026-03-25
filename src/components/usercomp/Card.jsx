@@ -229,13 +229,10 @@ function DetailProductCard({ item }) {
   const scrollUp = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  // src={getImageUrl(image)} onError={(e) => { e.target.src = "https://placehold.net/400x400.png" }}
-  // {product.is_flash_sale && (<span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>)}
   return (
     <main className="relative flex flex-col max-w-75" onClick={scrollUp} >
       <ImageCard img={getImageUrl(item.pictures)} onError={(e) => { e.target.src = "https://placehold.net/400x400.png" }} link={item.id}>
         {item.is_flash_sale && (<span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000]">FLASH SALE!</span>)}
-        {/* <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000]">Flash Sale </span> */}
       </ImageCard>
 
       <CardWrapper>
