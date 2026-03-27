@@ -85,6 +85,9 @@ function HomeCard() {
 
   console.log(data ?? "loading");
 
+  if (!data || data.length === 0) {
+    return <p className="text-gray-400 text-xl">Belum ada product saat ini.</p>
+  }
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Terjadi error</p>;

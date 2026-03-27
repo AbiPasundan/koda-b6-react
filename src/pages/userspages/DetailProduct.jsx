@@ -239,6 +239,20 @@ export default function DetailProduct() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentProducts = recommendations.slice(indexOfFirstItem, indexOfLastItem);
 
+  if (dataproduct.id === undefined) return (
+    <div className="mt-24">
+      <div className="text-center py-20">Product Not Found</div>
+      <h2 className="md:text-3xl text-xl overflow-hidden font-medium mb-8 font-[Plus_Jakarta_Sans] text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-items-center">
+        {currentProducts.map(item => (
+          <DetailProductCard key={item.id} item={item} />
+        ))}
+      </div>
+      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={recommendations.length} itemsPerPage={itemsPerPage} />
+    </div>
+
+  );
   if (loading) return <div className="text-center py-20">Loading...</div>;
   if (error || !datas) return <div className="text-center py-20 text-red-500">Product not found.</div>;
 
@@ -247,7 +261,7 @@ export default function DetailProduct() {
       <div className="grid grid-cols-1 my-10 md:grid-cols-2 gap-10">
         <ProductImage mainImage={dataproduct.pictures} />
         <div>
-          <Desc name={dataproduct.product_name} desc={dataproduct.product_desc} oldPrice={dataproduct.price} newPrice={dataproduct.price * ((100 - dataproduct.discount_rate) / 100) } id={dataproduct.id} image={dataproduct.image} size />
+          <Desc name={dataproduct.product_name} desc={dataproduct.product_desc} oldPrice={dataproduct.price} newPrice={dataproduct.price * ((100 - dataproduct.discount_rate) / 100)} id={dataproduct.id} image={dataproduct.image} size />
           {/* price * (100 - discount) / 100);*/}
         </div>
       </div>

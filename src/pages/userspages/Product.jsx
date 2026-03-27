@@ -137,10 +137,10 @@ function FilterGroup({ title, options, register, name }) {
 function MainProductList({ currentPage, setCurrentPage, itemsPerPage, filters }) {
     const { data, loading, error } = useGetBrowseProductsQuery()
 
-    console.log("data",data);
+    console.log("data", data);
     const products = data || [];
-    console.log("product var",products);
-    
+    console.log("product var", products);
+
 
     let filteredProducts = products.filter(product => {
         const matchSearch = product.product_name.toLowerCase().includes((filters.search || "").toLowerCase());
@@ -166,6 +166,14 @@ function MainProductList({ currentPage, setCurrentPage, itemsPerPage, filters })
         setCurrentPage(pageNumber);
         window.scrollTo({ top: 500, behavior: 'smooth' });
     };
+
+    if (!data || data.length === 0) {
+        return (
+            <div className='flex flex-wrap justify-center gap-5'>
+                <p className="text-gray-400 text-xl">Belum ada product saat ini.</p>
+            </div>
+        )
+    }
 
     if (loading) return <div className="text-center py-10">Loading products...</div>;
     if (error) return <div className="text-center py-10 text-red-500">Error loading data.</div>;
