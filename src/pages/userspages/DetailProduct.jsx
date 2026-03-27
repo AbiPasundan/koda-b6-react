@@ -171,7 +171,6 @@ function Desc(props) {
         <span className=" line-throug font-[Plus_Jakarta_Sans] font-medium text-[12px] leading-[100%] tracking-[0%] line-through text-[#D00000]">{props.oldPrice}</span>
         <span className="text-2xl font-bold w-600 font-[Plus_Jakarta_Sans] text-[22px] leading-[100%] tracking-[0%] text-[#FF8906]">{props.newPrice}</span>
       </div>
-      <span hidden> {props.tax} </span>
       <div className="flex items-center mb-4 text-sm text-gray-500">
         <div className="flex text-yellow-400 mr-2">
           <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
@@ -228,7 +227,7 @@ export default function DetailProduct() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  const { data, loading, error } = useGetDetailProductQuery(id) || []
+  const { data, loading, error } = useGetDetailProductQuery(id) || [];
 
   const datas = data || []
   const dataproduct = datas.find(item => item.id === Number(id)) || [];
@@ -248,7 +247,8 @@ export default function DetailProduct() {
       <div className="grid grid-cols-1 my-10 md:grid-cols-2 gap-10">
         <ProductImage mainImage={dataproduct.pictures} />
         <div>
-          <Desc name={dataproduct.product_name} desc={dataproduct.product_desc} oldPrice={dataproduct.price} newPrice={dataproduct.price} id={dataproduct.id} image={dataproduct.image} tax={dataproduct.tax} size />
+          <Desc name={dataproduct.product_name} desc={dataproduct.product_desc} oldPrice={dataproduct.price} newPrice={dataproduct.price * ((100 - dataproduct.discount_rate) / 100) } id={dataproduct.id} image={dataproduct.image} size />
+          {/* price * (100 - discount) / 100);*/}
         </div>
       </div>
 

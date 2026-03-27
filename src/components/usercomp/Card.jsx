@@ -238,9 +238,8 @@ function DetailProductCard({ item }) {
       <CardWrapper>
         <CardHeader productName={item.product_name} desc={item.product_desc} />
         <Rattings />
-        <Price currentPrice={item.price}>
+        <Price currentPrice={item.price * ((100 - item.discount_rate) / 100)}>
           <span className="text-[#D00000] line-through font-medium text-[12px]">
-            {/* need operatio to calculate discount */}
             {item.price}
           </span>
         </Price>
