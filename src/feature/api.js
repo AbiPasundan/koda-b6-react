@@ -27,8 +27,15 @@ export const api = createApi({
       query: () => "/detailproduct",
       transformResponse: response => response.Results,
     }),
+    register: builder.mutation({
+      query: (body) => ({
+        url: "/register",
+        method: "POST",
+        body,
+      }),
+    }),
     // detail product end
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation } = api;
