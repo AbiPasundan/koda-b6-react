@@ -14,7 +14,7 @@ export default function LoginPage() {
 	  navigate("/");
 	}
 	return (
-		<main className="flex grid-cols-[30%_auto] gap-10 ">
+		<main className="flex gap-10 ">
 			<AuthImage image={loginimg} />
 			<section className="flex flex-col justify-self-center my-auto h-auto mx-10 md:mx-0 [&>form>label]:flex [&>form>label]:flex-col [&>form>div]:flex [&>form>div]:flex-col py-10 w-195 ">
 				<ImageAuthLogo image={footer}/>
