@@ -1,4 +1,4 @@
-import { useRegisterMutation } from "@/feature/api";
+import { useLoginMutation, useRegisterMutation } from "@/feature/api";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
@@ -83,7 +83,6 @@ function AuthComp({ registerInput, title, children, type, name, id, placeholder,
 	)
 }
 
-// forgot password start
 function FormForgotPassword() {
 	const {
 		register,
@@ -107,64 +106,39 @@ function FormForgotPassword() {
 }
 
 function FormLogin({ children }) {
-	const [err, setError] = useState(null);
-
-	const { loading, users, error } = useData()
-
-	if (loading) return (<h1>Loading</h1>)
+	const [loginUser, { isLoading }] = useLoginMutation();
+	const [error, setError] = useState(null);
 
 	const navigate = useNavigate();
-	const {
-		register,
-		handleSubmit,
-		watch,
-		formState: { errors },
-	} = useForm()
-	const user = JSON.parse(localStorage.getItem("user_coffee_shop")) || []
-	const onSubmit = data => {
-		if (!users || !user) {
-			console.log("error")
-		} else {
-			users.forEach(e => {
-				console.log(e.name)
-				if (data.email === e.email && data.password === e.password) {
-					console.log("bener euy")
-					const tokenAuthAdmin = {
-						name: e.name,
-						email: e.email,
-						password: e.password,
-					}
-					localStorage.setItem("token_auth_admin", JSON.stringify(tokenAuthAdmin))
-					navigate("/admin", {
-						replace: true, state: {
-							name: e.name,
-							email: e.email,
-							password: e.password,
-							isAdminLogin: true
-						}
-					});
-				} else {
-					setError("Email atau password salah");
-				}
-			})
-			user.forEach(e => {
-				if (user) {
-					if (data.email === e.email && data.password === e.password) {
-						console.log("bener euy")
-						const tokenAuthUser = {
-							name: e.name,
-							email: e.email,
-						}
+	const { register, handleSubmit, watch, formState: { errors }, } = useForm()
 
-						localStorage.setItem("token_auth_user", JSON.stringify(tokenAuthUser))
-						navigate("/profile");
-					} else {
-						setError("Email atau password salah");
-					}
-				}
-			});
+	const onSubmit = async (data) => {
+		try {
+			const res = await loginUser({
+				email: data.email,
+				password: data.password,
+			}).unwrap();
+			// console.log(res);
+			const token = res.data || res.Results;
+
+			localStorage.setItem("token", token);
+
+			const payload = JSON.parse(atob(token.split(".")[1]));
+
+			const role = payload.role;
+
+			if (role === "admin") {
+				navigate("/admin", { replace: true });
+			} else {
+				navigate("/profile", { replace: true });
+			}
+
+		} catch (err) {
+			console.error(err);
+			setError(err?.data?.message || "Email or Password Wrong");
 		}
 	};
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} method="POST" className="flex flex-col">
 			<div>
@@ -183,7 +157,7 @@ function FormLogin({ children }) {
 					<path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
 				</svg>
 			</AuthComp>
-			<button type="submit" className="bg-[#FF8906] h-15 rounded-xl  text-[#0B132A] ">Submit</button>
+			<button type="submit" disabled={isLoading} className="bg-[#FF8906] h-15 rounded-xl text-[#0B132A]" > {isLoading ? "Loading..." : "Submit"} </button>
 			<div className="flex items-center justify-center mb-3" >
 				<LinkNavigation text="Not Have an Account?" linkText="Register" link="register" />
 				<span className="text-[#AAAAAA]">or</span>
@@ -267,7 +241,5 @@ function FormRegister() {
 		</form>
 	)
 }
-
-// register end
 
 export { FormForgotPassword, FormLogin, FormRegister }
