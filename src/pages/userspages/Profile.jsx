@@ -1,79 +1,82 @@
-function InputForProfile(props) {
+import { BiMap } from "react-icons/bi"; 
+import { MdOutlineKey } from "react-icons/md"; 
+import { FiPhoneCall } from "react-icons/fi"; 
+import { FiMail } from "react-icons/fi"; 
+import { AiOutlineUser } from "react-icons/ai"; 
+
+function InputForProfile({ title, type, name, defaultValue, placeholder, icon: Icon }) {
   return (
-    <div className="input-user flex flex-col gap-3.75">
-        <label htmlFor={props.valueNameId} className="font-[Plus_Jakarta_Sans] font-semibold text-[16px] leading-[100%] align-middle" >
-          {props.title}
-        </label>
-        <input
-          type={props.type}
-          name={props.valueNameId}
-          id={props.valueNameId}
-          value={props.value}
-          className=" h-13 border rounded-lg pt-3.5  pb-3.5 pl-13.25 bg-[url('./../img/icons/Profile.png')] "
-          placeholder={props.placeholder}
-        />
+    <div className="flex flex-col gap-2">
+      <label htmlFor={name} className="font-['Plus_Jakarta_Sans'] text-[16px] text-[#0B132A] font-medium">
+        {title}
+      </label>
+      <div className="relative">
+        {Icon && (
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+            <Icon size={20} />
+          </div>
+        )}
+        <input type={type} name={name} id={name} defaultValue={defaultValue} placeholder={placeholder} className={`w-full h-12 border border-[#DEDEDE] rounded-lg ${Icon ? 'pl-12' : 'pl-4' } pr-4 focus:outline-none focus:border-[#FF8906] focus:ring-1 focus:ring-[#FF8906] transition-all`} />
       </div>
-  )
+    </div>
+  );
 }
 
-function PropfileComp(props) {
+function ProfileCard({ name, email, image, date }) {
   return (
-    <div className="header-title h-15.5 my-10">
-      <h2 className="font-[Plus Jakarta Sans] font-medium text-xl">
-        {props.name}
+    <div className="w-full md:w-1/3 p-6 border border-[#E8E8E8] flex flex-col items-center text-center">
+      <h2 className="font-['Plus_Jakarta_Sans'] text-xl text-gray-900 truncate w-full">
+        {name || "User Name"}
       </h2>
-      <span className="font-[Plus Jakarta Sans]">{props.email}</span>
-      <div className="pics w-full h-28.25 flex justify-center my-5">
-        <img loading="lazy" src={props.image} alt="profile" className="rounded-full " />
+      <span className="font-['Plus_Jakarta_Sans'] text-gray-500 text-sm mb-6 truncate w-full">
+        {email || "user@example.com"}
+      </span>
+
+      <div className="relative w-28 h-28 mb-6">
+        <img loading="lazy" src={image} alt="profile" className="w-full h-full rounded-full object-cover border-4 border-white shadow-md" />
       </div>
-      <div className="btn my-3 mx-auto text-center w-50 h-9.5 rounded-[30px] bg-[#FF8906] flex justify-center justify-self-center" >
-        <button className="">Upload New Photo</button>
-      </div>
-      <span className="font-semibold text-base tracking-normal text-center text-[#4F5665]">
-        {props.date}
+
+      <button className="flex items-center justify-center gap-2 w-full max-w-50 h-11 mb-4 rounded-[5px] bg-[#FF8906] text-[#0B132A] font-medium transition-colors">
+        Upload New Photo
+      </button>
+
+      <span className="font-['Plus_Jakarta_Sans'] text-sm text-[#4F5665]">
+        {date}
       </span>
     </div>
-  )
+  );
 }
 
-function ProfileHeader(props) {
+function ProfileHeader({ title }) {
   return (
-    <div className="top ">
-      <h1 className="w-37 h-15 text-[#0B0909] text-base font-[Plus_Jakarta_Sans] font-mediumtext-[48px] opacity-100top-[154px] left-32.5 text-[45px] leading-none sm:ml-0 ml-12.5">
-        {props.titile}
+    <div className="w-full mb-8 text-center md:text-left">
+      <h1 className="text-3xl md:text-4xl font-['Plus_Jakarta_Sans'] font-medium text-[#0B0909]">
+        {title}
       </h1>
     </div>
-  )
+  );
 }
 
-
 export default function Profile() {
-  const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || []
-  console.log(dataLogin);
-  console.log(dataLogin.name);
-  
+  const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || {};
+
   return (
-    <>
-    <main className="flex justify-center my-[10vh]">
-      <div className="main-content mx-auto flex flex-col juistify-center overflow-hidden">
-          <ProfileHeader titile="Profile" />
-        <div className="wrapper mx-auto text-left flex sm:flex-row flex-col justify-center gap-5 ">
-          <div className="text-center w-70 font-[Plus Jakarta Sans] border border-solid border-red-200 flex flex-col h-85.75 mx-auto">
-            <PropfileComp name={dataLogin.name} email={dataLogin.email} image="https://placehold.co/400" date="Since 20 January 2022" />
-          </div>
-          <form className="flex flex-col gap-10 sm:w-195 w-95 h-141.5 [&>div]:mx-10 my-10">
-            <InputForProfile type="text" title="Full Name" valueNameId={dataLogin.name} placeholder={dataLogin.name} />
-            <InputForProfile type="email" title="Email" valueNameId={dataLogin.email} placeholder={dataLogin.email} />
-            <InputForProfile type="number" title="Phone" placeholder="087753518801" />
-            <InputForProfile type="password" title="Password" placeholder={dataLogin.password} />
-            <InputForProfile type="text" title="address" placeholder="Isikan Alamat Supaya Bisa Langsung Checkout" />
-            <div className="input-user flex flex-col gap-3.75">
-              <button className="bg-[#FF8906] h-10 rounded">Submit</button>
-            </div>
+    <main className="min-h-screen py-10 px-4 flex justify-center bg-white">
+      <div className="w-full max-w-[80%] bg-white rounded-2xl p-6 md:p-10">
+        <ProfileHeader title="Profiles" />
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12">
+          <ProfileCard name={dataLogin.name} email={dataLogin.email} image="https://placehold.co/400" date="Since 20 January 2022" />
+          <form className="flex-1 flex flex-col gap-6 border border-[#E8E8E8] p-7" onSubmit={(e) => e.preventDefault()}>
+            <InputForProfile type="text" title="Full Name" name="fullName" defaultValue={dataLogin.name} placeholder="Enter your name" icon={AiOutlineUser} />
+            <InputForProfile type="email" title="Email" name="email" defaultValue={dataLogin.email} placeholder="Enter your email" icon={FiMail} />
+            <InputForProfile type="tel" title="Phone" name="phone" placeholder="087753518801" icon={FiPhoneCall} />
+            <InputForProfile type="password" title="Password" name="password" placeholder="Masukkan password baru" icon={MdOutlineKey} />
+            <InputForProfile type="text" title="Address" name="address" placeholder="Isikan Alamat Supaya Bisa Langsung Checkout" icon={BiMap} />
+              <button type="submit" className="w-full md:w-auto px-10 h-12 bg-[#FF8906] text-[#0B132A] font-['Plus_Jakarta_Sans'] rounded-lg transition-colors float-right" >Submit</button>
           </form>
+
         </div>
       </div>
     </main>
-    </>
   );
 }
