@@ -1,4 +1,6 @@
 import { Table, Thead, Tbody, TbodyUser, TheadUser } from "@/components/admincomp/Table"
+import TableList from "@/components/admincomp/TableList"
+import { useGetUsersQuery } from "@/feature/api"
 import { BiPencil } from "react-icons/bi"
 import { BsFillTrashFill } from "react-icons/bs"
 
@@ -12,17 +14,25 @@ function Actions() {
 }
 
 export default function AdminUser() {
-  const dataUser = JSON.parse(localStorage.getItem("user_coffee_shop")) || []
+  // const dataUser = JSON.parse(localStorage.getItem("user_coffee_shop")) || []
+  // const { data, isLoading, error } =  useGetUsersQuery()
+  // const users = data || []
+  // console.log(data);
+  // users.forEach(e => {
+  //   console.log(e.Full_Name);
+  // });
+  
   return (
     <>
-      <Table>
-        <TheadUser first="Image" second="Full Name" third="Phone" fourth="Address" fifth="Email" sixth="Action" />
-        {dataUser.map((e, i) => (
-          <TbodyUser key={i} first={e.image} second={e.name} third={e.phone} fourth={e.address} fifth={e.email}>
+      {/* <Table> */}
+        {/* <TheadUser image="Image" full_name="Full Name" phone="Phone" address="Address" email="Email" action="Action" /> */}
+        {/* {users.map((e, i) => (
+          <TbodyUser key={i} image={e.image ?? "https://ui-avatars.com/api/?name=User+Admin&background=random"} name={e.Full_Name || "Nama Masih Kosong"} phone={e.Phone || "Phone Masih Kosong"} address={e.Address ?? "Address Masih Kosong"} email={e.Email ?? "Email Masih Kosong"}>
             <Actions />
           </TbodyUser>
-        ))}
-      </Table>
+        ))} */}
+        <TableList></TableList>
+      {/* </Table> */}
     </>
   )
 }

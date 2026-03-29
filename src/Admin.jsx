@@ -49,7 +49,7 @@ function AdminOrderPage() {
 function AdminUserPage() {
     return (
         <>
-            <HeaderInputUser />
+            {/* <HeaderInputUser /> */}
             <AdminUser />
         </>
     )
