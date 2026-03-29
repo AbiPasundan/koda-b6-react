@@ -1,8 +1,9 @@
-import { BiMap } from "react-icons/bi"; 
-import { MdOutlineKey } from "react-icons/md"; 
-import { FiPhoneCall } from "react-icons/fi"; 
-import { FiMail } from "react-icons/fi"; 
-import { AiOutlineUser } from "react-icons/ai"; 
+import { BiMap } from "react-icons/bi";
+import { MdOutlineKey } from "react-icons/md";
+import { FiPhoneCall } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
+import { AiOutlineUser } from "react-icons/ai";
+import { jwtDecode } from "jwt-decode";
 
 function InputForProfile({ title, type, name, defaultValue, placeholder, icon: Icon }) {
   return (
@@ -16,7 +17,7 @@ function InputForProfile({ title, type, name, defaultValue, placeholder, icon: I
             <Icon size={20} />
           </div>
         )}
-        <input type={type} name={name} id={name} defaultValue={defaultValue} placeholder={placeholder} className={`w-full h-12 border border-[#DEDEDE] rounded-lg ${Icon ? 'pl-12' : 'pl-4' } pr-4 focus:outline-none focus:border-[#FF8906] focus:ring-1 focus:ring-[#FF8906] transition-all`} />
+        <input type={type} name={name} id={name} defaultValue={defaultValue} placeholder={placeholder} className={`w-full h-12 border border-[#DEDEDE] rounded-lg ${Icon ? 'pl-12' : 'pl-4'} pr-4 focus:outline-none focus:border-[#FF8906] focus:ring-1 focus:ring-[#FF8906] transition-all`} />
       </div>
     </div>
   );
@@ -58,21 +59,24 @@ function ProfileHeader({ title }) {
 }
 
 export default function Profile() {
-  const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || {};
+  const token = localStorage.getItem("token")
+  const decoded = jwtDecode(token);
+
+  const timestamp = decoded.created_at.split("T")[0];
 
   return (
     <main className="min-h-screen py-10 px-4 flex justify-center bg-white">
       <div className="w-full max-w-[80%] bg-white rounded-2xl p-6 md:p-10">
         <ProfileHeader title="Profiles" />
         <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-          <ProfileCard name={dataLogin.name} email={dataLogin.email} image="https://placehold.co/400" date="Since 20 January 2022" />
+          <ProfileCard name={decoded.full_name} email={decoded.email} image="https://placehold.co/400" date={timestamp} />
           <form className="flex-1 flex flex-col gap-6 border border-[#E8E8E8] p-7" onSubmit={(e) => e.preventDefault()}>
-            <InputForProfile type="text" title="Full Name" name="fullName" defaultValue={dataLogin.name} placeholder="Enter your name" icon={AiOutlineUser} />
-            <InputForProfile type="email" title="Email" name="email" defaultValue={dataLogin.email} placeholder="Enter your email" icon={FiMail} />
-            <InputForProfile type="tel" title="Phone" name="phone" placeholder="087753518801" icon={FiPhoneCall} />
-            <InputForProfile type="password" title="Password" name="password" placeholder="Masukkan password baru" icon={MdOutlineKey} />
-            <InputForProfile type="text" title="Address" name="address" placeholder="Isikan Alamat Supaya Bisa Langsung Checkout" icon={BiMap} />
-              <button type="submit" className="w-full md:w-auto px-10 h-12 bg-[#FF8906] text-[#0B132A] font-['Plus_Jakarta_Sans'] rounded-lg transition-colors float-right" >Submit</button>
+            <InputForProfile type="text" title="Full Name" name="fullName" defaultValue={decoded.full_name} placeholder="Enter your name" icon={AiOutlineUser} />
+            <InputForProfile type="email" title="Email" name="email" defaultValue={decoded.email} placeholder="Enter your email" icon={FiMail} />
+            <InputForProfile type="tel" title="Phone" name="phone" defaultValue={decoded.phone} placeholder="087753518801" icon={FiPhoneCall} />
+            <InputForProfile type="password" title="Password" name="password" defaultValue={decoded.password} placeholder="Masukkan password baru" icon={MdOutlineKey} />
+            <InputForProfile type="text" title="Address" name="address" defaultValue={decoded.address} placeholder="Isikan Alamat Supaya Bisa Langsung Checkout" icon={BiMap} />
+            <button type="submit" className="w-full md:w-auto px-10 h-12 bg-[#FF8906] text-[#0B132A] font-['Plus_Jakarta_Sans'] rounded-lg transition-colors float-right" >Submit</button>
           </form>
 
         </div>
