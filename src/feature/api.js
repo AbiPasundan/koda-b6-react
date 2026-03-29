@@ -58,14 +58,21 @@ export const api = createApi({
     }),
     // auth end
 
-    // admin start
+    // admin users start
     getUsers: builder.query({
       query: () => "/admin/users",
       transformResponse: response => response.Results,
     }),
-    // admin end
+    // admin users end
+
+    // admin product start
+    getProduct: builder.query({
+      query: () => "/admin/products",
+      transformResponse: response => response.Results,
+    }),
+    // admin product end
 
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery } = api;

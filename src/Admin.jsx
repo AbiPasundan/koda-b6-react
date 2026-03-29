@@ -33,7 +33,6 @@ function AdminDashboard() {
 function AdminProductPage() {
     return (
         <>
-            <HeaderInputProduct />
             <AdminProduct />
         </>
     )
