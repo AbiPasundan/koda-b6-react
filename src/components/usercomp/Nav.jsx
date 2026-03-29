@@ -7,17 +7,29 @@ import { FaRegFontAwesomeLogoFull } from "react-icons/fa";
 import { useState } from 'react';
 // img
 import image from "@/assets/img/userimg/image.png"
-export default function Nav(props){
+export default function Nav(props) {
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
     const handleHamburg = () => {
         setOpen(open => !open)
     }
-    const token = localStorage.getItem("token_auth_user");
+    const token = localStorage.getItem("token");
     const logout = () => {
-        localStorage.removeItem("token_auth_user");
+        localStorage.removeItem("token");
         navigate("/login")
     }
+    const getUserFromToken = () => {
+        const token = localStorage.getItem("token");
+        if (!token) return null;
+
+        try {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            return payload;
+        } catch (err) {
+            return null;
+        }
+    };
+    const user = getUserFromToken();
     return (
         <header className={`${props.padding}`} >
             <nav className={`flex flex-row absolute justify-around items-center ${props.bg} p-5 left-0 right-0 `}>
@@ -40,14 +52,14 @@ export default function Nav(props){
                     </div>
                     <div>
                         <div className='flex text-center items-center gap-10 text-white'>
-                            { token ? (
+                            { user ? (
                                 <>
                                     <div onClick={logout} className='md:block hidden p-3 bg-transparent rounded border'>Logout</div>
                                     <Link to="/profile" className='md:block hidden p-3 bg-[#ff8906] rounded'>Profile</Link>
                                     <Link to="/historyorder" className='md:block hidden p-3 bg-[#ff8906] rounded'>History Order</Link>
                                 </>
                             )
-                            :
+                                :
                                 <>
                                     <Link to="/login" className='md:block hidden p-3 bg-transparent rounded border'>Sign In</Link>
                                     <Link to="/register" className='md:block hidden p-3 bg-[#ff8906] rounded'>Sign Up</Link>
@@ -56,43 +68,43 @@ export default function Nav(props){
                         </div>
                     </div>
                 </section>
-                    {/* mobile */}
+                {/* mobile */}
                 <section className={`${open ? 'block' : 'hidden'} md:hidden fixed justify-between top-0 left-0 bg-white z-100 h-screen`} onClick={() => setOpen(false)}>
-                        <div >
-                            <header className='flex justify-between p-3' >
-                                <FaRegFontAwesomeLogoFull size={90} />
-                                <IoMdClose size={30} onClick={handleHamburg} className="cursor-pointer" />
-                            </header>
-                            <label htmlFor="search" className='flex flex-col m-3 gap-3 my-10'>
-                                <span>Search Product</span>
-                                <div className='flex items-center'>
-                                    <IoSearchOutline className='absolute' />
-                                    <input type="text" name="search" id="search" placeholder='Search Product' className='pl-5'/>
-                                </div>
-                                <div className='flex items-start flex-col gap-3 '>
-                                    <Link to="/" >Home</Link>
-                                    <Link to="/product" onClick={() => setOpen(false)}>product</Link>
-                                </div>
-                            </label>
-                        </div>
-                        <div className=' mt-[50%] flex flex-col gap-5'>
-                            { token ?
-                                (
-                                    <>
+                    <div >
+                        <header className='flex justify-between p-3' >
+                            <FaRegFontAwesomeLogoFull size={90} />
+                            <IoMdClose size={30} onClick={handleHamburg} className="cursor-pointer" />
+                        </header>
+                        <label htmlFor="search" className='flex flex-col m-3 gap-3 my-10'>
+                            <span>Search Product</span>
+                            <div className='flex items-center'>
+                                <IoSearchOutline className='absolute' />
+                                <input type="text" name="search" id="search" placeholder='Search Product' className='pl-5' />
+                            </div>
+                            <div className='flex items-start flex-col gap-3 '>
+                                <Link to="/" >Home</Link>
+                                <Link to="/product" onClick={() => setOpen(false)}>product</Link>
+                            </div>
+                        </label>
+                    </div>
+                    <div className=' mt-[50%] flex flex-col gap-5'>
+                        {token ?
+                            (
+                                <>
                                     <div onClick={logout} className='bg-transparent text-center py-3 mx-5 rounded border border-black'> Logout </div>
                                     <Link to="/profile" className='bg-[#ff8906] text-center py-3 mx-5 rounded '> Profile </Link>
                                     <Link to="/historyorder" className='bg-[#ff8906] text-center py-3 mx-5 rounded '> History Order </Link>
-                                    </>
-                                )
-                                :
-                                (
-                                    <>
+                                </>
+                            )
+                            :
+                            (
+                                <>
                                     <Link to="/login" className='bg-transparent text-center py-3 mx-5 rounded border border-black'> Sign In </Link>
                                     <Link to="/register" className='bg-[#ff8906] text-center py-3 mx-5 rounded '> Sign Up </Link>
-                                    </>
-                                )
-                            }
-                        </div>
+                                </>
+                            )
+                        }
+                    </div>
                 </section>
             </nav>
         </header>
