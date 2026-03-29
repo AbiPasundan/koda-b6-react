@@ -1,4 +1,4 @@
-import { Edit3, FileText, Trash2 } from "lucide-react";
+// import { Edit3, FileText, Trash2 } from "lucide-react";
 
 export function Thead(props) {
   return (
@@ -41,19 +41,6 @@ export function TheadProduct(props) {
 }
 export function TheadUser(props) {
   return (
-    // <thead className="[&>tr>td]:py-3 sm:[&>tr>td]:py-5 [&>tr>td]:px-2 bg-gray-50">
-    //   <tr className="whitespace-nowrap font-medium">
-    //     <td>
-    //       <input type="checkbox" />
-    //     </td>
-    //     <td>{props.first}</td>
-    //     <td>{props.second}</td>
-    //     <td>{props.third}</td>
-    //     <td>{props.fourth}</td>
-    //     <td>{props.fifth}</td>
-    //     <td>{props.sixth}</td>
-    //   </tr>
-    // </thead>
     <thead>
       <tr className="bg-white text-gray-600 text-sm border-b border-gray-200">
         <th className="p-4 w-12 text-center"><input type="checkbox" className="rounded text-orange-500 focus:ring-orange-500" /></th>
@@ -134,9 +121,9 @@ export function TbodyUser(props) {
         <td className="p-4 text-gray-600">{props.email}</td>
         <td className="p-4">
           <div className="flex items-center justify-center gap-2">
-            <button className="p-1.5 bg-orange-50 text-orange-700 rounded hover:bg-orange-100"><FileText size={16} /></button>
+            {/* <button className="p-1.5 bg-orange-50 text-orange-700 rounded hover:bg-orange-100"><FileText size={16} /></button>
             <button className="p-1.5 bg-orange-50 text-orange-500 rounded hover:bg-orange-100"><Edit3 size={16} /></button>
-            <button className="p-1.5 bg-red-50 text-red-500 rounded hover:bg-red-100"><Trash2 size={16} /></button>
+            <button className="p-1.5 bg-red-50 text-red-500 rounded hover:bg-red-100"><Trash2 size={16} /></button> */}
           </div>
         </td>
       </tr>
