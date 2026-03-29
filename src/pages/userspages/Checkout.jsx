@@ -5,7 +5,7 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
-function CheckoutProduct({ name, newPrice, oldPrice, image, onDelete, quantity, size, temp, delivery }) {
+function CheckoutProduct({ name, newPrice, oldPrice, image, is_flash_sale, onDelete, quantity, size, temp, delivery }) {
     return (
         <main className="my-5">
             <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
@@ -14,7 +14,7 @@ function CheckoutProduct({ name, newPrice, oldPrice, image, onDelete, quantity, 
                 </div>
                 <div className="flex flex-col gap-3 w-[70%]">
                     <div>
-                        <span className="bg-[#D00000] rounded-full text-[#FFFFFF] p-1">Flash Sale</span>
+                        <span className="bg-[#D00000] rounded-full text-[#FFFFFF] p-1">{is_flash_sale}</span>
                     </div>
                     <div>
                         <h2 className="text-[#0B0909] font-bold">{name}</h2>
@@ -60,14 +60,20 @@ export default function Checkout() {
     const ongkirDoorDelivery = 4000
 
     const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []);
+    console.log(carts)
+    carts.forEach(e => {
+    console.log(e.product.is_flash_sale);
+    });
+    
+    
 
     let totalPrice = carts.reduce(
-        (acc, item) => acc + (item.product.newPrice * item.quantity),
+        (acc, item) => acc + (item.product.price * item.quantity),
         0
     );
     const totalTax = carts.reduce(
         (acc, item) =>
-            acc + (item.product.tax * item.product.newPrice * item.quantity),
+            acc + (0.11 * item.product.price * item.quantity),
         0
     );
 
@@ -95,7 +101,7 @@ export default function Checkout() {
         return uniqueId
     }
     const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || []
-    console.log(dataLogin)
+    // console.log(dataLogin)
     const onSubmit = data => {
         const date = new Date
         const localData = JSON.parse(localStorage.getItem("orders")) || []
@@ -155,7 +161,7 @@ export default function Checkout() {
         setCarts(updatedCart);
         localStorage.setItem("cart", JSON.stringify(updatedCart));
     };
-
+    // console.log(carts.product.is_flash_sale);
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <header className="m-10 text-[#0B0909] text-5xl">
@@ -189,7 +195,7 @@ export default function Checkout() {
                                     {carts.map(data => (
                                         <div key={`${data.product.id}-${data.selectedSize}-${data.selectedTemp}`}>
                                             <div>
-                                                <CheckoutProduct onDelete={() => handleDelete(data.product.id, data.selectedSize, data.selectedTemp)} size={data.selectedSize} temp={data.selectedTemp} quantity={data.quantity} name={data.product.name} image={data.product.image} oldPrice={data.product.oldPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.product.newPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} />
+                                                <CheckoutProduct onDelete={() => handleDelete(data.product.id, data.selectedSize, data.selectedTemp)} size={data.selectedSize} temp={data.selectedTemp} quantity={data.quantity} name={data.product.name} image={data.product.image} oldPrice={data.product.price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.product.price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} is_flash_sale={data.product.is_flash_sale == true ? "Flash Sale" : ""} />
                                             </div>
                                         </div>
                                     ))}
