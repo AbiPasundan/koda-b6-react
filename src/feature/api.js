@@ -4,8 +4,18 @@ export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8089",
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
+
     // landing page start
     getReviews: builder.query({
       query: () => "/products/reviews",
@@ -16,17 +26,22 @@ export const api = createApi({
       transformResponse: response => response.Results,
     }),
     // landing page end
+
     // browse product start
     getBrowseProducts: builder.query({
       query: () => "/browseproducts",
       transformResponse: response => response.Results,
     }),
     // browse product end
+
     // detail product start
     getDetailProduct: builder.query({
       query: () => "/detailproduct",
       transformResponse: response => response.Results,
     }),
+    // detail product end
+
+    // auth start
     register: builder.mutation({
       query: (body) => ({
         url: "/register",
@@ -41,8 +56,16 @@ export const api = createApi({
         body,
       }),
     }),
-    // detail product end
+    // auth end
+
+    // admin start
+    getUsers: builder.query({
+      query: () => "/admin/users",
+      transformResponse: response => response.Results,
+    }),
+    // admin end
+
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery } = api;
