@@ -62,10 +62,10 @@ export default function Checkout() {
     const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []);
     console.log(carts)
     carts.forEach(e => {
-    console.log(e.product.is_flash_sale);
+        console.log(e.product.is_flash_sale);
     });
-    
-    
+
+
 
     let totalPrice = carts.reduce(
         (acc, item) => acc + (item.product.price * item.quantity),
@@ -105,7 +105,9 @@ export default function Checkout() {
     const onSubmit = data => {
         const date = new Date
         const localData = JSON.parse(localStorage.getItem("orders")) || []
-        const tokenAuthUser = JSON.parse(localStorage.getItem("token_auth_user")) || null
+        const tokenAuthUser = localStorage.getItem("token") || false
+        console.log(tokenAuthUser);
+
 
         const dataOrder = {
             no: generateNoOrder(),
@@ -171,7 +173,7 @@ export default function Checkout() {
                 <section className="flex flex-col">
                     {error &&
                         (
-                            <div className="w-[70%] bg-[whitesmoke] rounded-2xl flex flex-col gap-5 right-0 left-0 top-20 px-20 py-10 mx-auto text-center sticky border border-t-8 shadow-2xl border-t-[#ff8906]">
+                            <div onClick={() => setError(null)} className="w-[70%] bg-[whitesmoke] rounded-2xl flex flex-col gap-5 right-0 left-0 top-20 px-20 py-10 mx-auto text-center sticky border border-t-8 shadow-2xl border-t-[#ff8906]">
                                 <h1 className="text-3xl"> Warning </h1>
                                 <span className="text-left">{error}</span>
                             </div>
