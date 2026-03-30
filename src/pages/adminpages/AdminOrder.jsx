@@ -2,6 +2,7 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { BiPencil } from "react-icons/bi"; 
 import { CgNotes } from "react-icons/cg"; 
 import { Table, Thead, Tbody } from "@/components/admincomp/Table"
+import TableOrderList from "@/components/admincomp/TableOrderList";
 
 function Actions() {
   return (
@@ -19,7 +20,7 @@ export default function AdminOrder() {
 
   return (
     <>
-      <Table>
+      {/* <Table>
         <Thead first="No. Order" second="Date" third="Order" fourth="Status" fifth="Total" sixth="Action" />
         {data.map((data, i) => (
           <Tbody key={i} first={data.no} second={data.date} third={data.cart.map(c => c. product.name).join(", ")} fourth={data.status} fifth="Total" >
@@ -27,7 +28,8 @@ export default function AdminOrder() {
           </Tbody>
         ))}
 
-      </Table>
+      </Table> */}
+      <TableOrderList />
     </>
   )
 }

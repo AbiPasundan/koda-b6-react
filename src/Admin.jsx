@@ -40,7 +40,7 @@ function AdminProductPage() {
 function AdminOrderPage() {
     return (
         <>
-            <HeaderInputOrder />
+            {/* <HeaderInputOrder /> */}
             <AdminOrder />
         </>
     )
