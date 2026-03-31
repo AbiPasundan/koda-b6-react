@@ -68,11 +68,19 @@ export const api = createApi({
     // admin product start
     getProduct: builder.query({
       query: () => "/admin/products",
+      providesTags: ["Products"],
       transformResponse: response => response.Results,
     }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/admin/products/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Products"],
+    })
     // admin product end
 
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation } = api;

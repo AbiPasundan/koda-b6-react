@@ -37,7 +37,7 @@ export default function SidebarAdmin() {
 
     return (
         <>
-            <aside id="aside" className={` ${open && '-translate-x-full'} fixed md:top-70 top-0 md:translate-x-0  bg-[#ffffff]`} >
+            <aside id="aside" className={` ${open && '-translate-x-full'} z-10 fixed md:top-70 top-0 md:translate-x-0  bg-[#ffffff]`} >
                 <ul className="list-none [&>li]:px-5 [&>li]:mb-2 [&>li>a]:flex [&>li>a]:items-center [&>li>a]:gap-4 [&>li>a]:p-3 [&>li>a]:rounded-xl [&>li>a]:font-medium [&>li>a>img]:w-5">
                     <li>
                         <Link to="/admin">

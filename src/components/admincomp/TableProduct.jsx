@@ -2,12 +2,21 @@ import { FiTrash } from "react-icons/fi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { AiFillProfile } from "react-icons/ai";
 import React from 'react'
-import { useGetProductQuery } from "@/feature/api";
+import { useDeleteProductMutation, useGetProductQuery } from "@/feature/api";
 
 function TableProducts() {
     const { data, isLoading, error } = useGetProductQuery();
+    const [deleteProduct] = useDeleteProductMutation()
     const products = data || [];
-    console.log(products);
+
+    const handleDelete = async (id) => {
+        try {
+            await deleteProduct(id).unwrap()
+            console.log("Deleted successfully")
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     if (isLoading) return <p>Loading...</p>
     if (error) return <div>Error <p>{error.message}</p> </div>
@@ -45,7 +54,7 @@ function TableProducts() {
                                     <div className="flex items-center justify-center gap-2">
                                         <button className="p-1.5 bg-orange-50 text-orange-700 rounded hover:bg-orange-100"><AiFillProfile size={16} /></button>
                                         <button className="p-1.5 bg-orange-50 text-orange-500 rounded hover:bg-orange-100"><AiOutlineEdit size={16} /></button>
-                                        <button className="p-1.5 bg-red-50 text-red-500 rounded hover:bg-red-100"><FiTrash size={16} /></button>
+                                        <button onClick={() => handleDelete(product.id)} className="p-1.5 bg-red-50 text-red-500 rounded hover:bg-red-100"><FiTrash size={16} /></button>
                                     </div>
                                 </td>
                             </tr>
