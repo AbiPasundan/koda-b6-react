@@ -4,7 +4,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { CgCloseO } from "react-icons/cg";
 import { useAddProductMutation } from "@/feature/api";
 
-function TableHeader() {
+export default function TableHeaderProduct() {
     const [isAddUserOpen, setIsAddUserOpen] = useState(false);
     const [addProduct, { isLoading, error }] = useAddProductMutation();
 
@@ -117,5 +117,3 @@ function TableHeader() {
         </>
     );
 }
-
-export default TableHeader;
