@@ -99,7 +99,6 @@ function Right({ children }) {
     return (
         <div>
             <h2 className=" text-xl font-medium mb-6">Your Order</h2>
-            {/* <RightContent /> */}
             <div>
                 {children}
             </div>
@@ -140,11 +139,6 @@ export default function DetailOrder() {
     };
 
     const order = getOrderData();
-    // console.log(order.cart);
-    // order.cart.forEach(element => {
-    //     console.log(element.product)
-    // });
-
 
     if (!order) {
         return <div className="my-80 text-center text-8xl">Order tidak ditemukan atau URL tidak valid.</div>;
@@ -159,7 +153,7 @@ export default function DetailOrder() {
                     <Left name={order.detail.name} address={order.detail.address} phone={order.detail.phone} payment={order.detail.payment} delivery={order.detail.delivery} status={order.status} total={order.total} />
                     <Right>
                         {order.cart.map((e, i) => (
-                            <RightContent key={i} image={e.product.image} name={e.product.name} oldPrice={e.product.oldPrice} newPrice={e.product.newPrice} quantity={e.quantity} size={e.selectedSize} temp={e.selectedTemp} />
+                            <RightContent key={i} image={e.pictures} name={e.product_name} oldPrice={e.price} newPrice={e.price} quantity={e.quantity} size={e.selectedSize} temp={e.selectedTemp} />
                         ))}
                     </Right>
                 </LayoutContent>

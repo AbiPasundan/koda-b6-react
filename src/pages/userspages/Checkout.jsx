@@ -52,93 +52,98 @@ function CheckoutInput({ children, value, text, placeholder, registerInput, real
 
 export default function Checkout() {
     const [error, setError] = useState(null);
-    const navigate = useNavigate()
-    const [selectDelivery, setSelectDelivery] = useState()
-    const { register, handleSubmit, } = useForm()
+    const navigate = useNavigate();
+    const { register, handleSubmit, watch } = useForm();
+    const watchDelivery = watch("delivery");
 
     const options = ['Dine In', 'Door Delivery', 'Pick Up'];
-    const ongkirDoorDelivery = 4000
+    const ongkirDoorDelivery = 5000;
 
     const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []);
-    console.log(carts)
-    carts.forEach(e => {
-        console.log(e.is_flash_sale);
-    });
-
-
 
     let totalPrice = carts.reduce(
-        (acc, item) => acc + (item.price * item.quantity),
+        (acc, item) => acc + (item.product_price * item.quantity),
         0
     );
     const totalTax = carts.reduce(
-        (acc, item) =>
-            acc + (0.11 * item.price * item.quantity),
+        (acc, item) => acc + (0.11 * item.product_price * item.quantity),
         0
     );
 
-    const total = Number(totalTax + totalPrice + ongkirDoorDelivery).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    const currentOngkir = watchDelivery === 'Door Delivery' ? ongkirDoorDelivery : 0;
+
+    const total = Number(totalTax + totalPrice + currentOngkir).toLocaleString('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    });
 
     function generateNoOrder() {
-        const date = Date.now()
+        const date = Date.now();
         const year = new Date(date).getFullYear();
-        const month = new Date(date).getMonth();
-        const hour = new Date(date).getHours()
-        const second = new Date(date).getSeconds()
-        const ml = new Date(date).getMilliseconds()
-        const monthyear = (String(month) + String(year))
-        const id = (String(hour) + String(second) + String(ml))
+        // getMonth() dimulai dari 0 (Januari = 0), jadi lebih baik ditambah 1
+        const month = new Date(date).getMonth() + 1;
+        const hour = new Date(date).getHours();
+        const second = new Date(date).getSeconds();
+        const ml = new Date(date).getMilliseconds();
 
-        const uniqueId = String(`${monthyear}-${id}`)
-        return uniqueId
+        const monthyear = (String(month) + String(year));
+        const id = (String(hour) + String(second) + String(ml));
+
+        const uniqueId = String(`${monthyear}-${id}`);
+        return uniqueId;
     }
-    const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || []
-    // console.log(dataLogin)
-    const onSubmit = data => {
-        const date = new Date
-        const localData = JSON.parse(localStorage.getItem("orders")) || []
-        const tokenAuthUser = localStorage.getItem("token") || false
-        console.log(tokenAuthUser);
 
+    const token = localStorage.getItem("token")
+    const dataLogin = jwtDecode(token);
+
+    // const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || {};
+
+    const onSubmit = data => {
+        const date = new Date();
+        const localData = JSON.parse(localStorage.getItem("orders")) || [];
+        const tokenAuthUser = localStorage.getItem("token") || false;
+
+        if (!tokenAuthUser) {
+            navigate("/login");
+            return;
+        }
+
+        if (!data.delivery) {
+            setError("Delivery must be selected");
+            return;
+        }
+        if (!data.address) {
+            setError("Alamat wajib diisi");
+            return;
+        }
 
         const dataOrder = {
             no: generateNoOrder(),
             date: date.toLocaleDateString(),
             total,
             status: "done",
-            detail: {
-                name: data.name || dataLogin.name,
-                email: data.email || dataLogin.email,
-                address: data.address,
-                phone: 628123456789,
-                payment: "Cash",
-                delivery: data.delivery,
-            },
+            name: dataLogin.name,
+            email: dataLogin.email,
+            address: dataLogin.address,
+            phone: dataLogin.phone,
+            payment: "Cash",
+            delivery: data.delivery,
             cart: carts,
-        }
+        };
 
-        if (!tokenAuthUser) navigate("/login")
+        localData.push(dataOrder);
+        localStorage.setItem("orders", JSON.stringify(localData));
+        localStorage.removeItem("cart");
 
-        if (!data.delivery) {
-            setError("Delivery must be selected")
-            return
-        }
-        if (!data.address) {
-            setError("Alamat wajib disi")
-            return
-        }
-
-        localData.push(dataOrder)
-        localStorage.setItem("orders", JSON.stringify(localData))
-        localStorage.removeItem("cart")
-
-        navigate(`/detailorder/${dataOrder.no}`, { state: dataOrder })
-    }
+        navigate(`/detailorder/${dataOrder.no}`, { state: dataOrder });
+    };
 
     const handleDelete = (id, size, temp) => {
         const updatedCart = carts.filter(item =>
             !(
-                item.id === id &&
+                item.product_id === id &&
                 item.selectedSize === size &&
                 item.selectedTemp === temp
             )
@@ -177,13 +182,16 @@ export default function Checkout() {
                                 </>
                             ) : (
                                 <>
-                                    {carts.map(data => (
-                                        <div key={`${data.id}-${data.selectedSize}-${data.selectedTemp}`}>
-                                            <div>
-                                                <CheckoutProduct onDelete={() => handleDelete(data.id, data.selectedSize, data.selectedTemp)} size={data.selectedSize} temp={data.selectedTemp} quantity={data.quantity} name={data.product_name} image={data.pictures} oldPrice={data.product_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.product_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} is_flash_sale={data.is_flash_sale == true ? "Flash Sale" : ""} />
+                                    {carts.map(data => {
+                                        console.log(data);
+                                        return (
+                                            <div key={`${data.id}-${data.selectedSize}-${data.selectedTemp}`}>
+                                                <div>
+                                                    <CheckoutProduct onDelete={() => handleDelete(data.id, data.selectedSize, data.selectedTemp)} size={data.selectedSize} temp={data.selectedTemp} quantity={data.quantity} name={data.product_name} image={data.pictures} oldPrice={data.product_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.product_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} is_flash_sale={data.is_flash_sale == true ? "Flash Sale" : ""} />
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        )
+                                    })}
                                 </>
                             )}
                         </section>
@@ -198,7 +206,12 @@ export default function Checkout() {
                                 </tr>
                                 <tr>
                                     <td>Delivery</td>
-                                    <td>{selectDelivery === "Door Delivery" ? (ongkirDoorDelivery.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })) : "Rp 0"}</td>
+                                    <td>
+                                        {
+                                            currentOngkir.toLocaleString('id-ID', {
+                                                style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0
+                                            })}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Tax</td>
@@ -255,11 +268,19 @@ export default function Checkout() {
                     </CheckoutInput>
                     <div className="flex flex-col md:flex-row gap-5 justify-between items-center [&>label]:text-center [&>label]:px-10 [&>label]:py-1 [&>label]:border [&>label]:rounded ">
                         {options.map((option, i) => (
-                            // <div key={i} >
-                            <label key={i} onClick={() => setSelectDelivery(option)} className={` cursor-pointer ${selectDelivery === option ? "border-[#FF8906]" : "border-black"}`}>
-                                <input type="radio" name="delivery" id="delivery" value={option} hidden {...register("delivery")} />{option}
+                            <label
+                                key={i}
+                                className={`cursor-pointer ${watchDelivery === option ? "border-[#FF8906]" : "border-black"}`}
+                            >
+                                <input
+                                    type="radio"
+                                    id={`delivery-${i}`}
+                                    value={option}
+                                    hidden
+                                    {...register("delivery")}
+                                />
+                                {option}
                             </label>
-                            // </div>
                         ))}
                     </div>
 

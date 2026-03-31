@@ -46,15 +46,13 @@ export default function HistoryOrder() {
         console.log(e)
         e.cart.forEach(j => {
             console.log("ini j ciuh abcd")
-            console.log(j.product.image)
+            console.log(j.pictures)
         });
-        // console.log(orders[e])
     });
-    // console.log(test)
 
     const [currentPage, setCurrentPage] = useState(1);
     const [statusFilter, setStatusFilter] = useState("On Progress");
-    const ordersPerPage = 1;
+    const ordersPerPage = 10;
 
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -133,10 +131,6 @@ export default function HistoryOrder() {
                         ))}
 
                         <div className="flex justify-center items-center gap-2 my-10">
-                            {/* <button className="w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">1</button>
-                            <button className="w-10 h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-bold text-sm hover:bg-gray-300 transition">2</button>
-                            <button className="w-10 h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-bold text-sm hover:bg-gray-300 transition">3</button>
-                            <button className="w-10 h-10 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center font-bold text-sm hover:bg-gray-300 transition">4</button> */}
                             <button
                                 disabled={currentPage === 1}
                                 onClick={() => setCurrentPage(prev => prev - 1)}
