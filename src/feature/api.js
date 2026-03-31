@@ -72,9 +72,17 @@ export const api = createApi({
       transformResponse: response => response.Results,
     }),
     deleteProduct: builder.mutation({
-      query: (id) => ({
+      query: id => ({
         url: `/admin/products/${id}`,
         method: "DELETE",
+      }),
+      invalidatesTags: ["Products"],
+    }),
+    addProduct: builder.mutation({
+      query: newProduct => ({
+        url: `/admin/products`,
+        method: "POST",
+        body: newProduct,
       }),
       invalidatesTags: ["Products"],
     })
@@ -83,4 +91,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation } = api;

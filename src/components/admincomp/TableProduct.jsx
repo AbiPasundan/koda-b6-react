@@ -52,7 +52,6 @@ function TableProducts() {
                                 <td className="p-4 text-gray-600">{product.quantity}</td>
                                 <td className="p-4">
                                     <div className="flex items-center justify-center gap-2">
-                                        <button className="p-1.5 bg-orange-50 text-orange-700 rounded hover:bg-orange-100"><AiFillProfile size={16} /></button>
                                         <button className="p-1.5 bg-orange-50 text-orange-500 rounded hover:bg-orange-100"><AiOutlineEdit size={16} /></button>
                                         <button onClick={() => handleDelete(product.id)} className="p-1.5 bg-red-50 text-red-500 rounded hover:bg-red-100"><FiTrash size={16} /></button>
                                     </div>
