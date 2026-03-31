@@ -62,28 +62,20 @@ export default function Checkout() {
     const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []);
     console.log(carts)
     carts.forEach(e => {
-        console.log(e.product.is_flash_sale);
+        console.log(e.is_flash_sale);
     });
 
 
 
     let totalPrice = carts.reduce(
-        (acc, item) => acc + (item.product.price * item.quantity),
+        (acc, item) => acc + (item.price * item.quantity),
         0
     );
     const totalTax = carts.reduce(
         (acc, item) =>
-            acc + (0.11 * item.product.price * item.quantity),
+            acc + (0.11 * item.price * item.quantity),
         0
     );
-
-
-    // rawCart.forEach(item => {
-    //     totalPrice += item.product.newPrice;
-    // });
-
-
-    // totalTax = rawCart.reduce((acc, item) => acc + (item.product.tax * item.product.newPrice), 0);
 
     const total = Number(totalTax + totalPrice + ongkirDoorDelivery).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
@@ -143,18 +135,10 @@ export default function Checkout() {
         navigate(`/detailorder/${dataOrder.no}`, { state: dataOrder })
     }
 
-    // const handleDelete = id => {
-    //     const updatedCart = carts.filter(item => item.product.id !== id);
-    //     // console.log(carts)
-    //     // console.log(id)
-    //     setCarts(updatedCart);
-    //     localStorage.setItem("cart", JSON.stringify(updatedCart));
-    // };
-
     const handleDelete = (id, size, temp) => {
         const updatedCart = carts.filter(item =>
             !(
-                item.product.id === id &&
+                item.id === id &&
                 item.selectedSize === size &&
                 item.selectedTemp === temp
             )
@@ -163,7 +147,6 @@ export default function Checkout() {
         setCarts(updatedCart);
         localStorage.setItem("cart", JSON.stringify(updatedCart));
     };
-    // console.log(carts.product.is_flash_sale);
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <header className="m-10 text-[#0B0909] text-5xl">
@@ -195,9 +178,9 @@ export default function Checkout() {
                             ) : (
                                 <>
                                     {carts.map(data => (
-                                        <div key={`${data.product.id}-${data.selectedSize}-${data.selectedTemp}`}>
+                                        <div key={`${data.id}-${data.selectedSize}-${data.selectedTemp}`}>
                                             <div>
-                                                <CheckoutProduct onDelete={() => handleDelete(data.product.id, data.selectedSize, data.selectedTemp)} size={data.selectedSize} temp={data.selectedTemp} quantity={data.quantity} name={data.product.name} image={data.product.image} oldPrice={data.product.price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.product.price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} is_flash_sale={data.product.is_flash_sale == true ? "Flash Sale" : ""} />
+                                                <CheckoutProduct onDelete={() => handleDelete(data.id, data.selectedSize, data.selectedTemp)} size={data.selectedSize} temp={data.selectedTemp} quantity={data.quantity} name={data.product_name} image={data.pictures} oldPrice={data.product_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.product_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} is_flash_sale={data.is_flash_sale == true ? "Flash Sale" : ""} />
                                             </div>
                                         </div>
                                     ))}

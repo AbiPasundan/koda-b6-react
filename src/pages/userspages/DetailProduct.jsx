@@ -60,8 +60,6 @@ function Desc(props) {
 
   const product = datas.find(item => item.id === Number(id)) || {};
 
-  // console.log(product.sizes);
-
   const productSize = product.sizes || [];
   const productVariant = product.variants || [];
 
@@ -72,58 +70,9 @@ function Desc(props) {
 
   const sizes = productSize
 
-
-  // const temps = ["hot", "cold"]
   const temps = productVariant
-  const navigate = useNavigate();
-
-
-
-
-  // console.log(product)
   const sizeOption = size => {
     setSelectSize(size)
-  }
-
-  const buyProduct = (productToBuy) => {
-
-    if (!selectSize || !selectTemp) {
-      alert("Mohon pilih ukuran dan penyajian dulu!");
-      return;
-    }
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    const newItem = {
-      ...productToBuy,
-      product,
-      selectedSize: selectSize,
-      selectedTemp: selectTemp,
-      quantity: count > 0 ? count : 1
-    };
-
-    // cart.push(newItem);
-    const existingItem = cart.find(item =>
-      item.product.id === product.id &&
-      item.selectedSize === selectSize &&
-      item.selectedTemp === selectTemp
-    );
-
-    if (existingItem) {
-      existingItem.quantity += newItem.quantity;
-    } else {
-      cart.push(newItem);
-    }
-
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    navigate("/checkout", {
-      replace: true,
-      state: {
-        isUserLogin: true,
-        checkoutData: newItem
-      }
-    });
   }
   const addCart = () => {
     if (!selectSize || !selectTemp) {
@@ -138,7 +87,7 @@ function Desc(props) {
 
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const existingItem = cart.find(item =>
-      item.product.id === product.id &&
+      item.product_id === product.product_id &&
       item.selectedSize === selectSize &&
       item.selectedTemp === selectTemp
     );
@@ -147,7 +96,11 @@ function Desc(props) {
       existingItem.quantity += count;
     } else {
       cart.push({
-        product,
+        product_id: product.product_id,
+        product_name: product.product_name,
+        product_price: product.price,
+        product_flash_sale: product.is_flash_sale,
+        product_discount: product.discount,
         selectedSize: selectSize,
         selectedTemp: selectTemp,
         quantity: count
@@ -208,7 +161,7 @@ function Desc(props) {
         </div>
       </div>
       <div className="flex gap-4">
-        <button onClick={() => buyProduct(datas[0])} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button>
+        <button onClick={() => addCart(datas[0])} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button>
         <button onClick={() => addCart(props)} className="flex-1 border border-orange-300 text-orange-600 font-bold py-3 rounded-md flex items-center justify-center gap-2 hover:bg-orange-50 transition">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
