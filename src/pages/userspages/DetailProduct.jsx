@@ -1,8 +1,7 @@
 import { DetailProductCard, Pagination } from "@/components/usercomp/Card";
-import { useNavigate, useParams } from "react-router";
-import { Fragment, useContext, useState } from "react";
-import { ProductFetchContext } from "@/components/hook/ProductFetchContext";
-import { useAddProductMutation, useAddToCartMutation, useGetDetailProductQuery } from "@/feature/api";
+import { useParams } from "react-router";
+import { useState } from "react";
+import { useAddToCartMutation, useGetDetailProductQuery } from "@/feature/api";
 import { jwtDecode } from "jwt-decode";
 
 const getImageUrl = (path) => {
@@ -53,12 +52,11 @@ function ProductImage(props) {
     </div>
   )
 }
-// og
+
 function Desc(props) {
   const [addProduct, { isLoading, errors }] = useAddToCartMutation();
 
   const token = localStorage.getItem("token")
-  // const user_id = jwtDecode(token);
   const decodedToken = token ? jwtDecode(token) : null;
   const user_id = decodedToken ? decodedToken.user_id : null;
 
@@ -93,13 +91,6 @@ function Desc(props) {
       return;
     }
 
-    console.log(product.id);
-    console.log(product.product_name);
-    console.log(product.price);
-    console.log(selectTemp);
-    console.log(selectSize);
-    
-
     try {
       await addProduct({
         user_id,
@@ -116,59 +107,6 @@ function Desc(props) {
       alert("Gagal menambahkan ke keranjang!");
     }
   };
-
-
-
-  const testSubmit = async data => {
-    console.log(data);
-    
-    try {
-      const payload = {
-        user_id: 5,
-        product_id: 7,
-        quantity: 3,
-        product_name: "product.product_name",
-        product_price: 1000,
-        variant_name: "selectTemp",
-        size_name: "selectSize",
-      };
-
-      // try {
-      //   await addProduct({
-      //     user_id: user_id.user_id,
-      //     product_id: product.product_id,
-      //     quantity: count,
-      //     product_name: product.product_name,
-      //     product_price: product.price,
-      //     variant_name: selectTemp,
-      //     size_name: selectSize,
-      //   }).unwrap();
-      //   alert("Berhasil masuk keranjang!");
-      // } catch (err) {
-      //   console.error("Gagal menambahkan pesanan ke keranjang: ", err);
-      //   alert("Gagal menambahkan ke keranjang!");
-      // }
-
-      // {
-      //	"user_id": 5,
-      //	"product_id": 7,
-      //	"quantity": 3,
-      //	"product_name": "euy",
-      //	"base_price": 1000,
-      //	"variant_name": "no variant",
-      //	"size_name": "no size"
-      // }
-
-
-      await addProduct(payload).unwrap();
-
-      alert("Berhasil masuk keranjang!");
-    } catch (err) {
-      console.error(err);
-      alert("Gagal menambahkan ke keranjang");
-    }
-  };
-
 
   if (loading) return <div className="text-center py-20">Loading...</div>;
   if (error || !datas) return <div className="text-center py-20 text-red-500">Product not found.</div>;

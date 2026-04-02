@@ -39,7 +39,11 @@ export const api = createApi({
         body,
       }),
     }),
-    // browse product end
+    getAllCart: builder.query({
+      query: (user_id) => `/detailproduct/addcart/${user_id}`,
+      transformResponse: (response) => response.Results,
+      providesTags: (result, error, id) => [{ type: 'Cart', id }],
+    }),
 
     // detail product start
     getDetailProduct: builder.query({
@@ -98,4 +102,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery } = api;

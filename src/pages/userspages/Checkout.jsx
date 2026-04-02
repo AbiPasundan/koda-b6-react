@@ -6,6 +6,24 @@ import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
+import { useGetAllCartQuery } from "@/feature/api";
+
+function generateNoOrder() {
+    const date = Date.now();
+    const year = new Date(date).getFullYear();
+    // getMonth() dimulai dari 0 (Januari = 0), jadi lebih baik ditambah 1
+    const month = new Date(date).getMonth() + 1;
+    const hour = new Date(date).getHours();
+    const second = new Date(date).getSeconds();
+    const ml = new Date(date).getMilliseconds();
+
+    const monthyear = (String(month) + String(year));
+    const id = (String(hour) + String(second) + String(ml));
+
+    const uniqueId = String(`${monthyear}-${id}`);
+    return uniqueId;
+}
+
 function CheckoutProduct({ name, newPrice, oldPrice, image, is_flash_sale, onDelete, quantity, size, temp, delivery }) {
     return (
         <main className="my-5">
@@ -52,55 +70,46 @@ function CheckoutInput({ children, value, text, placeholder, registerInput, real
 }
 
 export default function Checkout() {
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
     const { register, handleSubmit, watch } = useForm();
+    const [errors, setError] = useState(null);
+    const navigate = useNavigate();
+
+    const token = localStorage.getItem("token")
+    const decodedToken = token ? jwtDecode(token) : null;
+    const user_id = decodedToken ? decodedToken.user_id : null;
+    const { data: cartItems, isLoading, error } = useGetAllCartQuery(user_id);
+    const dataProduct = cartItems || []
+    console.log(dataProduct);
+
     const watchDelivery = watch("delivery");
 
     const options = ['Dine In', 'Door Delivery', 'Pick Up'];
+
     const ongkirDoorDelivery = 5000;
-
-    const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []);
-    let totalPrice = carts.reduce(
-        (acc, item) => acc + ((Number(item.product_price) * ((100 - Number(item.product_discount)) / 100)) * item.quantity),
-        0
-    );
-    const totalTax = carts.reduce(
-        (acc, item) => acc + (0.11 * item.product_price * item.quantity),
-        0
-    );
-
     const currentOngkir = watchDelivery === 'Door Delivery' ? ongkirDoorDelivery : 0;
 
-    const total = Number(totalTax + totalPrice + currentOngkir).toLocaleString('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    });
+    const taxRate = 0.11;
 
-    function generateNoOrder() {
-        const date = Date.now();
-        const year = new Date(date).getFullYear();
-        // getMonth() dimulai dari 0 (Januari = 0), jadi lebih baik ditambah 1
-        const month = new Date(date).getMonth() + 1;
-        const hour = new Date(date).getHours();
-        const second = new Date(date).getSeconds();
-        const ml = new Date(date).getMilliseconds();
 
-        const monthyear = (String(month) + String(year));
-        const id = (String(hour) + String(second) + String(ml));
+    const totalDiscountPrice = dataProduct.reduce((total, item) => {
+        return total + (item.discount_price * item.quantity);
+    }, 0);
 
-        const uniqueId = String(`${monthyear}-${id}`);
-        return uniqueId;
-    }
+    const tax = totalDiscountPrice * taxRate;
+    const grandTotal = (totalDiscountPrice + tax) + currentOngkir;
 
-    const token = localStorage.getItem("token")
-    const dataLogin = jwtDecode(token);
+    console.log("Subtotal:", totalDiscountPrice);
+    console.log("Pajak:", tax);
+    console.log("Total:", grandTotal);
 
-    // const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || {};
+    console.log(totalDiscountPrice);
 
-    const onSubmit = data => {
+
+
+    const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || []  // deprecated
+
+    const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []); // deprecated
+    const onSubmit = datas => {
         const date = new Date();
         const localData = JSON.parse(localStorage.getItem("orders")) || [];
         const tokenAuthUser = localStorage.getItem("token") || false;
@@ -110,11 +119,11 @@ export default function Checkout() {
             return;
         }
 
-        if (!data.delivery) {
+        if (!datas.delivery) {
             setError("Delivery must be selected");
             return;
         }
-        if (!data.address) {
+        if (!datas.address) {
             setError("Alamat wajib diisi");
             return;
         }
@@ -140,14 +149,12 @@ export default function Checkout() {
         navigate(`/detailorder/${dataOrder.no}`, { state: dataOrder });
     };
 
-
-
     const handleDelete = (id, size, temp) => {
-        const updatedCart = carts.filter(item =>
+        const updatedCart = cartItems.filter(item =>
             !(
                 item.product_id === id &&
-                item.selectedSize === size &&
-                item.selectedTemp === temp
+                item.size_name === size &&
+                item.variant_name === temp
             )
         );
 
@@ -155,8 +162,8 @@ export default function Checkout() {
         localStorage.setItem("cart", JSON.stringify(updatedCart));
     };
 
-    // const newPrice = price * ((100 - dataproduct.discount_rate) / 100)
-    console.log("ieu cart nya", carts);
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Terjadi kesalahan</div>;
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -165,11 +172,11 @@ export default function Checkout() {
             </header>
             <main className="flex flex-col">
                 <section className="flex flex-col">
-                    {error &&
+                    {errors &&
                         (
                             <div onClick={() => setError(null)} className="w-[70%] bg-[whitesmoke] rounded-2xl flex flex-col gap-5 right-0 left-0 top-20 px-20 py-10 mx-auto text-center sticky border border-t-8 shadow-2xl border-t-[#ff8906]">
                                 <h1 className="text-3xl"> Warning </h1>
-                                <span className="text-left">{error}</span>
+                                <span className="text-left">{errors}</span>
                             </div>
                         )}
                     <div className="flex flex-col md:flex-row justify-center gap-10">
@@ -188,24 +195,22 @@ export default function Checkout() {
                                 </>
                             ) : (
                                 <>
-                                    {carts.map(data => {
-                                        const calculatePrice = Number(data.product_price) * ((100 - Number(data.product_discount)) / 100)
-                                        console.log("product_price", data.product_price);
-                                        console.log("discount_rate", data.product_discount);
-                                        console.log(calculatePrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }));
-
+                                    {cartItems.map(data => {
+                                        // console.log("product_price", data.base_price);
+                                        // console.log("discount_rate", data.discount_rate);
+                                        // console.log(data.discount_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }));
                                         return (
-                                            <div key={`${data.id}-${data.selectedSize}-${data.selectedTemp}`}>
+                                            <div key={`${data.cart_item_id}-${data.size_name}-${data.variant_name}`}>
                                                 <div>
                                                     <CheckoutProduct
-                                                        onDelete={() => handleDelete(data.id, data.selectedSize, data.selectedTemp)}
-                                                        size={data.selectedSize}
-                                                        temp={data.selectedTemp}
+                                                        onDelete={() => handleDelete(data.cart_item_id, data.size_name, data.variant_name)}
+                                                        size={data.size_name}
+                                                        temp={data.variant_name}
                                                         quantity={data.quantity}
                                                         name={data.product_name}
                                                         image={data.pictures}
-                                                        oldPrice={data.product_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-                                                        newPrice={calculatePrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                                        oldPrice={data.discount_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                                        newPrice={data.discount_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                                         is_flash_sale={data.is_flash_sale == true ? "Flash Sale" : ""} />
                                                 </div>
                                             </div>
@@ -221,7 +226,7 @@ export default function Checkout() {
                             <tbody className="[&>tr]:bg-[#F5F5F5] [&>tr]:flex [&>tr]:justify-between [&>tr]:w-full [&>tr]:py-5 [&>tr>td]:mx-5 [&>tr>span]:mx-5">
                                 <tr>
                                     <td>Order</td>
-                                    <td>{totalPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
+                                    <td>{totalDiscountPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
                                 </tr>
                                 <tr>
                                     <td>Delivery</td>
@@ -234,11 +239,11 @@ export default function Checkout() {
                                 </tr>
                                 <tr>
                                     <td>Tax</td>
-                                    <td>{totalTax.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
+                                    <td>{tax.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
                                 </tr>
                                 <tr className="border-t pt-2">
                                     <td>Sub Total</td>
-                                    <td>{total}</td>
+                                    <td>{grandTotal.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
                                 </tr>
                                 <tr className="text-center ">
                                     <td className="text-center bg-[#FF8906] w-full py-2 rounded cursor-pointer">
