@@ -1,7 +1,8 @@
 import { FiShoppingCart } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
 import { Link, useNavigate, useParams } from "react-router";
-import { useGetDetailProductQuery, useGetProductHomeQuery } from "@/feature/api";
+import { useGetBrowseProductsQuery, useGetDetailProductQuery, useGetProductHomeQuery } from "@/feature/api";
+import { Fragment } from "react";
 
 function ImageCard({ children, img, link }) {
   return (
@@ -12,10 +13,23 @@ function ImageCard({ children, img, link }) {
 }
 
 function CardHeader({ productName, desc }) {
+  const { data, loading, error } = useGetBrowseProductsQuery()
+  const dataProduct = data || []
+
+  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (error || !data) return <div className="text-center py-20 text-red-500">Product not found.</div>;
+
   return (
     <>
-      <h2 className="text-[#0B132A] text-[22px] ">{productName}</h2>
-      <p className="text-[#4F5665] text-[14px]">{desc}</p>
+      {/* {dataProduct.map(test => ( */}
+        {/* // <div key={test.id}> */}
+        {/* <Fragment key={test.id}> */}
+          <h2 className="text-[#0B132A] text-[22px] ">{productName}</h2>
+          <p className="text-[#4F5665] text-[14px]">{productName}</p>
+        {/* </Fragment> */}
+        {/* // </div> */}
+      {/* ))} */}
+
     </>
   )
 }
@@ -143,6 +157,13 @@ function HomeCard() {
 
 function ProductCard(props) {
   const navigate = useNavigate()
+  const { data, loading, error } = useGetBrowseProductsQuery()
+  const dataProduct = data || []
+
+  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (error || !data) return <div className="text-center py-20 text-red-500">Product not found.</div>;
+
+  
   return (
     <>
       <main className="relative flex flex-col max-w-75">
@@ -151,7 +172,7 @@ function ProductCard(props) {
           {props.is_flash_sale ?? <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>}
         </ImageCard>
         <CardWrapper>
-          <CardHeader productName={props.product_name} desc={props.product_desc.length > 50 ? props.product_desc.slice(0, 50) + "..." : props.product_desc} />
+          <CardHeader productName={props.product_name} desc={props.product_desc} />
           <Rattings />
           <Price currentPrice={props.price}>
             <span className="text-[#D00000] line-through font-medium text-[12px]">{props.oldPrice}</span>

@@ -181,7 +181,7 @@ function MainProductList({ currentPage, setCurrentPage, itemsPerPage, filters })
         <div className="w-full">
             <div className='flex flex-wrap justify-center gap-5'>
                 {currentProducts.length > 0 ? (
-                    currentProducts.map(item => <ProductCard key={item.id} {...item} />)
+                    currentProducts.map(item => <ProductCard key={item.id} {...item} />) //{...item} 
                 ) : (
                     <p className="text-gray-500">Product not found.</p>
                 )}
