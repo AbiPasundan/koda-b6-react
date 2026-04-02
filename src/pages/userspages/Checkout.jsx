@@ -5,6 +5,7 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
+import { jwtDecode } from "jwt-decode";
 function CheckoutProduct({ name, newPrice, oldPrice, image, is_flash_sale, onDelete, quantity, size, temp, delivery }) {
     return (
         <main className="my-5">
@@ -60,9 +61,8 @@ export default function Checkout() {
     const ongkirDoorDelivery = 5000;
 
     const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []);
-
     let totalPrice = carts.reduce(
-        (acc, item) => acc + (item.product_price * item.quantity),
+        (acc, item) => acc + ((Number(item.product_price) * ((100 - Number(item.product_discount)) / 100)) * item.quantity),
         0
     );
     const totalTax = carts.reduce(
@@ -140,6 +140,8 @@ export default function Checkout() {
         navigate(`/detailorder/${dataOrder.no}`, { state: dataOrder });
     };
 
+
+
     const handleDelete = (id, size, temp) => {
         const updatedCart = carts.filter(item =>
             !(
@@ -152,6 +154,10 @@ export default function Checkout() {
         setCarts(updatedCart);
         localStorage.setItem("cart", JSON.stringify(updatedCart));
     };
+
+    // const newPrice = price * ((100 - dataproduct.discount_rate) / 100)
+    console.log("ieu cart nya", carts);
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <header className="m-10 text-[#0B0909] text-5xl">
@@ -183,11 +189,24 @@ export default function Checkout() {
                             ) : (
                                 <>
                                     {carts.map(data => {
-                                        console.log(data);
+                                        const calculatePrice = Number(data.product_price) * ((100 - Number(data.product_discount)) / 100)
+                                        console.log("product_price", data.product_price);
+                                        console.log("discount_rate", data.product_discount);
+                                        console.log(calculatePrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }));
+
                                         return (
                                             <div key={`${data.id}-${data.selectedSize}-${data.selectedTemp}`}>
                                                 <div>
-                                                    <CheckoutProduct onDelete={() => handleDelete(data.id, data.selectedSize, data.selectedTemp)} size={data.selectedSize} temp={data.selectedTemp} quantity={data.quantity} name={data.product_name} image={data.pictures} oldPrice={data.product_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} newPrice={data.product_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} is_flash_sale={data.is_flash_sale == true ? "Flash Sale" : ""} />
+                                                    <CheckoutProduct
+                                                        onDelete={() => handleDelete(data.id, data.selectedSize, data.selectedTemp)}
+                                                        size={data.selectedSize}
+                                                        temp={data.selectedTemp}
+                                                        quantity={data.quantity}
+                                                        name={data.product_name}
+                                                        image={data.pictures}
+                                                        oldPrice={data.product_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                                        newPrice={calculatePrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                                        is_flash_sale={data.is_flash_sale == true ? "Flash Sale" : ""} />
                                                 </div>
                                             </div>
                                         )

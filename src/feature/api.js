@@ -32,6 +32,13 @@ export const api = createApi({
       query: () => "/browseproducts",
       transformResponse: response => response.Results,
     }),
+    addToCart: builder.mutation({
+      query: (body) => ({
+        url: "/user/detailproduct/addcart",
+        method: "POST",
+        body,
+      }),
+    }),
     // browse product end
 
     // detail product start
@@ -91,4 +98,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation } = api;

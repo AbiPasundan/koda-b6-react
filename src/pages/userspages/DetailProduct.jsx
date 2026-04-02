@@ -2,7 +2,8 @@ import { DetailProductCard, Pagination } from "@/components/usercomp/Card";
 import { useNavigate, useParams } from "react-router";
 import { Fragment, useContext, useState } from "react";
 import { ProductFetchContext } from "@/components/hook/ProductFetchContext";
-import { useGetDetailProductQuery } from "@/feature/api";
+import { useAddProductMutation, useAddToCartMutation, useGetDetailProductQuery } from "@/feature/api";
+import { jwtDecode } from "jwt-decode";
 
 const getImageUrl = (path) => {
   const { id } = useParams();
@@ -52,8 +53,15 @@ function ProductImage(props) {
     </div>
   )
 }
-
+// og
 function Desc(props) {
+  const [addProduct, { isLoading, errors }] = useAddToCartMutation();
+
+  const token = localStorage.getItem("token")
+  // const user_id = jwtDecode(token);
+  const decodedToken = token ? jwtDecode(token) : null;
+  const user_id = decodedToken ? decodedToken.user_id : null;
+
   const { data, loading, error } = useGetDetailProductQuery()
   const { id } = useParams();
   const datas = data || []
@@ -74,7 +82,7 @@ function Desc(props) {
   const sizeOption = size => {
     setSelectSize(size)
   }
-  const addCart = () => {
+  const addCart = async () => {
     if (!selectSize || !selectTemp) {
       alert("Mohon pilih ukuran dan penyajian (Hot/Ice) terlebih dahulu!");
       return;
@@ -85,32 +93,81 @@ function Desc(props) {
       return;
     }
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const existingItem = cart.find(item =>
-      item.product_id === product.product_id &&
-      item.selectedSize === selectSize &&
-      item.selectedTemp === selectTemp
-    );
+    console.log(product.id);
+    console.log(product.product_name);
+    console.log(product.price);
+    console.log(selectTemp);
+    console.log(selectSize);
+    
 
-    if (existingItem) {
-      existingItem.quantity += count;
-    } else {
-      cart.push({
-        product_id: product.product_id,
+    try {
+      await addProduct({
+        user_id,
+        product_id: product.id,
+        quantity: count,
         product_name: product.product_name,
-        product_price: product.price,
-        product_flash_sale: product.is_flash_sale,
-        product_discount: product.discount,
-        selectedSize: selectSize,
-        selectedTemp: selectTemp,
-        quantity: count
-      });
+        base_price: product.price,
+        variant_name: selectTemp,
+        size_name: selectSize,
+      }).unwrap();
+      alert("Berhasil masuk keranjang!");
+    } catch (err) {
+      console.error("Gagal menambahkan pesanan ke keranjang: ", err);
+      alert("Gagal menambahkan ke keranjang!");
     }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Berhasil masuk keranjang!");
   };
 
+
+
+  const testSubmit = async data => {
+    console.log(data);
+    
+    try {
+      const payload = {
+        user_id: 5,
+        product_id: 7,
+        quantity: 3,
+        product_name: "product.product_name",
+        product_price: 1000,
+        variant_name: "selectTemp",
+        size_name: "selectSize",
+      };
+
+      // try {
+      //   await addProduct({
+      //     user_id: user_id.user_id,
+      //     product_id: product.product_id,
+      //     quantity: count,
+      //     product_name: product.product_name,
+      //     product_price: product.price,
+      //     variant_name: selectTemp,
+      //     size_name: selectSize,
+      //   }).unwrap();
+      //   alert("Berhasil masuk keranjang!");
+      // } catch (err) {
+      //   console.error("Gagal menambahkan pesanan ke keranjang: ", err);
+      //   alert("Gagal menambahkan ke keranjang!");
+      // }
+
+      // {
+      //	"user_id": 5,
+      //	"product_id": 7,
+      //	"quantity": 3,
+      //	"product_name": "euy",
+      //	"base_price": 1000,
+      //	"variant_name": "no variant",
+      //	"size_name": "no size"
+      // }
+
+
+      await addProduct(payload).unwrap();
+
+      alert("Berhasil masuk keranjang!");
+    } catch (err) {
+      console.error(err);
+      alert("Gagal menambahkan ke keranjang");
+    }
+  };
 
 
   if (loading) return <div className="text-center py-20">Loading...</div>;
@@ -161,12 +218,14 @@ function Desc(props) {
         </div>
       </div>
       <div className="flex gap-4">
-        <button onClick={() => addCart(datas[0])} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition ">Buy</button>
-        <button onClick={() => addCart(props)} className="flex-1 border border-orange-300 text-orange-600 font-bold py-3 rounded-md flex items-center justify-center gap-2 hover:bg-orange-50 transition">
+        <button onClick={() => addCart()} disabled={isLoading} className="flex-1 font-[Plus_Jakarta_Sans] font-medium text-[14px] leading-5 tracking-[0%] text-center bg-[#FF8906] text-[#0B132A] py-3 rounded-md shadow-md hover:bg-orange-600 transition disabled:opacity-50">
+          {isLoading ? "Processing..." : "Buy"}
+        </button>
+        <button onClick={() => addCart()} disabled={isLoading} className="flex-1 border border-orange-300 text-orange-600 font-bold py-3 rounded-md flex items-center justify-center gap-2 hover:bg-orange-50 transition disabled:opacity-50">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
-          add to cart
+          {isLoading ? "Processing..." : "add to cart"}
         </button>
       </div>
     </>
