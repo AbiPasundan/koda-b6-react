@@ -62,6 +62,13 @@ export const api = createApi({
       transformResponse: response => response.Results,
       providesTags: (result, error, id) => [{ type: 'Cart', id }],
     }),
+    deleteCartItem: builder.mutation({
+      query: (body) => ({
+        url: "/detailproduct/deletecart",
+        method: "DELETE",
+        body: body,
+      }),
+    }),
     // detail product end
 
     // auth start
@@ -114,4 +121,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery, useAddToOrderMutation, useGetHistoryOrderQuery } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery, useAddToOrderMutation, useGetHistoryOrderQuery, useDeleteCartItemMutation } = api;

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
-import { useGetAllCartQuery } from "@/feature/api";
+import { useDeleteCartItemMutation, useGetAllCartQuery } from "@/feature/api";
 
 function CheckoutProduct({ name, newPrice, oldPrice, image, is_flash_sale, onDelete, quantity, size, temp, delivery }) {
     return (
@@ -55,6 +55,8 @@ function CheckoutInput({ children, value, text, placeholder, registerInput, real
 }
 
 export default function Checkout() {
+    const [dartItem] = useDeleteCartItemMutation()
+    
     const { register, handleSubmit, watch } = useForm();
     const [errors, setError] = useState(null);
     const navigate = useNavigate();
@@ -82,13 +84,17 @@ export default function Checkout() {
     const tax = totalDiscountPrice * taxRate;
     const grandTotal = (totalDiscountPrice + tax) + currentOngkir;
 
-    console.log("Subtotal:", totalDiscountPrice);
-    console.log("Pajak:", tax);
-    console.log("Total:", grandTotal);
-
-    console.log(totalDiscountPrice);
-
-
+    const onDelete = async (cart_item_id) => {
+        console.log("nih ini cart_item_id yang dikirim napa jadi eof dah ", cart_item_id);
+        
+        try {
+            // await dartItem(cart_item_id).unwrap()
+            await dartItem({ cart_item_id }).unwrap()
+            console.log("Deleted successfully")
+        } catch (err) {
+            console.error(err)
+        }
+    };
 
     const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || []  // deprecated
     if (isLoading) return <div>Loading...</div>;
@@ -125,14 +131,14 @@ export default function Checkout() {
                             ) : (
                                 <>
                                     {cartItems.map((data, i) => {
-                                        console.log(data);
-                                        console.log(data.image_path);
+                                        // console.log(data);
+                                        // console.log(data.image_path);
                                         
                                         return (
                                             <div key={i}>
                                                 <div>
                                                     <CheckoutProduct
-                                                        // onDelete={() => handleDelete(data.cart_item_id, data.size_name, data.variant_name)}
+                                                        onDelete={() => onDelete(data.cart_item_id)}
                                                         size={data.size_name}
                                                         temp={data.variant_name}
                                                         quantity={data.quantity}
