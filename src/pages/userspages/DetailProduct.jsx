@@ -60,9 +60,10 @@ function Desc(props) {
   const decodedToken = token ? jwtDecode(token) : null;
   const user_id = decodedToken ? decodedToken.user_id : null;
 
-  const { data, loading, error } = useGetDetailProductQuery()
   const { id } = useParams();
+  const { data, loading, error } = useGetDetailProductQuery(id)
   const datas = data || []
+  console.log(data);
 
   const product = datas.find(item => item.id === Number(id)) || {};
 

@@ -8,22 +8,6 @@ import { useForm } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
 import { useGetAllCartQuery } from "@/feature/api";
 
-function generateNoOrder() {
-    const date = Date.now();
-    const year = new Date(date).getFullYear();
-    // getMonth() dimulai dari 0 (Januari = 0), jadi lebih baik ditambah 1
-    const month = new Date(date).getMonth() + 1;
-    const hour = new Date(date).getHours();
-    const second = new Date(date).getSeconds();
-    const ml = new Date(date).getMilliseconds();
-
-    const monthyear = (String(month) + String(year));
-    const id = (String(hour) + String(second) + String(ml));
-
-    const uniqueId = String(`${monthyear}-${id}`);
-    return uniqueId;
-}
-
 function CheckoutProduct({ name, newPrice, oldPrice, image, is_flash_sale, onDelete, quantity, size, temp, delivery }) {
     return (
         <main className="my-5">
@@ -33,7 +17,8 @@ function CheckoutProduct({ name, newPrice, oldPrice, image, is_flash_sale, onDel
                 </div>
                 <div className="flex flex-col gap-3 w-[70%]">
                     <div>
-                        <span className="bg-[#D00000] rounded-full text-[#FFFFFF] p-1">{is_flash_sale}</span>
+                        {/* <span className="bg-[#D00000] rounded-full text-[#FFFFFF] p-1">{is_flash_sale}</span> */}
+                        { is_flash_sale ? <span className="bg-[#D00000] rounded-full text-[#FFFFFF] p-1">{is_flash_sale}</span> : <span> </span> }
                     </div>
                     <div>
                         <h2 className="text-[#0B0909] font-bold">{name}</h2>
@@ -140,6 +125,9 @@ export default function Checkout() {
                             ) : (
                                 <>
                                     {cartItems.map((data, i) => {
+                                        console.log(data);
+                                        console.log(data.image_path);
+                                        
                                         return (
                                             <div key={i}>
                                                 <div>
@@ -153,7 +141,7 @@ export default function Checkout() {
                                                         oldPrice={data.base_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                                         newPrice={data.discount_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                                         // is_flash_sale={data.is_flash_sale == true ? "Flash Sale" : ""}
-                                                        is_flash_sale={data.discount_rate > 3 ? "Flash Sale" : ""}
+                                                        is_flash_sale={data.is_flash_sale ? "Flash Sale" : ""}
                                                         />
                                                 </div>
                                             </div>

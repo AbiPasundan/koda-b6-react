@@ -58,8 +58,9 @@ export const api = createApi({
 
     // detail product start
     getDetailProduct: builder.query({
-      query: () => "/detailproduct",
+      query: (product_id) => `/detailproduct/${product_id}`,
       transformResponse: response => response.Results,
+      providesTags: (result, error, id) => [{ type: 'Cart', id }],
     }),
     // detail product end
 

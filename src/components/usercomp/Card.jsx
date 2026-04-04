@@ -145,10 +145,12 @@ function HomeCard() {
 
 function ProductCard(props) {
   const navigate = useNavigate()
+  console.log(props);
+  
   return (
     <>
       <main className="relative flex flex-col max-w-75">
-        <ImageCard img={props.images ?? "https://placehold.net/400x400.png"} link={props.id} >
+        <ImageCard img={Array.isArray(props.images) ? props.images[0] : props.images} link={props.id} >
           {props.is_flash_sale ?? <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>}
         </ImageCard>
         <CardWrapper>
