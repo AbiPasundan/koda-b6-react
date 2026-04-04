@@ -79,7 +79,6 @@ export default function Checkout() {
     const user_id = decodedToken ? decodedToken.user_id : null;
     const { data: cartItems, isLoading, error } = useGetAllCartQuery(user_id);
     const dataProduct = cartItems || []
-    console.log(dataProduct);
 
     const watchDelivery = watch("delivery");
 
@@ -107,66 +106,11 @@ export default function Checkout() {
 
 
     const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || []  // deprecated
-
-    const [carts, setCarts] = useState(JSON.parse(localStorage.getItem("cart")) || []); // deprecated
-    const onSubmit = datas => {
-        const date = new Date();
-        const localData = JSON.parse(localStorage.getItem("orders")) || [];
-        const tokenAuthUser = localStorage.getItem("token") || false;
-
-        if (!tokenAuthUser) {
-            navigate("/login");
-            return;
-        }
-
-        if (!datas.delivery) {
-            setError("Delivery must be selected");
-            return;
-        }
-        if (!datas.address) {
-            setError("Alamat wajib diisi");
-            return;
-        }
-
-        const dataOrder = {
-            no: generateNoOrder(),
-            date: date.toLocaleDateString(),
-            total,
-            status: "done",
-            name: dataLogin.name,
-            email: dataLogin.email,
-            address: dataLogin.address,
-            phone: dataLogin.phone,
-            payment: "Cash",
-            delivery: data.delivery,
-            cart: carts,
-        };
-
-        localData.push(dataOrder);
-        localStorage.setItem("orders", JSON.stringify(localData));
-        localStorage.removeItem("cart");
-
-        navigate(`/detailorder/${dataOrder.no}`, { state: dataOrder });
-    };
-
-    const handleDelete = (id, size, temp) => {
-        const updatedCart = cartItems.filter(item =>
-            !(
-                item.product_id === id &&
-                item.size_name === size &&
-                item.variant_name === temp
-            )
-        );
-
-        setCarts(updatedCart);
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
-    };
-
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Terjadi kesalahan</div>;
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
             <header className="m-10 text-[#0B0909] text-5xl">
                 <h1>Payment Detail</h1>
             </header>
@@ -185,7 +129,7 @@ export default function Checkout() {
                                 <h4 className="text-xl">Your Order</h4>
                                 <Link to="/product" className="bg-[#FF8906] p-2 rounded-xl"> + Add Menu</Link>
                             </header>
-                            {carts.length == 0 ? (
+                            {cartItems.length == 0 ? (
                                 <>
                                     <main className="my-5">
                                         <div className="flex justify-between justify-self-center gap-5 p-3 bg-[#F5F5F5]">
@@ -195,23 +139,22 @@ export default function Checkout() {
                                 </>
                             ) : (
                                 <>
-                                    {cartItems.map(data => {
-                                        // console.log("product_price", data.base_price);
-                                        // console.log("discount_rate", data.discount_rate);
-                                        // console.log(data.discount_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }));
+                                    {cartItems.map((data, i) => {
                                         return (
-                                            <div key={`${data.cart_item_id}-${data.size_name}-${data.variant_name}`}>
+                                            <div key={i}>
                                                 <div>
                                                     <CheckoutProduct
-                                                        onDelete={() => handleDelete(data.cart_item_id, data.size_name, data.variant_name)}
+                                                        // onDelete={() => handleDelete(data.cart_item_id, data.size_name, data.variant_name)}
                                                         size={data.size_name}
                                                         temp={data.variant_name}
                                                         quantity={data.quantity}
                                                         name={data.product_name}
-                                                        image={data.pictures}
-                                                        oldPrice={data.discount_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                                        image={data.image_path}
+                                                        oldPrice={data.base_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                                         newPrice={data.discount_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-                                                        is_flash_sale={data.is_flash_sale == true ? "Flash Sale" : ""} />
+                                                        // is_flash_sale={data.is_flash_sale == true ? "Flash Sale" : ""}
+                                                        is_flash_sale={data.discount_rate > 3 ? "Flash Sale" : ""}
+                                                        />
                                                 </div>
                                             </div>
                                         )

@@ -34,10 +34,21 @@ export const api = createApi({
     }),
     addToCart: builder.mutation({
       query: (body) => ({
-        url: "/user/detailproduct/addcart",
+        url: "/detailproduct/addcart",
         method: "POST",
         body,
       }),
+    }),
+    addToOrder: builder.mutation({
+      query: (body) => ({
+        url: "/checkout",
+        method: "POST",
+        body,
+      }),
+    }),
+    getHistoryOrder: builder.query({
+      query: () => "/browseproducts",
+      transformResponse: response => response.Results,
     }),
     getAllCart: builder.query({
       query: (user_id) => `/detailproduct/addcart/${user_id}`,
@@ -102,4 +113,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery, useAddToOrderMutation, useGetHistoryOrderQuery } = api;
