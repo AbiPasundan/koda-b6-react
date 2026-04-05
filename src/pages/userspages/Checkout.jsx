@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
-import { useDeleteCartItemMutation, useGetAllCartQuery } from "@/feature/api";
+import { useAddOrderMutation, useDeleteCartItemMutation, useGetAllCartQuery } from "@/feature/api";
 
 function CheckoutProduct({ name, newPrice, oldPrice, image, is_flash_sale, onDelete, quantity, size, temp, delivery }) {
     return (
@@ -18,7 +18,7 @@ function CheckoutProduct({ name, newPrice, oldPrice, image, is_flash_sale, onDel
                 <div className="flex flex-col gap-3 w-[70%]">
                     <div>
                         {/* <span className="bg-[#D00000] rounded-full text-[#FFFFFF] p-1">{is_flash_sale}</span> */}
-                        { is_flash_sale ? <span className="bg-[#D00000] rounded-full text-[#FFFFFF] p-1">{is_flash_sale}</span> : <span> </span> }
+                        {is_flash_sale ? <span className="bg-[#D00000] rounded-full text-[#FFFFFF] p-1">{is_flash_sale}</span> : <span> </span>}
                     </div>
                     <div>
                         <h2 className="text-[#0B0909] font-bold">{name}</h2>
@@ -56,13 +56,16 @@ function CheckoutInput({ children, value, text, placeholder, registerInput, real
 
 export default function Checkout() {
     const [dartItem] = useDeleteCartItemMutation()
-    
+    const [addOrder] = useAddOrderMutation()
+
     const { register, handleSubmit, watch } = useForm();
     const [errors, setError] = useState(null);
     const navigate = useNavigate();
 
     const token = localStorage.getItem("token")
     const decodedToken = token ? jwtDecode(token) : null;
+    console.log(decodedToken);
+    
     const user_id = decodedToken ? decodedToken.user_id : null;
     const { data: cartItems, isLoading, error } = useGetAllCartQuery(user_id);
     const dataProduct = cartItems || []
@@ -86,7 +89,7 @@ export default function Checkout() {
 
     const onDelete = async (cart_item_id) => {
         console.log("nih ini cart_item_id yang dikirim napa jadi eof dah ", cart_item_id);
-        
+
         try {
             // await dartItem(cart_item_id).unwrap()
             await dartItem({ cart_item_id }).unwrap()
@@ -96,12 +99,29 @@ export default function Checkout() {
         }
     };
 
-    const dataLogin = JSON.parse(localStorage.getItem("token_auth_user")) || []  // deprecated
+    // const onSubmit = e => {
+    //     e.preventDefault();
+    //     addOrder
+    // }
+    const onSubmit = async e => {
+        e.preventDefault();
+        try {
+            const result = await addOrder().unwrap();
+            console.log(result);
+            
+            alert("order berhasil");
+            navigate("/historyorder")
+        } catch (err) {
+            console.error(err);
+            alert(err?.data?.message ?? 'Gagal membuat order');
+        }
+    };
+
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Terjadi kesalahan</div>;
 
     return (
-        <form>
+        <form onSubmit={onSubmit}>
             <header className="m-10 text-[#0B0909] text-5xl">
                 <h1>Payment Detail</h1>
             </header>
@@ -133,7 +153,7 @@ export default function Checkout() {
                                     {cartItems.map((data, i) => {
                                         // console.log(data);
                                         // console.log(data.image_path);
-                                        
+
                                         return (
                                             <div key={i}>
                                                 <div>
@@ -148,7 +168,7 @@ export default function Checkout() {
                                                         newPrice={data.discount_price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                                         // is_flash_sale={data.is_flash_sale == true ? "Flash Sale" : ""}
                                                         is_flash_sale={data.is_flash_sale ? "Flash Sale" : ""}
-                                                        />
+                                                    />
                                                 </div>
                                             </div>
                                         )
@@ -218,13 +238,13 @@ export default function Checkout() {
             <section className="m-10 w-[50%] mx-auto md:mx-10">
                 <h1>Payment info & Delivery</h1>
                 <div className="w-full my-5  flex flex-col gap-5" >
-                    <CheckoutInput value={"email"} text="Email" placeholder={dataLogin.email ?? "Enter Your Email"} registerInput={register("email")} >
+                    <CheckoutInput value={"email"} text="Email" placeholder={decodedToken.email ?? "Enter Your Email"} registerInput={register("email")} >
                         <MdOutlineEmail size="30" />
                     </CheckoutInput>
-                    <CheckoutInput value={"name"} text="Full Name" placeholder={dataLogin.name ?? "Enter Your Name"} registerInput={register("name")}>
+                    <CheckoutInput value={"name"} text="Full Name" placeholder={decodedToken.full_name ?? "Enter Your Name"} registerInput={register("name")}>
                         <IoPersonOutline size="30" />
                     </CheckoutInput>
-                    <CheckoutInput value="address" text="Address" placeholder="Enter Your Address" registerInput={register("address")}>
+                    <CheckoutInput value="address" text="Address" placeholder={decodedToken.address ? decodedToken.address : "Enter Your Address"} registerInput={register("address")}>
                         <HiOutlineLocationMarker size="30" />
                     </CheckoutInput>
                     <div className="flex flex-col md:flex-row gap-5 justify-between items-center [&>label]:text-center [&>label]:px-10 [&>label]:py-1 [&>label]:border [&>label]:rounded ">

@@ -38,6 +38,7 @@ export const api = createApi({
         method: "POST",
         body,
       }),
+      providesTags: ['Cart']
     }),
     addToOrder: builder.mutation({
       query: (body) => ({
@@ -68,6 +69,13 @@ export const api = createApi({
         method: "DELETE",
         body: body,
       }),
+    }),
+    addOrder: builder.mutation({
+      query: () => ({
+        url: '/checkout',
+        method: 'POST',
+      }),
+      invalidatesTags: ['Cart', 'Order'],
     }),
     // detail product end
 
@@ -121,4 +129,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery, useAddToOrderMutation, useGetHistoryOrderQuery, useDeleteCartItemMutation } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery, useAddToOrderMutation, useGetHistoryOrderQuery, useDeleteCartItemMutation, useAddOrderMutation } = api;
