@@ -6,6 +6,7 @@ import { CiMail } from "react-icons/ci";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Link } from "react-router";
 import { useState } from "react";
+import { useGetHistoryOrderQuery } from "@/feature/api";
 
 function FilterByDelivery({
     statusFilter,
@@ -37,21 +38,24 @@ function FilterByDelivery({
 }
 
 function OrderItems() {
-
-    const orders = JSON.parse(localStorage.getItem("orders")) || [];
-
+    const { data, loading, error } = useGetHistoryOrderQuery();
+    const datas = data || []
+    console.log(datas);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 1;
+    const ordersPerPage = 10;
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
 
-    const currentOrders = orders.slice(
+    const currentOrders = datas.slice(
         indexOfFirstOrder,
-        indexOfLastOrder
+        indexOfLastOrder,
     );
 
-    const totalPages = Math.ceil(orders.length / ordersPerPage);
+    const totalPages = Math.ceil(datas.length / ordersPerPage);
+    if (loading) return <div className="text-center py-10">Loading</div>;
+    if (error) return <div className="text-center py-10 text-red-500">Error</div>;
+
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -59,7 +63,7 @@ function OrderItems() {
                 {currentOrders.map((order, i) => (
                     <div key={i} className="bg-white p-5 mx-3 rounded-xl flex flex-col md:flex-row gap-6 items-start md:items-center">
                         <div className="w-full md:w-24 h-24 hidden md:block ">
-                            <img loading="lazy" key={i} src={order.cart?.[0]?.product?.image?.[0]} alt="Coffee" className="w-full h-full object-cover" />
+                            <img loading="lazy" key={i} src={order.Image} alt="Coffee" className="w-full h-full object-cover" />
                         </div>
 
                         <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
@@ -68,15 +72,16 @@ function OrderItems() {
                                     <PiNotepadBold />
                                     No. Order
                                 </div>
-                                <div className="font-bold text-gray-900 text-sm">{order.no}</div>
-                                <Link to={`/detailorder/${order.no}`} state={{ order }} className="text-yellow-500 text-xs font-medium underline mt-1 block">Views Order Detail</Link>
+                                <div className="font-bold text-gray-900 text-sm">{order.id}</div>
+                                <Link to={`/detailorder/${order.id}`} state={{ order }} className="text-yellow-500 text-xs font-medium underline mt-1 block">Views Order Detail</Link>
                             </div>
+                            
                             <div>
                                 <div className="flex items-center text-gray-400 text-xs mb-1 gap-1">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     Date
                                 </div>
-                                <div className="font-bold text-gray-900 text-sm">{order.date}</div>
+                                <div className="font-bold text-gray-900 text-sm">{order.created_at}</div>
                             </div>
 
                             <div>

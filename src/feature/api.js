@@ -48,7 +48,7 @@ export const api = createApi({
       }),
     }),
     getHistoryOrder: builder.query({
-      query: () => "/browseproducts",
+      query: () => "/historyorder",
       transformResponse: response => response.Results,
     }),
     getAllCart: builder.query({
@@ -129,4 +129,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery, useAddToOrderMutation, useGetHistoryOrderQuery, useDeleteCartItemMutation, useAddOrderMutation } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery, useAddToOrderMutation, useGetHistoryOrderQuery, useDeleteCartItemMutation, useAddOrderMutation, } = api;
