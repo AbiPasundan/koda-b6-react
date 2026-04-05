@@ -1,8 +1,9 @@
 import { DetailProductCard, Pagination } from "@/components/usercomp/Card";
 import { useParams } from "react-router";
 import { useState } from "react";
-import { useAddToCartMutation, useGetDetailProductQuery } from "@/feature/api";
+import { useAddToCartMutation, useGetBrowseProductsQuery, useGetDetailProductQuery } from "@/feature/api";
 import { jwtDecode } from "jwt-decode";
+import { Modal } from "./Checkout";
 
 const getImageUrl = (path) => {
   const { id } = useParams();
@@ -70,6 +71,7 @@ function Desc(props) {
   const productSize = product.sizes || [];
   const productVariant = product.variants || [];
 
+  const [errorsModal, setError] = useState(null);
 
   const [selectSize, setSelectSize] = useState()
   const [selectTemp, setSelectTemp] = useState()
@@ -83,12 +85,13 @@ function Desc(props) {
   }
   const addCart = async () => {
     if (!selectSize || !selectTemp) {
-      alert("Mohon pilih ukuran dan penyajian (Hot/Ice) terlebih dahulu!");
+      // alert("Mohon pilih ukuran dan penyajian (Hot/Ice) terlebih dahulu!");
+      setError("Pilih Penyajian terlebih dahulu")
       return;
     }
 
     if (count < 1) {
-      alert("Jumlah pesanan minimal 1");
+      setError("Jumlah order minimal 1")
       return;
     }
 
@@ -114,6 +117,13 @@ function Desc(props) {
 
   return (
     <>
+      {errorsModal && (
+        <Modal title="Warning" textDesc={errorsModal}>
+          <button onClick={() => setError(null)} type="button" className="w-full md:w-36 h-10 rounded-md border border-gray-300 bg-white text-gray-600 font-medium text-sm hover:bg-gray-100 active:scale-95 transition">
+            Ok
+          </button>
+        </Modal>
+      )}
       {product.is_flash_sale && (<span className="inline-block bg-[#D00000] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">FLASH SALE!</span>)}
       <h1 className="text-4xl font-bold font-[Plus_Jakarta_Sans]  text-[48px] leading-[100%] tracking-[0%] ">{props.name}</h1>
       <div className="flex items-center space-x-3 my-5">
@@ -172,61 +182,78 @@ function Desc(props) {
 }
 
 
-export default function DetailProduct() {
-  const { id } = useParams();
+function ProductRecomendation() {
+  const { data, loading, error } = useGetBrowseProductsQuery() || [];
+  const datas = data || []
+  // console.log(datas);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
-
-  const { data, loading, error } = useGetDetailProductQuery(id) || [];
-
-  const datas = data || []
-  const dataproduct = datas.find(item => item.id === Number(id)) || [];
-  console.log(dataproduct);
-
-
+  const itemsPerPage = 6;
   const recommendations = datas.filter(item => item.id !== datas.id);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentProducts = recommendations.slice(indexOfFirstItem, indexOfLastItem);
 
-  if (dataproduct.id === undefined) return (
+  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (error || !datas) return <div className="text-center py-20 text-red-500">Product not found.</div>;
+
+  return (
     <div className="mt-24">
-      <div className="text-center py-20">Product Not Found</div>
       <h2 className="md:text-3xl text-xl overflow-hidden font-medium mb-8 font-[Plus_Jakarta_Sans] text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-items-center">
-        {currentProducts.map(item => (
-          <DetailProductCard key={item.id} item={item} />
-        ))}
+        {currentProducts.map(item => {
+          console.log(currentProducts);
+          
+          return (
+            <DetailProductCard key={item.id} item={item} img={currentProducts} />
+          )
+        })}
       </div>
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={recommendations.length} itemsPerPage={itemsPerPage} />
     </div>
+  )
+}
 
-  );
+export default function DetailProduct() {
+  const { id } = useParams();
+
+  const { data, loading, error } = useGetDetailProductQuery(id) || [];
+  const datas = data || []
+
+  const dataproduct = datas.find(item => item.id === Number(id)) || [];
+  console.log(dataproduct.images);
+  const productImages = dataproduct?.images?.[0] || ""
+  const productImage = productImages
+
+  // if (dataproduct.id === undefined) return (
+  //   <div className="mt-24">
+  //     <div className="text-center py-20">Product Not Found</div>
+  //     <h2 className="md:text-3xl text-xl overflow-hidden font-medium mb-8 font-[Plus_Jakarta_Sans] text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
+
+  //     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-items-center">
+  //       {currentProducts.map(item => (
+  //         <DetailProductCard key={item.id} item={item} />
+  //       ))}
+  //     </div>
+  //     <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={recommendations.length} itemsPerPage={itemsPerPage} />
+  //   </div>
+  // );
+
   if (loading) return <div className="text-center py-20">Loading...</div>;
   if (error || !datas) return <div className="text-center py-20 text-red-500">Product not found.</div>;
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="grid grid-cols-1 my-10 md:grid-cols-2 gap-10">
-        <ProductImage mainImage={dataproduct.pictures} />
+        <ProductImage mainImage={productImage} />
         <div>
           <Desc name={dataproduct.product_name} desc={dataproduct.product_desc} oldPrice={dataproduct.price} newPrice={dataproduct.price * ((100 - dataproduct.discount_rate) / 100)} id={dataproduct.id} image={dataproduct.image} size />
-          {/* price * (100 - discount) / 100);*/}
         </div>
       </div>
 
-      <div className="mt-24">
-        <h2 className="md:text-3xl text-xl overflow-hidden font-medium mb-8 font-[Plus_Jakarta_Sans] text-[48px] leading-[100%] tracking-[0%] text-[#0B0909]">Recommendation <span className="text-[#8E6447]"> For You</span></h2>
+      <ProductRecomendation />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-items-center">
-          {currentProducts.map(item => (
-            <DetailProductCard key={item.id} item={item} />
-          ))}
-        </div>
-        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={recommendations.length} itemsPerPage={itemsPerPage} />
-      </div>
     </div>
   );
 }
