@@ -8,6 +8,22 @@ import { useForm } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
 import { useAddOrderMutation, useDeleteCartItemMutation, useGetAllCartQuery } from "@/feature/api";
 
+function Modal({ title, textDesc, children }) {
+    return (
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-999 flex flex-col items-center bg-white shadow-2xl rounded-xl py-6 px-5 md:w-115 w-92.5 border border-gray-200">
+            <div className="flex items-center justify-center p-4 bg-red-100 rounded-full">
+            </div>
+            <h2 className="text-gray-900 font-semibold mt-4 text-xl">{title}</h2>
+            <p className="text-sm text-gray-600 mt-2 text-center">
+                {textDesc}
+            </p>
+            <div className="flex items-center justify-center gap-4 mt-5 w-full">
+                {children}
+            </div>
+        </div>
+    );
+};
+
 function CheckoutProduct({ name, newPrice, oldPrice, image, is_flash_sale, onDelete, quantity, size, temp, delivery }) {
     return (
         <main className="my-5">
@@ -65,7 +81,7 @@ export default function Checkout() {
     const token = localStorage.getItem("token")
     const decodedToken = token ? jwtDecode(token) : null;
     console.log(decodedToken);
-    
+
     const user_id = decodedToken ? decodedToken.user_id : null;
     const { data: cartItems, isLoading, error } = useGetAllCartQuery(user_id);
     const dataProduct = cartItems || []
@@ -99,21 +115,30 @@ export default function Checkout() {
         }
     };
 
-    // const onSubmit = e => {
-    //     e.preventDefault();
-    //     addOrder
-    // }
     const onSubmit = async e => {
-        e.preventDefault();
+        console.log(e);
         try {
+            if (!e.delivery) {
+                setError("Pengiriman wajib disi")
+                return
+            }
+            if (!e.address) {
+                setError("Alamat wajib disi")
+                return
+            }
             const result = await addOrder().unwrap();
             console.log(result);
-            
+
             alert("order berhasil");
             navigate("/historyorder")
         } catch (err) {
-            console.error(err);
-            alert(err?.data?.message ?? 'Gagal membuat order');
+            // console.error(err);
+            // alert(err?.data?.message ?? 'Gagal membuat order');
+            if (err) {
+                // console.log(err.Message);
+                setError("Keranjang masih kosong")
+                return
+            }
         }
     };
 
@@ -121,7 +146,7 @@ export default function Checkout() {
     if (error) return <div>Terjadi kesalahan</div>;
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <header className="m-10 text-[#0B0909] text-5xl">
                 <h1>Payment Detail</h1>
             </header>
@@ -129,10 +154,11 @@ export default function Checkout() {
                 <section className="flex flex-col">
                     {errors &&
                         (
-                            <div onClick={() => setError(null)} className="w-[70%] bg-[whitesmoke] rounded-2xl flex flex-col gap-5 right-0 left-0 top-20 px-20 py-10 mx-auto text-center sticky border border-t-8 shadow-2xl border-t-[#ff8906]">
-                                <h1 className="text-3xl"> Warning </h1>
-                                <span className="text-left">{errors}</span>
-                            </div>
+                            <Modal title="Warning" textDesc={errors}>
+                                <button onClick={() => setError(null)} type="button" className="w-full md:w-36 h-10 rounded-md border border-gray-300 bg-white text-gray-600 font-medium text-sm hover:bg-gray-100 active:scale-95 transition">
+                                    Ok
+                                </button>
+                            </Modal>
                         )}
                     <div className="flex flex-col md:flex-row justify-center gap-10">
                         <section className="md:w-[50%] w-[80%] mx-auto ">
