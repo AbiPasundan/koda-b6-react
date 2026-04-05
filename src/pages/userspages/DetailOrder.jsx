@@ -5,6 +5,7 @@ import { MdPayment } from "react-icons/md";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { BsArrowsFullscreen } from "react-icons/bs";
 import { useLocation, useParams } from "react-router";
+import { useGetHistoryOrderDetailQuery } from "@/feature/api";
 
 function Left(props) {
     return (
@@ -128,35 +129,35 @@ export default function DetailOrder() {
     const location = useLocation();
 
     const { id } = useParams();
+    const { data, loading, error } = useGetHistoryOrderDetailQuery(id)
+    const datas = data || []
+    console.log(datas);
 
-    const getOrderData = () => {
-        if (location.state?.order) {
-            return location.state.order;
-        }
-
-        const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
-        return savedOrders.find((item) => String(item.no) === String(id));
-    };
-
-    const order = getOrderData();
-
-    if (!order) {
+    if (!datas) {
         return <div className="my-80 text-center text-8xl">Order tidak ditemukan atau URL tidak valid.</div>;
     }
+
+    if (loading) return <div className="text-center py-10">Loading products images...</div>;
+    if (error) return <div className="text-center py-10 text-red-500">Error get images.</div>;
     return (
         <>
             <div className="bg-gray-50 text-gray-800 p-6 md:p-12">
                 <div className="max-w-6xl mx-auto">
-                    <HeaderTitle order={order.no} date={order.date} />
+                    <HeaderTitle />
                 </div>
-                <LayoutContent>
-                    <Left name={order.detail.name} address={order.detail.address} phone={order.detail.phone} payment={order.detail.payment} delivery={order.detail.delivery} status={order.status} total={order.total} />
-                    <Right>
-                        {order.cart.map((e, i) => (
+                {datas.map(items => (
+                    <LayoutContent key={items.order_id} >
+                        {/* <Left name="{order.detail.name}" address={order.detail.address} phone={order.detail.phone} payment={order.detail.payment} delivery={order.detail.delivery} status={order.status} total={order.total} /> */}
+                        <Left name={items.full_name} address={items.address} phone={items.phone} payment={items.payment} delivery={items.delivery} status={items.status} total={items.total} />
+
+                        <Right>
+                            {/* {order.cart.map((e, i) => (
                             <RightContent key={i} image={e.pictures} name={e.product_name} oldPrice={e.price} newPrice={e.price} quantity={e.quantity} size={e.selectedSize} temp={e.selectedTemp} />
-                        ))}
-                    </Right>
-                </LayoutContent>
+                            ))} */}
+                            <RightContent image={items.order_image} name={items.product_name} oldPrice={items.price} newPrice={items.price} quantity={items.quantity}/>
+                        </Right>
+                    </LayoutContent>
+                ))}
             </div>
         </>
     )

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8888",
+    baseUrl: "https://wildan-backend.camps.fahrul.id",
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
 
@@ -50,6 +50,11 @@ export const api = createApi({
     getHistoryOrder: builder.query({
       query: () => "/historyorder",
       transformResponse: response => response.Results,
+    }),
+    getHistoryOrderDetail: builder.query({
+      query: (id) => `/historyorder/${id}`,
+      transformResponse: response => response.Results,
+      providesTags: (result, error, id) => [{ type: 'HistoryOrder', id }],
     }),
     getAllCart: builder.query({
       query: (user_id) => `/detailproduct/addcart/${user_id}`,
@@ -129,4 +134,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery, useAddToOrderMutation, useGetHistoryOrderQuery, useDeleteCartItemMutation, useAddOrderMutation, } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery, useAddToOrderMutation, useGetHistoryOrderQuery, useDeleteCartItemMutation, useAddOrderMutation, useGetHistoryOrderDetailQuery } = api;

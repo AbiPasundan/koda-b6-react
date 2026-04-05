@@ -145,12 +145,10 @@ function HomeCard() {
 
 function ProductCard(props) {
   const navigate = useNavigate()
-  console.log(props);
-  
   return (
     <>
       <main className="relative flex flex-col max-w-75">
-        <ImageCard img={Array.isArray(props.images) ? props.images[0] : props.images} link={props.id} >
+        <ImageCard img={props.images ?? "https://placehold.net/400x400.png"} link={props.id} >
           {props.is_flash_sale ?? <span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000] ">Flash Sale</span>}
         </ImageCard>
         <CardWrapper>
@@ -237,14 +235,14 @@ function DetailProductCard({ item }) {
   };
   return (
     <main className="relative flex flex-col max-w-75" onClick={scrollUp} >
-      <ImageCard img={getImageUrl(item.pictures)} onError={(e) => { e.target.src = "https://placehold.net/400x400.png" }} link={item.id}>
+      <ImageCard img={getImageUrl(Array.isArray(item.images) ? item.images[0] : item.images)} onError={(e) => { e.target.src = "https://placehold.net/400x400.png" }} link={item.id}>
         {item.is_flash_sale && (<span className="absolute left-3 top-5 p-1 rounded-xl text-white bg-[#D00000]">FLASH SALE!</span>)}
       </ImageCard>
 
       <CardWrapper>
         <CardHeader productName={item.product_name} desc={item.product_desc} />
         <Rattings />
-        <Price currentPrice={item.price * ((100 - item.discount_rate) / 100)}>
+        <Price currentPrice={Number(item.price) * ((100 - Number(item.discount)) / 100)}>
           <span className="text-[#D00000] line-through font-medium text-[12px]">
             {item.price}
           </span>

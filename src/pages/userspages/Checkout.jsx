@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
 import { useAddOrderMutation, useDeleteCartItemMutation, useGetAllCartQuery } from "@/feature/api";
 
-function Modal({ title, textDesc, children }) {
+export function Modal({ title, textDesc, children }) {
     return (
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-999 flex flex-col items-center bg-white shadow-2xl rounded-xl py-6 px-5 md:w-115 w-92.5 border border-gray-200">
             <div className="flex items-center justify-center p-4 bg-red-100 rounded-full">
@@ -75,6 +75,8 @@ export default function Checkout() {
     const [addOrder] = useAddOrderMutation()
 
     const { register, handleSubmit, watch } = useForm();
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
     const [errors, setError] = useState(null);
     const navigate = useNavigate();
 
@@ -129,8 +131,9 @@ export default function Checkout() {
             const result = await addOrder().unwrap();
             console.log(result);
 
-            alert("order berhasil");
-            navigate("/historyorder")
+            setIsSuccessModalOpen(true);
+            // alert("order berhasil");
+            // navigate("/historyorder")
         } catch (err) {
             // console.error(err);
             // alert(err?.data?.message ?? 'Gagal membuat order');
@@ -156,6 +159,14 @@ export default function Checkout() {
                         (
                             <Modal title="Warning" textDesc={errors}>
                                 <button onClick={() => setError(null)} type="button" className="w-full md:w-36 h-10 rounded-md border border-gray-300 bg-white text-gray-600 font-medium text-sm hover:bg-gray-100 active:scale-95 transition">
+                                    Ok
+                                </button>
+                            </Modal>
+                        )}
+                    {isSuccessModalOpen &&
+                        (
+                            <Modal title="Success" textDesc={"Berhasil Checkout"}>
+                                <button onClick={() => navigate("/historyorder")} type="button" className="w-full md:w-36 h-10 rounded-md border border-gray-300 bg-white text-gray-600 font-medium text-sm hover:bg-gray-100 active:scale-95 transition">
                                     Ok
                                 </button>
                             </Modal>
