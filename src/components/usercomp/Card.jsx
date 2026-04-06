@@ -122,7 +122,7 @@ function HomeCard() {
                 {data.map((item, index) => (
                   <main key={item.id ? item.id : index} className="relative flex justify-items-start justify-center justify-self-start self-start flex-col max-w-75">
                     {/* change if want ot launc to production */}
-                    <ImageCard img={item.image || `https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} link={item.id} />
+                    <ImageCard img={item.path || `https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} link={item.id} />
                     <CardWrapper>
                       <CardHeader productName={item.product_name} desc={item.product_desc.length > 50 ? item.product_desc.slice(0, 50) + "..." : item.product_desc} />
                       <Rattings />

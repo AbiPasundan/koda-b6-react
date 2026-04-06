@@ -2,16 +2,15 @@ import { FiTrash } from "react-icons/fi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { AiFillProfile } from "react-icons/ai";
 import React from 'react'
+import { useGetUsersQuery } from "@/feature/api";
 
-const dummyUsers = [
-    { id: 1, name: 'Eleanor Pena', phone: '(205) 555-0100', address: '3517 W. Gray St. Utica, Pennsylvania 57867', email: 'cikaracak@gmail.com', avatar: 'https://i.pravatar.cc/150?img=1' },
-    { id: 2, name: 'Ronald Richards', phone: '(205) 555-0100', address: '1901 Thornridge Cir. Shiloh, Hawaii 81063', email: 'cikaracak@gmail.com', avatar: 'https://i.pravatar.cc/150?img=2' },
-    { id: 3, name: 'Darlene Robertson', phone: '(209) 555-0104', address: '4140 Parker Rd. Allentown, New Mexico 31134', email: 'cikaracak@gmail.com', avatar: 'https://i.pravatar.cc/150?img=3' },
-    { id: 4, name: 'Kristin Watson', phone: '(252) 555-0126', address: '2972 Westheimer Rd. Santa Ana, Illinois 85486', email: 'cikaracak@gmail.com', avatar: 'https://i.pravatar.cc/150?img=4' },
-    { id: 5, name: 'Dianne Russell', phone: '(201) 555-0124', address: '4517 Washington Ave. Manchester, Kentucky 39495', email: 'cikaracak@gmail.com', avatar: 'https://i.pravatar.cc/150?img=5' },
-];
+function TableUsers() {
+    const { data, loading, error } = useGetUsersQuery()
+    const datas = data || []
 
-function TableUsers(props) {
+    if (loading) return <div className="text-center py-10">Loading products images...</div>;
+    if (error) return <div className="text-center py-10 text-red-500">Error get images.</div>;
+
     return (
         <>
             <div className="border border-gray-200 rounded-lg overflow-hidden">
@@ -28,13 +27,13 @@ function TableUsers(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {dummyUsers.map((user, index) => (
+                        {datas.map((user, index) => (
                             <tr key={user.id} className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b border-gray-100 hover:bg-gray-100 transition-colors`}>
                                 <td className="p-4 text-center"><input type="checkbox" className="rounded text-orange-500 focus:ring-orange-500" /></td>
                                 <td className="p-4">
-                                    <img src={user.avatar} alt={user.name} className="w-10 h-10 rounded-md object-cover" />
+                                    <img src={user.pictures} alt={user.full_Name} className="w-10 h-10 rounded-md object-cover" />
                                 </td>
-                                <td className="p-4">{user.name}</td>
+                                <td className="p-4">{user.full_name}</td>
                                 <td className="p-4 text-gray-600">{user.phone}</td>
                                 <td className="p-4 text-gray-600 text-sm max-w-xs">{user.address}</td>
                                 <td className="p-4 text-gray-600">{user.email}</td>

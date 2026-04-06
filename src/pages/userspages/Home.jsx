@@ -21,9 +21,7 @@ function Hero() {
     return (
         <>
             <main className="grid md:grid-cols-2 md:grid-cols-2-reverse overflow-hidden h-full " >
-                <section className="order-1 flex max-h-[130vh] ">
-                    <img loading="lazy" src={home} className="w-full overflow-hidden" alt="main image" />
-                </section>
+
                 <section className="order-2 py-10 bg-[#777C82] bg-[linear-gradient(180deg,rgba(119,124,130,1)_0%,rgba(11,9,9,1)_66%)] flex w-full max-h-[130vh] ">
                     <div className="flex flex-col justify-center items-start mx-10 gap-5">
                         <h1 className="text-5xl text-white">Start Your Daily With Coffee and Good Meals</h1>
@@ -35,6 +33,9 @@ function Hero() {
                             <span><p className="text-3xl"> 800+ </p><br /> Customer</span>
                         </div>
                     </div>
+                </section>
+                <section className="order-1 flex max-h-[130vh] ">
+                    <img loading="lazy" src={home} className="w-full overflow-hidden" alt="main image" />
                 </section>
 
             </main>
@@ -154,7 +155,7 @@ const Testimoni = () => {
                 <div className="w-full md:w-1/2 overflow-hidden">
                     <img
                         // change src when it launc to production
-                        src={currentTestimonial.pictures ?? "https://placehold.net/400x400.png"}
+                        src={currentTestimonial.pictures}
                         alt={data.full_name ?? "Testimonial Customer"}
                         className="w-full h-100 object-cover transition-opacity duration-500"
                         key={currentTestimonial.id}
@@ -190,8 +191,8 @@ const Testimoni = () => {
                                     <svg
                                         key={index}
                                         className={`w-5 h-5 ${index < ratingValue
-                                                ? 'text-orange-500 fill-current' 
-                                                : 'text-gray-600 fill-current'   
+                                            ? 'text-orange-500 fill-current'
+                                            : 'text-gray-600 fill-current'
                                             }`}
                                         viewBox="0 0 24 24"
                                     >

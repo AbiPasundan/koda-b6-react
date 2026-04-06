@@ -8,6 +8,8 @@ function TableProducts() {
     const { data, isLoading, error } = useGetProductQuery();
     const [deleteProduct] = useDeleteProductMutation()
     const products = data || [];
+    console.log(products);
+    
 
     const handleDelete = async (id) => {
         try {
