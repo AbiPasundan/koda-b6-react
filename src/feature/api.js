@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://wildan-backend.camps.fahrul.id",
+    baseUrl: "http://localhost:8888",
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
 
