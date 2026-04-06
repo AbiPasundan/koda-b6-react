@@ -2,10 +2,10 @@ import { FiTrash } from "react-icons/fi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { AiFillProfile } from "react-icons/ai";
 import React from 'react'
-import { useGetProductQuery } from "@/feature/api";
+import { useGetOrderQuery } from "@/feature/api";
 
 export default function TableOrder() {
-    const { data, isLoading, error } = useGetProductQuery();
+    const { data, isLoading, error } = useGetOrderQuery();
     const products = data || [];
     console.log(products);
 
@@ -28,13 +28,17 @@ export default function TableOrder() {
                     </thead>
                     <tbody>
                         {products.map((product, index) => (
+                            // 2026-04-06T13:04:17.443235Z
+                            // product.updated_at
+                            // 2026-04-06
+                            // const timestamp = decoded.created_at.split("T")[0];
                             <tr key={product.id} className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b border-gray-100 hover:bg-gray-100 transition-colors`}>
                                 <td className="p-4 text-center"><input type="checkbox" className="rounded text-orange-500 focus:ring-orange-500" /></td>
-                                <td className="p-4">{product.product_name}</td>
-                                <td className="p-4 text-gray-600">{product.price}</td>
+                                <td className="p-4">{product.id}</td>
+                                <td className="p-4 text-gray-600">{product.updated_at.split("T")[0]}</td>
                                 <td className="p-4 text-gray-600 text-sm max-w-xs">{product.product_desc}</td>
-                                <td className="p-4 text-gray-600">{product.product_name}</td>
-                                <td className="p-4 text-gray-600">{product.quantity}</td>
+                                <td className="p-4 text-gray-600">{product.status}</td>
+                                <td className="p-4 text-gray-600">{product.total}</td>
                                 <td className="p-4">
                                     <div className="flex items-center justify-center gap-2">
                                         <button className="p-1.5 bg-orange-50 text-orange-700 rounded hover:bg-orange-100"><AiFillProfile size={16} /></button>

@@ -114,6 +114,11 @@ export const api = createApi({
       providesTags: ["Products"],
       transformResponse: response => response.Results,
     }),
+    getOrder: builder.query({
+      query: () => "/orders",
+      providesTags: ["Order"],
+      transformResponse: response => response.Results,
+    }),
     deleteProduct: builder.mutation({
       query: id => ({
         url: `/admin/products/${id}`,
@@ -134,4 +139,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery, useAddToOrderMutation, useGetHistoryOrderQuery, useDeleteCartItemMutation, useAddOrderMutation, useGetHistoryOrderDetailQuery } = api;
+export const { useGetReviewsQuery, useGetProductHomeQuery, useGetBrowseProductsQuery, useGetDetailProductQuery, useRegisterMutation, useLoginMutation, useGetUsersQuery, useGetProductQuery, useDeleteProductMutation, useAddProductMutation, useAddToCartMutation, useGetAllCartQuery, useAddToOrderMutation, useGetHistoryOrderQuery, useDeleteCartItemMutation, useAddOrderMutation, useGetHistoryOrderDetailQuery, useGetOrderQuery } = api;
